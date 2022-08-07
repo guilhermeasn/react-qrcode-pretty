@@ -15,7 +15,6 @@ code {
 
 .qrcode {
     margin: 30px;
-    text-align: center;
 }
 
 .qrcode-line {
@@ -24,8 +23,8 @@ code {
 }
 
 .qrcode-module {
-    width: 5px;
-    height: 5px;
+    width: 10px;
+    height: 10px;
 }
 
 .qrcode-fill {

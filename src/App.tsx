@@ -66,6 +66,7 @@ function App(props : AppProps) {
     return (
 
         <div className="qrcode">
+
             { qrcodeClasses.map((line, i) => (
                 <div key={ i } className='qrcode-line'>
                     { line.map((module, i) => (
@@ -73,6 +74,11 @@ function App(props : AppProps) {
                     )) }
                 </div>
             )) }
+
+            <br />
+
+            {/* <img src={ qrcode.createDataURL(5, 0) } alt='' /> */}
+
         </div>
 
     );
