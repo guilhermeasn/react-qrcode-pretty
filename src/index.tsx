@@ -9,9 +9,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <App
-            value='guilhermeasn@yahoo.com.br'
-        />
+        <App value='guilhermeasn@yahoo.com.br' />
     </React.StrictMode>
 );
 

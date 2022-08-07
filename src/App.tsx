@@ -9,19 +9,24 @@ type QrcodeModule = {
     fill : boolean;
     row  : number;
     col  : number;
-    posY  : 'start' | 'middle' | 'end' | 'one';
-    posX  : 'start' | 'middle' | 'end' | 'one';
+    posY : 'start' | 'middle' | 'end' | 'one';
+    posX : 'start' | 'middle' | 'end' | 'one';
+    refY : 'left' | 'center' | 'right';
+    refX : 'top' | 'center' | 'bottom';
 }
 
 function App(props : AppProps) {
 
-    const qrcode : QRCode = qrcodeGenerator(0, props.level ?? 'M');
+    const qrcode : QRCode = qrcodeGenerator(0, props.level ?? 'Q');
     qrcode.addData(props.value);
     qrcode.make();
 
     const modules : number = qrcode.getModuleCount();
     let qrcodeClasses : QrcodeModule[][] = [];
     let qrcodeLine    : QrcodeModule[] = [];
+
+    let topLimit : number = Math.floor(modules/3);
+    let middleLimit : number = modules - Math.floor(modules/3);
 
     for(let row = 0; row < modules; row++) {
 
@@ -35,7 +40,6 @@ function App(props : AppProps) {
             let beforeRowFill = row > 0 ? qrcode.isDark(row - 1, col) : false;
             let afterRowFill = row < modules - 1 ? qrcode.isDark(row + 1, col) : false;
 
-
             qrcodeLine.push({
                 fill,
                 col,
@@ -48,6 +52,8 @@ function App(props : AppProps) {
                       (beforeRowFill !== fill) ? 'start' :
                       (afterRowFill !== fill) ? 'end' :
                       'middle',
+                refY: col < topLimit ? 'left' : col < middleLimit ? 'center' : 'right',
+                refX: row < topLimit ? 'top' : row < middleLimit ? 'center' : 'bottom'
             });
 
         }
@@ -63,7 +69,7 @@ function App(props : AppProps) {
             { qrcodeClasses.map((line, i) => (
                 <div key={ i } className='qrcode-line'>
                     { line.map((module, i) => (
-                        <div key={ i } className={ `qrcode-module ${ module.fill ? 'qrcode-fill' : '' } qrcode-row-${ module.posX } qrcode-col-${ module.posY }` } />
+                        <div key={ i } className={ `qrcode-module ${ module.fill ? 'qrcode-fill' : '' } qrcode-row-${ module.posX } qrcode-col-${ module.posY } qrcode-row-${ module.refX } qrcode-col-${ module.refY }` } />
                     )) }
                 </div>
             )) }
