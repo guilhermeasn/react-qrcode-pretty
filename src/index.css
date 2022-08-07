@@ -7,7 +7,47 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.qrcode {
+    margin: 30px;
+    text-align: center;
+}
+
+.qrcode-line {
+    display: flex;
+    user-select: none;
+}
+
+.qrcode-module {
+    width: 5px;
+    height: 5px;
+}
+
+.qrcode-fill {
+    background-color: #000;
+}
+
+.qrcode-col-start.qrcode-row-start, .qrcode-row-start.qrcode-col-one, .qrcode-row-one.qrcode-col-start {
+    border-top-left-radius: 100%;
+}
+
+.qrcode-col-end.qrcode-row-end, .qrcode-row-end.qrcode-col-one, .qrcode-row-one.qrcode-col-end {
+    border-bottom-right-radius: 100%;
+}
+
+.qrcode-col-end.qrcode-row-start, .qrcode-row-start.qrcode-col-one, .qrcode-row-one.qrcode-col-end {
+    border-top-right-radius: 100%;
+}
+
+.qrcode-col-start.qrcode-row-end, .qrcode-row-end.qrcode-col-one, .qrcode-row-one.qrcode-col-start {
+    border-bottom-left-radius: 100%;
+}
+
+.qrcode-row-one.qrcode-col-one {
+    border-radius: 100%;
 }
