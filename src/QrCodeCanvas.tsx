@@ -1,16 +1,24 @@
 import { useEffect, useRef } from 'react';
 import qrcodeGenerator from 'qrcode-generator';
-import canvasRectangle, { CanvasRectangleProps } from './canvasRectangle';
+import canvasRectangle from './canvasRectangle';
+import type { CanvasRectangleProps } from './canvasRectangle';
 
 type QrCodeProps = {
-    value    : string;
-    size    ?: number;
-    color   ?: QrCodeColor | QrCodePart<QrCodeColor>;
-    level   ?: ErrorCorrectionLevel;
-    margin  ?: number;
-    variant ?: QrCodeStyle | QrCodePart<QrCodeStyle>;
-    divider ?: boolean;
-    bgColor ?: string;
+    value      : string;
+    size      ?: number;
+    color     ?: QrCodeColor | QrCodePart<QrCodeColor>;
+    level     ?: ErrorCorrectionLevel;
+    image     ?: string;
+    overlap   ?: boolean;
+    margin    ?: number;
+    padding   ?: number;
+    variant   ?: QrCodeStyle | QrCodePart<QrCodeStyle>;
+    divider   ?: boolean;
+    bgColor   ?: string;
+    bgRounded ?: boolean;
+    className ?: string;
+    children  ?: React.ReactNode;
+    style     ?: React.CSSProperties;
 }
 
 type QrCodeColor = string;
@@ -53,7 +61,7 @@ export default function QrCodeCanvas(props : QrCodeProps) {
         body: props.color ?? '#000'
     };
 
-    const qrcode : QRCode = qrcodeGenerator(0, props.level ?? 'M');
+    const qrcode : QRCode = qrcodeGenerator(0, props.level ?? props.image ? 'H' : 'M');
     qrcode.addData(props.value);
     qrcode.make();
 
@@ -62,7 +70,17 @@ export default function QrCodeCanvas(props : QrCodeProps) {
 
     const moduleSize     : number = size / modules;
     const moduleEyeStart : number = 7;
-    const moduleEyeEnd   : number = modules - moduleEyeStart - 2;
+    const moduleEyeEnd   : number = modules - moduleEyeStart - 1;
+
+    function addImage(context : CanvasRenderingContext2D, src : string, clear : boolean) {
+        const image = new Image();
+        image.src = src;
+        image.onload = () => {
+            const size = Math.floor(modules * moduleSize / 3);
+            if(clear) context.clearRect(size, size, size, size);
+            context.drawImage(image, size, size, size, size);
+        }
+    }
     
     useEffect(() => {
 
@@ -88,7 +106,7 @@ export default function QrCodeCanvas(props : QrCodeProps) {
                     stroke: key === 'body' && props.divider ? (props.bgColor ?? '#FFF') : null
                 };
 
-                const radius = moduleSize / (key === 'body' ? 1.5 : 1 );
+                const radius = moduleSize / 1.4;
 
                 const isDark = {
                     row: {
@@ -174,6 +192,12 @@ export default function QrCodeCanvas(props : QrCodeProps) {
 
         }
 
+        if(props.image) addImage(
+            context,
+            props.image,
+            !props.overlap
+        );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ props ]);
 
@@ -182,9 +206,13 @@ export default function QrCodeCanvas(props : QrCodeProps) {
         width={ size }
         height={ size }
         style={ {
-            padding: props.margin,
-            backgroundColor: props.bgColor ?? '#FFF'
+            ...(props.style ?? {}),
+            margin: props.margin,
+            padding: props.padding,
+            backgroundColor: props.bgColor ?? '#FFF',
+            borderRadius: props.bgRounded ? 10 : undefined
         } }
-    />;
+        className={ props.className }
+    >{ props.children }</canvas>;
 
 }

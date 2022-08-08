@@ -49,16 +49,16 @@ export default function canvasRectangle(props : CanvasRectangleProps) {
     props.canvas2d.lineTo(props.positionX, props.positionY + radius.top_left);
     props.canvas2d.quadraticCurveTo(props.positionX, props.positionY, props.positionX + radius.top_left, props.positionY);
 
-    props.canvas2d.closePath();
-
     if(props.fill) {
-      props.canvas2d.fill();
-      props.canvas2d.fillStyle = props.fill;
+        props.canvas2d.fillStyle = props.fill;
+        props.canvas2d.fill();
     }
     
     if(props.stroke) {
-      props.canvas2d.stroke();
-      props.canvas2d.strokeStyle = props.stroke;
+        props.canvas2d.strokeStyle = props.stroke;
+        props.canvas2d.stroke();
     }
+
+    props.canvas2d.closePath();
 
 }
