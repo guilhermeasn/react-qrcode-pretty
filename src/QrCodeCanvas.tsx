@@ -5,31 +5,48 @@ import canvasRectangle, { CanvasRectangleProps } from './canvasRectangle';
 type QrCodeProps = {
     value    : string;
     size    ?: number;
-    color   ?: string | CanvasGradient | CanvasPattern;
+    color   ?: QrCodeColor | QrCodePart<QrCodeColor>;
     level   ?: ErrorCorrectionLevel;
     margin  ?: number;
-    variant ?: QrCodeStyle | QrCodePart;
+    variant ?: QrCodeStyle | QrCodePart<QrCodeStyle>;
     divider ?: boolean;
     bgColor ?: string;
 }
 
-type QrCodePart = {
-    eye  : QrCodeStyle;
-    body : QrCodeStyle
+type QrCodeColor = string | CanvasGradient | CanvasPattern;
+
+type QrCodePart<T> = {
+    eye  : T;
+    body : T;
 }
 
 type QrCodeStyle = (
     'standard' |
     'dots'     |
-    'fluid'
+    'fluid'    |
+    'morse'
 );
 
 export default function QrCodeCanvas(props : QrCodeProps) {
 
     const canvas : React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
-    const variant : QrCodePart = typeof props.variant === 'object' ? props.variant : {
+
+    const variant : QrCodePart<QrCodeStyle> = (
+        typeof props.variant === 'object'
+        && 'eye'  in props.variant
+        && 'body' in props.variant
+    ) ? props.variant : {
         eye:  props.variant ?? 'standard',
         body: props.variant ?? 'standard'
+    };
+
+    const color : QrCodePart<QrCodeColor> = (
+        typeof props.color === 'object'
+        && 'eye'  in props.color
+        && 'body' in props.color
+    ) ? props.color : {
+        eye:  props.color ?? '#000',
+        body: props.color ?? '#000'
     };
 
     const qrcode : QRCode = qrcodeGenerator(0, props.level ?? 'M');
@@ -41,7 +58,7 @@ export default function QrCodeCanvas(props : QrCodeProps) {
 
     const moduleSize     : number = size / modules;
     const moduleEyeStart : number = 7;
-    const moduleEyeEnd   : number = modules - moduleEyeStart - 1;
+    const moduleEyeEnd   : number = modules - moduleEyeStart - 2;
     
     useEffect(() => {
 
@@ -56,16 +73,27 @@ export default function QrCodeCanvas(props : QrCodeProps) {
 
                 if(!qrcode.isDark(row, col)) continue;
 
-                let key : keyof QrCodePart = (col < moduleEyeStart && row < moduleEyeStart) ||
-                                             (col < moduleEyeStart && row > moduleEyeEnd)   || 
-                                             (col > moduleEyeEnd && row < moduleEyeStart)
-                                             ? 'eye' : 'body';
+                let key : keyof QrCodePart<any> = (col < moduleEyeStart && row < moduleEyeStart) ||
+                                                  (col < moduleEyeStart && row > moduleEyeEnd)   || 
+                                                  (col > moduleEyeEnd && row < moduleEyeStart)
+                                                  ? 'eye' : 'body';
 
                 let changer : Partial<CanvasRectangleProps> = {
                     stroke: key === 'body' && props.divider ? (props.bgColor ?? '#FFF') : null
                 };
 
-                let radius = moduleSize / 1.5;
+                const radius = moduleSize / 1.5;
+
+                const isDark = {
+                    row: {
+                        after: row > 0 ? qrcode.isDark(row - 1, col) : false,
+                        before: row < modules - 1 ? qrcode.isDark(row + 1, col) : false
+                    },
+                    col: {
+                        after: col > 0 ? qrcode.isDark(row, col - 1) : false,
+                        before: col < modules - 1 ? qrcode.isDark(row, col + 1) : false
+                    }
+                }
 
                 switch(variant[key]) {
 
@@ -74,25 +102,21 @@ export default function QrCodeCanvas(props : QrCodeProps) {
                         break;
 
                     case 'fluid':
-
-                        const isDark = {
-                            row: {
-                                before: row > 0 ? qrcode.isDark(row - 1, col) : false,
-                                after: row < modules - 1 ? qrcode.isDark(row + 1, col) : false
-                            },
-                            col: {
-                                before: col > 0 ? qrcode.isDark(row, col - 1) : false,
-                                after: col < modules - 1 ? qrcode.isDark(row, col + 1) : false
-                            }
-                        }
-                        
                         changer.radius = {
-                            top_right:    !isDark.col.after  && !isDark.row.before ? radius : 0,
-                            top_left:     !isDark.col.before && !isDark.row.before ? radius : 0,
-                            bottom_right: !isDark.col.after  && !isDark.row.after  ? radius : 0,
-                            bottom_left:  !isDark.col.before && !isDark.row.after  ? radius : 0
-                        }
-                        
+                            top_right:    !isDark.col.before  && !isDark.row.after  ? radius : 0,
+                            top_left:     !isDark.col.after   && !isDark.row.after  ? radius : 0,
+                            bottom_right: !isDark.col.before  && !isDark.row.before ? radius : 0,
+                            bottom_left:  !isDark.col.after   && !isDark.row.before ? radius : 0
+                        };
+                        break;
+
+                    case 'morse':
+                        changer.radius = !isDark.col.after  && !isDark.col.before ? radius : {
+                            top_left:     !isDark.col.after ? radius : 0,
+                            bottom_left:  !isDark.col.after ? radius : 0,
+                            top_right:    !isDark.col.before ? radius : 0,
+                            bottom_right: !isDark.col.before ? radius : 0
+                        };
                         break;
             
                 }                
@@ -103,7 +127,7 @@ export default function QrCodeCanvas(props : QrCodeProps) {
                     positionY: row * moduleSize,
                     height: moduleSize,
                     width: moduleSize,
-                    fill: props.color ?? '#000',
+                    fill: color[key],
                     ...changer
                 });
 

@@ -12,7 +12,15 @@ root.render(
     <React.StrictMode>
         {/* <QrCodeCss value='guilhermeasn@yahoo.com.br' /> */}
         <br />
-        <QrCodeCanvas value='guilhermeasn@yahoo.com.br' size={ 350 } margin={ 30 } variant='fluid' divider />
+
+        <QrCodeCanvas
+            value='guilhermeasn@yahoo.com.br'
+            size={ 350 }
+            margin={ 30 }
+            variant='fluid'
+            divider
+        />
+
     </React.StrictMode>
 );
 
