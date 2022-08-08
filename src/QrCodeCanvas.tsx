@@ -206,11 +206,11 @@ export default function QrCodeCanvas(props : QrCodeProps) {
         width={ size }
         height={ size }
         style={ {
-            ...(props.style ?? {}),
             margin: props.margin,
             padding: props.padding,
             backgroundColor: props.bgColor ?? '#FFF',
-            borderRadius: props.bgRounded ? 10 : undefined
+            borderRadius: props.bgRounded ? 10 : undefined,
+            ...(props.style ?? {})
         } }
         className={ props.className }
     >{ props.children }</canvas>;
