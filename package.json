@@ -1,0 +1,31 @@
+{
+  "name": "react-qrcode-pretty",
+  "version": "1.0.0",
+  "description": "qrcode generator for reaction app with many customization options",
+  "keywords": [
+    "react",
+    "qrcode",
+    "pretty"
+  ],
+  "main": "dist/common/index.js",
+  "module": "dist/module/index.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "rimraf dist && tsc --project tsconfig.json && tsc --project tsconfig.m.json"
+  },
+  "repository": "https://github.com/guilhermeasn/react-qrcode-pretty",
+  "author": "Guilherme Augusto Silva Neves <guilhermeasn@yahoo.com.br>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/guilhermeasn/react-qrcode-pretty"
+  },
+  "homepage": "https://github.com/guilhermeasn/react-qrcode-pretty#readme",
+  "devDependencies": {
+    "@types/jest": "^28.1.6",
+    "jest": "^28.1.3",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^28.0.7",
+    "typescript": "^4.7.4"
+  }
+}
