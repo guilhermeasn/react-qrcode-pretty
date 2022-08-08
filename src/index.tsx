@@ -15,9 +15,13 @@ root.render(
 
         <QrCodeCanvas
             value='guilhermeasn@yahoo.com.br'
-            size={ 350 }
+            size={ 500 }
             margin={ 30 }
-            variant='fluid'
+            color='#707'
+            variant={{
+                eye: 'gravity',
+                body: 'fluid'
+            }}
             divider
         />
 
