@@ -1,6 +1,6 @@
 import qrcodeGenerator from 'qrcode-generator';
 
-type AppProps = {
+type QrCodeCssProps = {
     value  : string;
     level ?: ErrorCorrectionLevel;
 }
@@ -15,7 +15,7 @@ type QrcodeModule = {
     refX : 'top' | 'center' | 'bottom';
 }
 
-function App(props : AppProps) {
+export default function QrCodeCss(props : QrCodeCssProps) {
 
     const qrcode : QRCode = qrcodeGenerator(0, props.level ?? 'Q');
     qrcode.addData(props.value);
@@ -84,5 +84,3 @@ function App(props : AppProps) {
     );
 
 }
-
-export default App;

@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import QrCodeCanvas from './QrCodeCanvas';
+// import QrCodeCss from './QrCodeCss';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -9,7 +10,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <App value='guilhermeasn@yahoo.com.br' />
+        {/* <QrCodeCss value='guilhermeasn@yahoo.com.br' /> */}
+        <br />
+        <QrCodeCanvas value='guilhermeasn@yahoo.com.br' size={ 350 } margin={ 30 } variant='fluid' divider />
     </React.StrictMode>
 );
 
