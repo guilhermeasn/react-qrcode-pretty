@@ -21,7 +21,7 @@ export declare type QrCodeProps = {
 };
 export declare type QrCodeColor = string;
 export declare type QrCodePart<T> = {
-    eye: T;
+    eyes: T;
     body: T;
 };
 export declare type QrCodeStyle = ('standard' | 'rounded' | 'dots' | 'fluid' | 'reverse' | 'shower' | 'gravity' | 'morse');

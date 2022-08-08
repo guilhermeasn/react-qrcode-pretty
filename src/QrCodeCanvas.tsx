@@ -27,7 +27,7 @@ export type QrCodeProps = {
 export type QrCodeColor = string;
 
 export type QrCodePart<T> = {
-    eye  : T;
+    eyes : T;
     body : T;
 }
 
@@ -48,19 +48,19 @@ export default function QrCodeCanvas(props : QrCodeProps) {
 
     const variant : QrCodePart<QrCodeStyle> = (
         typeof props.variant === 'object'
-        && 'eye'  in props.variant
+        && 'eyes' in props.variant
         && 'body' in props.variant
     ) ? props.variant : {
-        eye:  props.variant ?? 'standard',
+        eyes: props.variant ?? 'standard',
         body: props.variant ?? 'standard'
     };
 
     const color : QrCodePart<QrCodeColor> = (
         typeof props.color === 'object'
-        && 'eye'  in props.color
+        && 'eyes' in props.color
         && 'body' in props.color
     ) ? props.color : {
-        eye:  props.color ?? '#000',
+        eyes: props.color ?? '#000',
         body: props.color ?? '#000'
     };
 
@@ -104,7 +104,7 @@ export default function QrCodeCanvas(props : QrCodeProps) {
                 let key : keyof QrCodePart<any> = (col < moduleEyeStart && row < moduleEyeStart) ||
                                                   (col < moduleEyeStart && row > moduleEyeEnd)   || 
                                                   (col > moduleEyeEnd && row < moduleEyeStart)
-                                                  ? 'eye' : 'body';
+                                                  ? 'eyes' : 'body';
 
                 let changer : Partial<CanvasRectangleProps> = {
                     stroke: key === 'body' && props.divider ? (props.bgColor ?? '#FFF') : null

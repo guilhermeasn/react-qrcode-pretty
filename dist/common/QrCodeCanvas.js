@@ -44,15 +44,15 @@ function QrCodeCanvas(props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j;
     var canvas = (0, react_1.useRef)(null);
     var variant = (typeof props.variant === 'object'
-        && 'eye' in props.variant
+        && 'eyes' in props.variant
         && 'body' in props.variant) ? props.variant : {
-        eye: (_a = props.variant) !== null && _a !== void 0 ? _a : 'standard',
+        eyes: (_a = props.variant) !== null && _a !== void 0 ? _a : 'standard',
         body: (_b = props.variant) !== null && _b !== void 0 ? _b : 'standard'
     };
     var color = (typeof props.color === 'object'
-        && 'eye' in props.color
+        && 'eyes' in props.color
         && 'body' in props.color) ? props.color : {
-        eye: (_c = props.color) !== null && _c !== void 0 ? _c : '#000',
+        eyes: (_c = props.color) !== null && _c !== void 0 ? _c : '#000',
         body: (_d = props.color) !== null && _d !== void 0 ? _d : '#000'
     };
     var qrcode = (0, qrcode_generator_1.default)((_e = props.modules) !== null && _e !== void 0 ? _e : 0, (_f = props.level) !== null && _f !== void 0 ? _f : (props.imageBig ? 'Q' : 'M'));
@@ -89,7 +89,7 @@ function QrCodeCanvas(props) {
                 var key = (col < moduleEyeStart && row < moduleEyeStart) ||
                     (col < moduleEyeStart && row > moduleEyeEnd) ||
                     (col > moduleEyeEnd && row < moduleEyeStart)
-                    ? 'eye' : 'body';
+                    ? 'eyes' : 'body';
                 var changer = {
                     stroke: key === 'body' && props.divider ? ((_a = props.bgColor) !== null && _a !== void 0 ? _a : '#FFF') : null
                 };
