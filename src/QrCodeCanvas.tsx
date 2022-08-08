@@ -3,12 +3,15 @@ import qrcodeGenerator from 'qrcode-generator';
 import canvasRectangle from './canvasRectangle';
 import type { CanvasRectangleProps } from './canvasRectangle';
 
-type QrCodeProps = {
+export type QrCodeProps = {
     value      : string;
     size      ?: number;
     color     ?: QrCodeColor | QrCodePart<QrCodeColor>;
+    mode      ?: Mode;
     level     ?: ErrorCorrectionLevel;
+    modules   ?: TypeNumber;
     image     ?: string;
+    imageBig  ?: boolean;
     overlap   ?: boolean;
     margin    ?: number;
     padding   ?: number;
@@ -21,14 +24,14 @@ type QrCodeProps = {
     style     ?: React.CSSProperties;
 }
 
-type QrCodeColor = string;
+export type QrCodeColor = string;
 
-type QrCodePart<T> = {
+export type QrCodePart<T> = {
     eye  : T;
     body : T;
 }
 
-type QrCodeStyle = (
+export type QrCodeStyle = (
     'standard' |
     'rounded'  |
     'dots'     |
@@ -61,8 +64,8 @@ export default function QrCodeCanvas(props : QrCodeProps) {
         body: props.color ?? '#000'
     };
 
-    const qrcode : QRCode = qrcodeGenerator(0, props.level ?? (props.image ? 'Q' : 'M'));
-    qrcode.addData(props.value);
+    const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? (props.imageBig ? 'Q' : 'M'));
+    qrcode.addData(props.value, props.mode);
     qrcode.make();
 
     const modules : number = qrcode.getModuleCount();
@@ -72,13 +75,14 @@ export default function QrCodeCanvas(props : QrCodeProps) {
     const moduleEyeStart : number = 7;
     const moduleEyeEnd   : number = modules - moduleEyeStart - 1;
 
-    function addImage(context : CanvasRenderingContext2D, src : string, clear : boolean) {
+    function addImage(context : CanvasRenderingContext2D, src : string, clear : boolean, big : boolean) {
         const image = new Image();
         image.src = src;
         image.onload = () => {
-            const size = Math.floor(modules * moduleSize / 4);
-            if(clear) context.clearRect(size * 1.5, size * 1.5, size, size);
-            context.drawImage(image, size * 1.5, size * 1.5, size, size);
+            const size = Math.floor(modules * moduleSize / (big ? 3 : 5));
+            const position = size * (big ? 1 : 2);
+            if(clear) context.clearRect(position, position, size, size);
+            context.drawImage(image, position, position, size, size);
         }
     }
     
@@ -110,12 +114,12 @@ export default function QrCodeCanvas(props : QrCodeProps) {
 
                 const isDark = {
                     row: {
-                        after: row > 0 ? qrcode.isDark(row - 1, col) : false,
-                        before: row < modules - 1 ? qrcode.isDark(row + 1, col) : false
+                        before: row > 0 ? qrcode.isDark(row - 1, col) : false,
+                        after: row < modules - 1 ? qrcode.isDark(row + 1, col) : false
                     },
                     col: {
-                        after: col > 0 ? qrcode.isDark(row, col - 1) : false,
-                        before: col < modules - 1 ? qrcode.isDark(row, col + 1) : false
+                        before: col > 0 ? qrcode.isDark(row, col - 1) : false,
+                        after: col < modules - 1 ? qrcode.isDark(row, col + 1) : false
                     }
                 }
 
@@ -131,48 +135,48 @@ export default function QrCodeCanvas(props : QrCodeProps) {
                     
                     case 'fluid':
                         changer.radius = {
-                            top_right:    !isDark.col.before  && !isDark.row.after  ? radius : 0,
-                            top_left:     !isDark.col.after   && !isDark.row.after  ? radius : 0,
-                            bottom_right: !isDark.col.before  && !isDark.row.before ? radius : 0,
-                            bottom_left:  !isDark.col.after   && !isDark.row.before ? radius : 0
+                            top_right:    !isDark.col.after  && !isDark.row.before  ? radius : 0,
+                            top_left:     !isDark.col.before   && !isDark.row.before  ? radius : 0,
+                            bottom_right: !isDark.col.after  && !isDark.row.after ? radius : 0,
+                            bottom_left:  !isDark.col.before   && !isDark.row.after ? radius : 0
                         };
                         break;
 
                     case 'reverse':
                         changer.radius = {
-                            top_right:    isDark.col.before  && isDark.row.after  ? radius : 0,
-                            top_left:     isDark.col.after   && isDark.row.after  ? radius : 0,
-                            bottom_right: isDark.col.before  && isDark.row.before ? radius : 0,
-                            bottom_left:  isDark.col.after   && isDark.row.before ? radius : 0
+                            top_right:    isDark.col.after  && isDark.row.before  ? radius : 0,
+                            top_left:     isDark.col.before   && isDark.row.before  ? radius : 0,
+                            bottom_right: isDark.col.after  && isDark.row.after ? radius : 0,
+                            bottom_left:  isDark.col.before   && isDark.row.after ? radius : 0
                         };
                         break;
 
                     case 'morse':
-                        changer.radius = !isDark.col.after  && !isDark.col.before ? radius : {
-                            top_left:     !isDark.col.after  ? radius : 0,
-                            bottom_left:  !isDark.col.after  ? radius : 0,
-                            top_right:    !isDark.col.before ? radius : 0,
-                            bottom_right: !isDark.col.before ? radius : 0
+                        changer.radius = !isDark.col.before  && !isDark.col.after ? radius : {
+                            top_left:     !isDark.col.before  ? radius : 0,
+                            bottom_left:  !isDark.col.before  ? radius : 0,
+                            top_right:    !isDark.col.after ? radius : 0,
+                            bottom_right: !isDark.col.after ? radius : 0
                         };
                         break;
 
                     
                     case 'shower':
-                        changer.radius = !isDark.row.after  && !isDark.row.before ? radius : {
-                            top_left:     !isDark.row.after  ? radius : 0,
-                            top_right:    !isDark.row.after  ? radius : 0,
-                            bottom_left:  !isDark.row.before ? radius : 0,
-                            bottom_right: !isDark.row.before ? radius : 0
+                        changer.radius = !isDark.row.before  && !isDark.row.after ? radius : {
+                            top_left:     !isDark.row.before  ? radius : 0,
+                            top_right:    !isDark.row.before  ? radius : 0,
+                            bottom_left:  !isDark.row.after ? radius : 0,
+                            bottom_right: !isDark.row.after ? radius : 0
                         };
                         break;
 
                     case 'gravity':
                         const half = Math.floor(modules / 2) + 1;
                         changer.radius = {
-                            top_right:    !isDark.col.before  && !isDark.row.after  && !(row > half && col < half) ? radius : 0,
-                            top_left:     !isDark.col.after   && !isDark.row.after  && !(row > half && col > half) ? radius : 0,
-                            bottom_right: !isDark.col.before  && !isDark.row.before && !(row < half && col < half) ? radius : 0,
-                            bottom_left:  !isDark.col.after   && !isDark.row.before && !(row < half && col > half) ? radius : 0
+                            top_right:    !isDark.col.after  && !isDark.row.before  && !(row > half && col < half) ? radius : 0,
+                            top_left:     !isDark.col.before   && !isDark.row.before  && !(row > half && col > half) ? radius : 0,
+                            bottom_right: !isDark.col.after  && !isDark.row.after && !(row < half && col < half) ? radius : 0,
+                            bottom_left:  !isDark.col.before   && !isDark.row.after && !(row < half && col > half) ? radius : 0
                         };
                         break;
             
@@ -195,7 +199,8 @@ export default function QrCodeCanvas(props : QrCodeProps) {
         if(props.image) addImage(
             context,
             props.image,
-            !props.overlap
+            !props.overlap,
+            props.imageBig ?? false
         );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
