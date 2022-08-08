@@ -13,7 +13,7 @@ type QrCodeProps = {
     bgColor ?: string;
 }
 
-type QrCodeColor = string | CanvasGradient | CanvasPattern;
+type QrCodeColor = string;
 
 type QrCodePart<T> = {
     eye  : T;
