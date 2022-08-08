@@ -1,7 +1,7 @@
 {
   "name": "react-qrcode-pretty",
-  "version": "1.0.0",
-  "description": "qrcode generator for reaction app with many customization options",
+  "version": "1.0.0-beta",
+  "description": "Qrcode generator for react apps with many customization options",
   "keywords": [
     "react",
     "qrcode",
@@ -33,10 +33,6 @@
   },
   "dependencies": {
     "qrcode-generator": "^1.4.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
