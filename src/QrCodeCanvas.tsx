@@ -225,48 +225,48 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
                     
                     case 'fluid':
                         changer.radius = {
-                            top_right:    !isDark.col.after  && !isDark.row.before  ? radius : 0,
-                            top_left:     !isDark.col.before   && !isDark.row.before  ? radius : 0,
-                            bottom_right: !isDark.col.after  && !isDark.row.after ? radius : 0,
-                            bottom_left:  !isDark.col.before   && !isDark.row.after ? radius : 0
+                            top_right:    !isDark.col.after  && !isDark.row.before ? radius : 0,
+                            top_left:     !isDark.col.before && !isDark.row.before ? radius : 0,
+                            bottom_right: !isDark.col.after  && !isDark.row.after  ? radius : 0,
+                            bottom_left:  !isDark.col.before && !isDark.row.after  ? radius : 0
                         };
                         break;
 
                     case 'reverse':
                         changer.radius = {
-                            top_right:    isDark.col.after  && isDark.row.before  ? radius : 0,
-                            top_left:     isDark.col.before   && isDark.row.before  ? radius : 0,
-                            bottom_right: isDark.col.after  && isDark.row.after ? radius : 0,
-                            bottom_left:  isDark.col.before   && isDark.row.after ? radius : 0
+                            top_right:    isDark.col.after  && isDark.row.before ? radius : 0,
+                            top_left:     isDark.col.before && isDark.row.before ? radius : 0,
+                            bottom_right: isDark.col.after  && isDark.row.after  ? radius : 0,
+                            bottom_left:  isDark.col.before && isDark.row.after  ? radius : 0
                         };
                         break;
 
                     case 'morse':
-                        changer.radius = !isDark.col.before  && !isDark.col.after ? radius : {
-                            top_left:     !isDark.col.before  ? radius : 0,
-                            bottom_left:  !isDark.col.before  ? radius : 0,
-                            top_right:    !isDark.col.after ? radius : 0,
-                            bottom_right: !isDark.col.after ? radius : 0
+                        changer.radius = !isDark.col.before && !isDark.col.after ? radius : {
+                            top_left:     !isDark.col.before ? radius : 0,
+                            bottom_left:  !isDark.col.before ? radius : 0,
+                            top_right:    !isDark.col.after  ? radius : 0,
+                            bottom_right: !isDark.col.after  ? radius : 0
                         };
                         break;
 
                     
                     case 'shower':
-                        changer.radius = !isDark.row.before  && !isDark.row.after ? radius : {
-                            top_left:     !isDark.row.before  ? radius : 0,
-                            top_right:    !isDark.row.before  ? radius : 0,
-                            bottom_left:  !isDark.row.after ? radius : 0,
-                            bottom_right: !isDark.row.after ? radius : 0
+                        changer.radius = !isDark.row.before && !isDark.row.after ? radius : {
+                            top_left:     !isDark.row.before ? radius : 0,
+                            top_right:    !isDark.row.before ? radius : 0,
+                            bottom_left:  !isDark.row.after  ? radius : 0,
+                            bottom_right: !isDark.row.after  ? radius : 0
                         };
                         break;
 
                     case 'gravity':
                         const half = Math.floor(modules / 2) + 1;
                         changer.radius = {
-                            top_right:    !isDark.col.after  && !isDark.row.before  && !(row > half && col < half) ? radius : 0,
-                            top_left:     !isDark.col.before   && !isDark.row.before  && !(row > half && col > half) ? radius : 0,
-                            bottom_right: !isDark.col.after  && !isDark.row.after && !(row < half && col < half) ? radius : 0,
-                            bottom_left:  !isDark.col.before   && !isDark.row.after && !(row < half && col > half) ? radius : 0
+                            top_right:    !isDark.col.after  && !isDark.row.before && !(row > half && col < half) ? radius : 0,
+                            top_left:     !isDark.col.before && !isDark.row.before && !(row > half && col > half) ? radius : 0,
+                            bottom_right: !isDark.col.after  && !isDark.row.after  && !(row < half && col < half) ? radius : 0,
+                            bottom_left:  !isDark.col.before && !isDark.row.after  && !(row < half && col > half) ? radius : 0
                         };
                         break;
             
