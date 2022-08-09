@@ -4,6 +4,9 @@ import canvasRectangle from './canvasRectangle';
 import type { CanvasRectangleProps } from './canvasRectangle';
 
 export type QrCodeProps = {
+    /**
+     * Payload
+     */
     value      : string;
     size      ?: number;
     color     ?: QrCodeColor | QrCodePart<QrCodeColor>;
