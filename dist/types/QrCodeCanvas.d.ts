@@ -8,7 +8,7 @@ export declare type QrCodeProps = {
      */
     value: string;
     /**
-     * Size of the qrcode
+     * Size of the qrcode without margin and padding
      */
     size?: number;
     /**
@@ -41,13 +41,13 @@ export declare type QrCodeProps = {
      */
     overlap?: boolean;
     /**
-     * CSS margin
+     * Margin size. Area without background color
      */
-    margin?: number | string;
+    margin?: number;
     /**
-     * CSS padding
+     * Padding size. Area with background color
      */
-    padding?: number | string;
+    padding?: number;
     /**
      * Style applied to the entire qrcode or each part (eyes and body) of it
      */
@@ -57,25 +57,25 @@ export declare type QrCodeProps = {
      */
     divider?: boolean;
     /**
-     * CSS background color
+     * Background color
      */
     bgColor?: string;
     /**
-     * CSS rounded border
+     * Background color rounded
      */
     bgRounded?: boolean;
-    /**
-     * CSS classes
-     */
-    className?: string;
     /**
      * The canvas tag children
      */
     children?: React.ReactNode;
     /**
-     * CSS object
+     * The canvas attributes
      */
-    style?: React.CSSProperties;
+    canvasProps?: React.HTMLAttributes<HTMLCanvasElement>;
+    /**
+     * Provides canvas properties and methods when available.
+     */
+    onReady?: (canvas: HTMLCanvasElement) => void;
 };
 /**
  * Color string

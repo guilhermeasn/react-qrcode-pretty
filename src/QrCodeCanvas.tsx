@@ -14,7 +14,7 @@ export type QrCodeProps = {
     value : string;
 
     /**
-     * Size of the qrcode
+     * Size of the qrcode without margin and padding
      */
     size ?: number;
 
@@ -55,14 +55,14 @@ export type QrCodeProps = {
     overlap ?: boolean;
 
     /**
-     * CSS margin
+     * Margin size. Area without background color
      */
-    margin ?: number | string;
+    margin ?: number;
 
     /**
-     * CSS padding
+     * Padding size. Area with background color
      */
-    padding ?: number | string;
+    padding ?: number;
 
     /**
      * Style applied to the entire qrcode or each part (eyes and body) of it
@@ -75,19 +75,14 @@ export type QrCodeProps = {
     divider ?: boolean;
 
     /**
-     * CSS background color
+     * Background color
      */
     bgColor ?: string;
 
     /**
-     * CSS rounded border
+     * Background color rounded
      */
     bgRounded ?: boolean;
-
-    /**
-     * CSS classes
-     */
-    className ?: string;
 
     /**
      * The canvas tag children
@@ -95,9 +90,14 @@ export type QrCodeProps = {
     children ?: React.ReactNode;
 
     /**
-     * CSS object
+     * The canvas attributes
      */
-    style ?: React.CSSProperties;
+    canvasProps ?: React.HTMLAttributes<HTMLCanvasElement>;
+
+    /**
+     * Provides canvas properties and methods when available.
+     */
+    onReady ?: (canvas : HTMLCanvasElement) => void
 
 }
 
@@ -135,6 +135,11 @@ export type QrCodeStyle = (
 export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
 
     const canvas : React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
+    const space = {
+        margin: props.margin ?? 0,
+        padding: props.padding ?? 0,
+        total: ((props.margin ?? 0) + (props.padding ?? 0)) * 2
+    }
 
     const variant : QrCodePart<QrCodeStyle> = (
         typeof props.variant === 'object'
@@ -183,7 +188,16 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
         const context = canvas.current.getContext('2d');
         if(!context) return;
 
-        context.clearRect(0, 0, size, size);
+        context.clearRect(0, 0, space.total + size, space.total + size);
+        canvasRectangle({
+            canvas2d: context,
+            height: space.padding * 2 + size,
+            width: space.padding * 2 + size,
+            positionX: space.margin,
+            positionY: space.margin,
+            fill: props.bgColor ?? '#FFF',
+            radius: props.bgRounded ? 10 : undefined
+        })
 
         for(let row = 0; row < modules; row++) {
 
@@ -274,8 +288,8 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
                 
                 canvasRectangle({
                     canvas2d: context,
-                    positionX: col * moduleSize,
-                    positionY: row * moduleSize,
+                    positionX: col * moduleSize + space.margin + space.padding,
+                    positionY: row * moduleSize + space.margin + space.padding,
                     height: moduleSize,
                     width: moduleSize,
                     fill: color[key],
@@ -293,21 +307,18 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
             props.imageBig ?? false
         );
 
+        if(typeof props.onReady === 'function') {
+            props.onReady(canvas.current);
+        }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ props ]);
 
     return <canvas
+        { ...props.canvasProps ?? {} }
         ref={ canvas }
-        width={ size }
-        height={ size }
-        style={ {
-            margin: props.margin,
-            padding: props.padding,
-            backgroundColor: props.bgColor ?? '#FFF',
-            borderRadius: props.bgRounded ? 10 : undefined,
-            ...(props.style ?? {})
-        } }
-        className={ props.className }
+        width={ size + space.total }
+        height={ size + space.total }
     >{ props.children }</canvas>;
 
 }
