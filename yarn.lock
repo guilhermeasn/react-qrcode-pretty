@@ -7257,8 +7257,10 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-"react-qrcode-pretty@file:..\\react-qrcode-pretty\\":
-  version "1.0.0"
+react-qrcode-pretty@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-qrcode-pretty/-/react-qrcode-pretty-0.1.0.tgz#207b469cc6a6cf1a08aae075c03eb28bde95b971"
+  integrity sha512-aBeSQ8UDdwhoKiuHD74D61urczfNy7cwpz0p2c/nNMuuM/lB/DXOpmsZZlgH8V+YMlI8uOl3OFqsti3T2BugIQ==
   dependencies:
     qrcode-generator "^1.4.4"
 
