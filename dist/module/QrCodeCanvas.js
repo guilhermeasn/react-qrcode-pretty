@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import qrcodeGenerator from 'qrcode-generator';
 import canvasRectangle from './canvasRectangle';
+/**
+ * QrCode React Component
+ * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
+ */
 export default function QrCodeCanvas(props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j;
     const canvas = useRef(null);
@@ -119,6 +123,7 @@ export default function QrCodeCanvas(props) {
         }
         if (props.image)
             addImage(context, props.image, !props.overlap, (_b = props.imageBig) !== null && _b !== void 0 ? _b : false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props]);
     return React.createElement("canvas", { ref: canvas, width: size, height: size, style: Object.assign({ margin: props.margin, padding: props.padding, backgroundColor: (_h = props.bgColor) !== null && _h !== void 0 ? _h : '#FFF', borderRadius: props.bgRounded ? 10 : undefined }, ((_j = props.style) !== null && _j !== void 0 ? _j : {})), className: props.className }, props.children);
 }

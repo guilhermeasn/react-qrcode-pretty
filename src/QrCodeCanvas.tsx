@@ -3,37 +3,120 @@ import qrcodeGenerator from 'qrcode-generator';
 import canvasRectangle from './canvasRectangle';
 import type { CanvasRectangleProps } from './canvasRectangle';
 
+/**
+ * Props of the QrCode Component
+ */
 export type QrCodeProps = {
+
     /**
-     * Payload
+     * Qrcode payload (required)
      */
-    value      : string;
-    size      ?: number;
-    color     ?: QrCodeColor | QrCodePart<QrCodeColor>;
-    mode      ?: Mode;
-    level     ?: ErrorCorrectionLevel;
-    modules   ?: TypeNumber;
-    image     ?: string;
-    imageBig  ?: boolean;
-    overlap   ?: boolean;
-    margin    ?: number;
-    padding   ?: number;
-    variant   ?: QrCodeStyle | QrCodePart<QrCodeStyle>;
-    divider   ?: boolean;
-    bgColor   ?: string;
+    value : string;
+
+    /**
+     * Size of the qrcode
+     */
+    size ?: number;
+
+    /**
+     * Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode
+     */
+    color ?: QrCodeColor | QrCodePart<QrCodeColor>;
+
+    /**
+     * Mode that payload (value) will be logged
+     */
+    mode ?: Mode;
+
+    /**
+     * Error correction level
+     */
+    level ?: ErrorCorrectionLevel;
+
+    /**
+     * Number of qrcode modules
+     * - 0 is auto
+     */
+    modules ?: TypeNumber;
+
+    /**
+     * Location (src) of an image to be inserted into the center of the qrcode
+     */
+    image ?: string;
+
+    /**
+     * Imagem a ser exibida em tamanho grande
+     */
+    imageBig ?: boolean;
+
+    /**
+     * For the image to overlay the qrcode without cropping it
+     */
+    overlap ?: boolean;
+
+    /**
+     * CSS margin
+     */
+    margin ?: number | string;
+
+    /**
+     * CSS padding
+     */
+    padding ?: number | string;
+
+    /**
+     * Style applied to the entire qrcode or each part (eyes and body) of it
+     */
+    variant ?: QrCodeStyle | QrCodePart<QrCodeStyle>;
+
+    /**
+     * Active a small separation between the qrcode body points
+     */
+    divider ?: boolean;
+
+    /**
+     * CSS background color
+     */
+    bgColor ?: string;
+
+    /**
+     * CSS rounded border
+     */
     bgRounded ?: boolean;
+
+    /**
+     * CSS classes
+     */
     className ?: string;
-    children  ?: React.ReactNode;
-    style     ?: React.CSSProperties;
+
+    /**
+     * The canvas tag children
+     */
+    children ?: React.ReactNode;
+
+    /**
+     * CSS object
+     */
+    style ?: React.CSSProperties;
+
 }
 
+/**
+ * Color string
+ */
 export type QrCodeColor = string;
 
+/**
+ * Qrcode Parts (eyes and body)
+ */
 export type QrCodePart<T> = {
     eyes : T;
     body : T;
 }
 
+/**
+ * Style variations for qrcode parts
+ */
 export type QrCodeStyle = (
     'standard' |
     'rounded'  |
@@ -45,7 +128,11 @@ export type QrCodeStyle = (
     'morse'
 );
 
-export default function QrCodeCanvas(props : QrCodeProps) {
+/**
+ * QrCode React Component
+ * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
+ */
+export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
 
     const canvas : React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
 

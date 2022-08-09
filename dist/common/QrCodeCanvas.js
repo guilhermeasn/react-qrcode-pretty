@@ -40,6 +40,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var qrcode_generator_1 = __importDefault(require("qrcode-generator"));
 var canvasRectangle_1 = __importDefault(require("./canvasRectangle"));
+/**
+ * QrCode React Component
+ * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
+ */
 function QrCodeCanvas(props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j;
     var canvas = (0, react_1.useRef)(null);
@@ -158,6 +162,7 @@ function QrCodeCanvas(props) {
         }
         if (props.image)
             addImage(context, props.image, !props.overlap, (_b = props.imageBig) !== null && _b !== void 0 ? _b : false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props]);
     return react_1.default.createElement("canvas", { ref: canvas, width: size, height: size, style: __assign({ margin: props.margin, padding: props.padding, backgroundColor: (_h = props.bgColor) !== null && _h !== void 0 ? _h : '#FFF', borderRadius: props.bgRounded ? 10 : undefined }, ((_j = props.style) !== null && _j !== void 0 ? _j : {})), className: props.className }, props.children);
 }
