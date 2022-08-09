@@ -64,7 +64,7 @@ function QrCodeCanvas(props) {
         eyes: (_g = props.color) !== null && _g !== void 0 ? _g : '#000',
         body: (_h = props.color) !== null && _h !== void 0 ? _h : '#000'
     };
-    var qrcode = (0, qrcode_generator_1.default)((_j = props.modules) !== null && _j !== void 0 ? _j : 0, (_k = props.level) !== null && _k !== void 0 ? _k : (props.imageBig ? 'Q' : 'M'));
+    var qrcode = (0, qrcode_generator_1.default)((_j = props.modules) !== null && _j !== void 0 ? _j : 0, (_k = props.level) !== null && _k !== void 0 ? _k : (props.image && props.imageBig ? 'Q' : 'M'));
     qrcode.addData(props.value, props.mode);
     qrcode.make();
     var modules = qrcode.getModuleCount();
@@ -76,10 +76,18 @@ function QrCodeCanvas(props) {
         var image = new Image();
         image.src = src;
         image.onload = function () {
+            var _a;
             var size = Math.floor(modules * moduleSize / (big ? 3 : 5));
-            var position = size * (big ? 1 : 2);
+            var position = size * (big ? 1 : 2) + space.margin + space.padding;
             if (clear)
-                context.clearRect(position, position, size, size);
+                (0, canvasRectangle_1.default)({
+                    canvas2d: context,
+                    height: size,
+                    width: size,
+                    positionX: position,
+                    positionY: position,
+                    fill: (_a = props.bgColor) !== null && _a !== void 0 ? _a : '#FFF',
+                });
             context.drawImage(image, position, position, size, size);
         };
     }
