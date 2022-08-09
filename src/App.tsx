@@ -29,8 +29,8 @@ export default function App() {
             body: '#335577'
         },
         bgColor: '#ddeeff',
-        padding: 30,
-        margin: 20,
+        padding: 20,
+        margin: 30,
         bgRounded: true,
         divider: true,
         onReady: setCanvas,
@@ -60,23 +60,9 @@ export default function App() {
             <Container className="my-3">
                 <Row>
 
-                    <Col lg={ 6 } className='center text-center'>
+                    <Col lg={ props.value.length > 100 ? 12 : 6 }>
 
-                        <QrCode { ...props } /><br/>
-                        
-                        <Button
-                            className='mb-3'
-                            onClick={ () => !!canvas && download(canvas.toDataURL('png'), 'qrcode.png', 'image/png') }
-                            variant='outline-primary'
-                            title="Download qrcode"
-                            disabled={ !canvas }
-                        >Download</Button>
-
-                    </Col>
-
-                    <Col lg={ 6 }>
-
-                        <Form className="mt-3">
+                        <Form as='div' className="mt-3">
 
                             <div className='d-flex justify-content-center mb-3'>
 
@@ -111,6 +97,7 @@ export default function App() {
                             <FloatingLabel label='Value' className="mb-3">
                                 <Form.Control
                                     value={ props.value }
+                                    maxLength={ 500 }
                                     onChange={ (input: any) => setProps({ ...props, value: input.currentTarget.value }) }
                                 />
                             </FloatingLabel>
@@ -183,6 +170,20 @@ export default function App() {
                             </FloatingLabel>
 
                         </Form>
+
+                    </Col>
+
+                    <Col lg={ props.value.length > 100 ? 12 : 6 } className='center text-center'>
+
+                        <QrCode { ...props } /><br/>
+                        
+                        <Button
+                            className='mb-3'
+                            onClick={ () => !!canvas && download(canvas.toDataURL('png'), 'qrcode.png', 'image/png') }
+                            variant='outline-primary'
+                            title="Download qrcode"
+                            disabled={ !canvas }
+                        >Download</Button>
 
                     </Col>
 
