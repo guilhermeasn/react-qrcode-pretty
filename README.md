@@ -79,7 +79,7 @@ export default function QrCodeCustom() {
 ## Qrcode Examples
 
 ![Qrcode example](examples/standart.qrcode.png)
-![Qrcode example](examples/author.qrcode.png)
+![Qrcode example](examples/authors.qrcode.png)
 ![Qrcode example](examples/email.qrcode.png)
 ![Qrcode example](examples/site.qrcode.png)
 
