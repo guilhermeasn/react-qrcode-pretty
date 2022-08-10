@@ -33,7 +33,7 @@ yarn add react-qrcode-pretty
 | level | `L` <br /> `M` <br /> `Q` <br /> `H` | 'M' | Error correction level |
 | modules | `[0-40]` | 0 | Number of qrcode modules. 0 is auto |
 | image | `string` | undefined | Location (src) of an image to be inserted into the center of the qrcode |
-| imageBig | `boolean` | false | Imagem a ser exibida em tamanho grande |
+| imageBig | `boolean` | false | Image to be displayed in full size |
 | overlap | `boolean` | false | For the image to overlay the qrcode without cropping it |
 | margin | `number` | 0 | Margin size. Area without background color |
 | padding | `number` | 0 | Padding size. Area with background color |
@@ -79,7 +79,6 @@ export default function QrCodeCustom() {
 ## Qrcode Examples
 
 ![Qrcode example](examples/standart.qrcode.png)
-![Qrcode example](examples/package.qrcode.png)
 ![Qrcode example](examples/author.qrcode.png)
 ![Qrcode example](examples/email.qrcode.png)
 ![Qrcode example](examples/site.qrcode.png)

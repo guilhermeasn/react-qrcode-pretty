@@ -159,7 +159,7 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
         body: props.color ?? '#000'
     };
 
-    const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? (props.image && props.imageBig ? 'Q' : 'M'));
+    const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? (props.image && props.imageBig ? 'H' : 'M'));
     qrcode.addData(props.value, props.mode);
     qrcode.make();
 
@@ -174,8 +174,8 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
         const image = new Image();
         image.src = src;
         image.onload = () => {
-            const size = Math.floor(modules * moduleSize / (big ? 3 : 5));
-            const position = size * (big ? 1 : 2) + space.margin + space.padding;
+            const size = Math.floor(modules * moduleSize / (big ? 4 : 5));
+            const position = size * (big ? 1.5 : 2) + space.margin + space.padding;
             if(clear) canvasRectangle({
                 canvas2d: context,
                 height: size,
