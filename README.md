@@ -89,4 +89,4 @@ export default function QrCodeCustom() {
 
 ## License
 
-This project is under the MIT license - see file [LICENSE](https://github.com/guilhermeasn/mask-hooks/blob/master/LICENSE) for details.
+This project is under the MIT license - see file [LICENSE](https://github.com/guilhermeasn/react-qrcode-pretty/blob/master/LICENSE) for details.
