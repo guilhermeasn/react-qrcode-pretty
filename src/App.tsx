@@ -30,10 +30,10 @@ export default function App() {
         },
         bgColor: '#ddeeff',
         padding: 20,
-        margin: 30,
         bgRounded: true,
         divider: true,
         onReady: setCanvas,
+        canvasProps: { className: 'img-fluid' }
     });
 
     return <>
@@ -60,7 +60,7 @@ export default function App() {
             <Container className="my-3">
                 <Row>
 
-                    <Col lg={ props.value.length > 100 ? 12 : 6 }>
+                    <Col lg={ 6 }>
 
                         <Form as='div' className="mt-3">
 
@@ -173,7 +173,7 @@ export default function App() {
 
                     </Col>
 
-                    <Col lg={ props.value.length > 100 ? 12 : 6 } className='center text-center'>
+                    <Col lg={ 6 } className='center text-center'>
 
                         <QrCode { ...props } /><br/>
                         
