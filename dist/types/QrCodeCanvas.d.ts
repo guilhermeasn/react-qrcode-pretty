@@ -12,6 +12,10 @@ export declare type QrCodeProps = {
      */
     size?: number;
     /**
+     * Resize ready qrcode with CSS
+     */
+    resize?: number;
+    /**
      * Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode
      */
     color?: QrCodeColor | QrCodePart<QrCodeColor>;

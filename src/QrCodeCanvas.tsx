@@ -19,6 +19,11 @@ export type QrCodeProps = {
     size ?: number;
 
     /**
+     * Resize ready qrcode with CSS
+     */
+     resize ?: number;
+
+    /**
      * Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode
      */
     color ?: QrCodeColor | QrCodePart<QrCodeColor>;
@@ -221,7 +226,7 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
                     stroke: key === 'body' && props.divider ? (props.bgColor ?? '#FFF') : null
                 };
 
-                const radius = moduleSize / 1.4;
+                const radius = moduleSize / 1.6;
 
                 const isDark = {
                     row: {
@@ -323,6 +328,11 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
 
     return <canvas
         { ...props.canvasProps ?? {} }
+        style={ props.resize ? {
+            ...(props.canvasProps?.style ?? {}),
+            width: props.resize,
+            height: props.resize
+        } : props.canvasProps?.style }
         ref={ canvas }
         width={ size + space.total }
         height={ size + space.total }

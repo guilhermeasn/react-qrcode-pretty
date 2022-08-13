@@ -6,7 +6,7 @@ import canvasRectangle from './canvasRectangle';
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
 export default function QrCodeCanvas(props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
     const canvas = useRef(null);
     const space = {
         margin: (_a = props.margin) !== null && _a !== void 0 ? _a : 0,
@@ -80,7 +80,7 @@ export default function QrCodeCanvas(props) {
                 let changer = {
                     stroke: key === 'body' && props.divider ? ((_b = props.bgColor) !== null && _b !== void 0 ? _b : '#FFF') : null
                 };
-                const radius = moduleSize / 1.4;
+                const radius = moduleSize / 1.6;
                 const isDark = {
                     row: {
                         before: row > 0 ? qrcode.isDark(row - 1, col) : false,
@@ -150,5 +150,5 @@ export default function QrCodeCanvas(props) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props]);
-    return React.createElement("canvas", Object.assign({}, (_m = props.canvasProps) !== null && _m !== void 0 ? _m : {}, { ref: canvas, width: size + space.total, height: size + space.total }), props.children);
+    return React.createElement("canvas", Object.assign({}, (_m = props.canvasProps) !== null && _m !== void 0 ? _m : {}, { style: props.resize ? Object.assign(Object.assign({}, ((_p = (_o = props.canvasProps) === null || _o === void 0 ? void 0 : _o.style) !== null && _p !== void 0 ? _p : {})), { width: props.resize, height: props.resize }) : (_q = props.canvasProps) === null || _q === void 0 ? void 0 : _q.style, ref: canvas, width: size + space.total, height: size + space.total }), props.children);
 }
