@@ -29,11 +29,13 @@ export default function App() {
             body: '#335577'
         },
         bgColor: '#ddeeff',
+        canvasProps: {
+            className: 'img-fluid my-2'
+        },
         padding: 20,
         bgRounded: true,
         divider: true,
-        onReady: setCanvas,
-        canvasProps: { className: 'img-fluid' }
+        onReady: setCanvas
     });
 
     return <>
