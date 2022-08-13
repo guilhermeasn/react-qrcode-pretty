@@ -28,6 +28,7 @@ yarn add react-qrcode-pretty
 |---|---|---|---|
 | value | `string` | | Qrcode payload (required) |
 | size | `number` | auto | Size of the qrcode without margin and padding |
+| resize | `number` | undefined | Resize ready qrcode with CSS |
 | color | `string` <br /> `{ 'eyes': string, 'body': string }` | '#000000' | Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode |
 | mode | `Numeric` <br /> `Alphanumeric` <br /> `Byte` <br /> `Kanji` | 'Byte' | Mode that payload (value) will be logged |
 | level | `L` <br /> `M` <br /> `Q` <br /> `H` | 'M' | Error correction level |
