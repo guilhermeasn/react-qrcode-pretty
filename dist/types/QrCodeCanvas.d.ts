@@ -1,4 +1,6 @@
 import React from 'react';
+declare type ModeNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40;
+declare type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
 /**
  * Props of the QrCode Component
  */
@@ -25,13 +27,17 @@ export declare type QrCodeProps = {
     mode?: Mode;
     /**
      * Error correction level
+     * - Level L - up to 7% damage
+     * - Level M - up to 15% damage
+     * - Level Q - up to 25% damage
+     * - Level H - up to 30% damage
      */
     level?: ErrorCorrectionLevel;
     /**
      * Number of qrcode modules
      * - 0 is auto
      */
-    modules?: TypeNumber;
+    modules?: ModeNumber;
     /**
      * Location (src) of an image to be inserted into the center of the qrcode
      */
@@ -101,3 +107,4 @@ export declare type QrCodeStyle = ('standard' | 'rounded' | 'dots' | 'fluid' | '
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
 export default function QrCodeCanvas(props: QrCodeProps): JSX.Element;
+export {};

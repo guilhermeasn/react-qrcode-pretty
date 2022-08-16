@@ -45,7 +45,7 @@ var canvasRectangle_1 = __importDefault(require("./canvasRectangle"));
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
 function QrCodeCanvas(props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
     var canvas = (0, react_1.useRef)(null);
     var space = {
         margin: (_a = props.margin) !== null && _a !== void 0 ? _a : 0,
@@ -65,10 +65,10 @@ function QrCodeCanvas(props) {
         body: (_h = props.color) !== null && _h !== void 0 ? _h : '#000'
     };
     var qrcode = (0, qrcode_generator_1.default)((_j = props.modules) !== null && _j !== void 0 ? _j : 0, (_k = props.level) !== null && _k !== void 0 ? _k : (props.image && props.imageBig ? 'H' : 'M'));
-    qrcode.addData(props.value, props.mode);
+    qrcode.addData((_l = props.value) !== null && _l !== void 0 ? _l : '', props.mode);
     qrcode.make();
     var modules = qrcode.getModuleCount();
-    var size = (_l = props.size) !== null && _l !== void 0 ? _l : modules * 10;
+    var size = (_m = props.size) !== null && _m !== void 0 ? _m : modules * 10;
     var moduleSize = size / modules;
     var moduleEyeStart = 7;
     var moduleEyeEnd = modules - moduleEyeStart - 1;
@@ -170,7 +170,7 @@ function QrCodeCanvas(props) {
                         };
                         break;
                     case 'gravity':
-                        var half = Math.floor(modules / 2) + 1;
+                        var half = Math.floor(modules / 2);
                         changer.radius = {
                             top_right: !isDark.col.after && !isDark.row.before && !(row > half && col < half) ? radius : 0,
                             top_left: !isDark.col.before && !isDark.row.before && !(row > half && col > half) ? radius : 0,
@@ -189,6 +189,6 @@ function QrCodeCanvas(props) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props]);
-    return react_1.default.createElement("canvas", __assign({}, (_m = props.canvasProps) !== null && _m !== void 0 ? _m : {}, { style: props.resize ? __assign(__assign({}, ((_p = (_o = props.canvasProps) === null || _o === void 0 ? void 0 : _o.style) !== null && _p !== void 0 ? _p : {})), { width: props.resize, height: props.resize }) : (_q = props.canvasProps) === null || _q === void 0 ? void 0 : _q.style, ref: canvas, width: size + space.total, height: size + space.total }), props.children);
+    return react_1.default.createElement("canvas", __assign({}, (_o = props.canvasProps) !== null && _o !== void 0 ? _o : {}, { style: props.resize ? __assign(__assign({}, ((_q = (_p = props.canvasProps) === null || _p === void 0 ? void 0 : _p.style) !== null && _q !== void 0 ? _q : {})), { width: props.resize, height: props.resize }) : (_r = props.canvasProps) === null || _r === void 0 ? void 0 : _r.style, ref: canvas, width: size + space.total, height: size + space.total }), props.children);
 }
 exports.default = QrCodeCanvas;

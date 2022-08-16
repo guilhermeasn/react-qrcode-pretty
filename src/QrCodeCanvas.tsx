@@ -3,6 +3,16 @@ import qrcodeGenerator from 'qrcode-generator';
 import canvasRectangle from './canvasRectangle';
 import type { CanvasRectangleProps } from './canvasRectangle';
 
+type ModeNumber =
+  | 0 // Automatic type number
+  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+  | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20
+  | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30
+  | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40
+  ;
+
+type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
+
 /**
  * Props of the QrCode Component
  */
@@ -35,6 +45,10 @@ export type QrCodeProps = {
 
     /**
      * Error correction level
+     * - Level L - up to 7% damage
+     * - Level M - up to 15% damage
+     * - Level Q - up to 25% damage
+     * - Level H - up to 30% damage
      */
     level ?: ErrorCorrectionLevel;
 
@@ -42,7 +56,7 @@ export type QrCodeProps = {
      * Number of qrcode modules
      * - 0 is auto
      */
-    modules ?: TypeNumber;
+    modules ?: ModeNumber;
 
     /**
      * Location (src) of an image to be inserted into the center of the qrcode
@@ -165,7 +179,7 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
     };
 
     const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? (props.image && props.imageBig ? 'H' : 'M'));
-    qrcode.addData(props.value, props.mode);
+    qrcode.addData(props.value ?? '', props.mode);
     qrcode.make();
 
     const modules : number = qrcode.getModuleCount();
@@ -287,7 +301,7 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
                         break;
 
                     case 'gravity':
-                        const half = Math.floor(modules / 2) + 1;
+                        const half = Math.floor(modules / 2);
                         changer.radius = {
                             top_right:    !isDark.col.after  && !isDark.row.before && !(row > half && col < half) ? radius : 0,
                             top_left:     !isDark.col.before && !isDark.row.before && !(row > half && col > half) ? radius : 0,
