@@ -1,9 +1,12 @@
+import { Fragment } from "react";
 import { QrCodePart, QrCodeProps } from "react-qrcode-pretty";
 
-function Space() {
-
-    return <>&nbsp;&nbsp;</>;
-
+function Space({ size = 1 }) {
+    return <>{
+        Array(size).fill(null).map((_, key) => (
+            <Fragment key={ key }>&nbsp;&nbsp;</Fragment> 
+        ))
+    }</>;
 }
 
 export default function Code(qrCodeProps : QrCodeProps) {
@@ -15,22 +18,22 @@ export default function Code(qrCodeProps : QrCodeProps) {
             <p>{ `export default function QrCodeCustom({ value = '${qrCodeProps.value}' }) {` }</p>
             <p><Space />return (</p>
             <p>
-                <Space /><Space />{ "<QrCode" }<br />
-                <Space /><Space /><Space />{ "value={ value }" }<br />
-                <Space /><Space /><Space />{ "variant={{" }<br />
-                <Space /><Space /><Space /><Space />{ `eyes: '${(qrCodeProps.variant as QrCodePart<string>).eyes}',` }<br />
-                <Space /><Space /><Space /><Space />{ `body: '${(qrCodeProps.variant as QrCodePart<string>).body}'` }<br />
-                <Space /><Space /><Space />{ "}}" }<br />
-                <Space /><Space /><Space />{ "color={{" }<br />
-                <Space /><Space /><Space /><Space />{ `eyes: '${(qrCodeProps.color as QrCodePart<string>).eyes}',` }<br />
-                <Space /><Space /><Space /><Space />{ `body: '${(qrCodeProps.color as QrCodePart<string>).body}'` }<br />
-                <Space /><Space /><Space />{ "}}" }<br />
-                <Space /><Space /><Space />{ `padding={ ${qrCodeProps.padding} }` }<br />
-                <Space /><Space /><Space />{ `margin={ ${qrCodeProps.padding} }` }<br />
-                <Space /><Space /><Space />{ `bgColor='${qrCodeProps.bgColor}'` }<br />
-                { qrCodeProps.bgRounded ? <><Space /><Space /><Space />{ `bgRounded` }<br /></> : '' }
-                { qrCodeProps.divider ? <><Space /><Space /><Space />{ `divider` }<br /></> : '' }
-                <Space /><Space />{ "/>" }
+                <Space size={ 2 } />{ "<QrCode" }<br />
+                <Space size={ 3 } />{ "value={ value }" }<br />
+                <Space size={ 3 } />{ "variant={{" }<br />
+                <Space size={ 4 } />{ `eyes: '${(qrCodeProps.variant as QrCodePart<string>).eyes}',` }<br />
+                <Space size={ 4 } />{ `body: '${(qrCodeProps.variant as QrCodePart<string>).body}'` }<br />
+                <Space size={ 3 } />{ "}}" }<br />
+                <Space size={ 3 } />{ "color={{" }<br />
+                <Space size={ 4 } />{ `eyes: '${(qrCodeProps.color as QrCodePart<string>).eyes}',` }<br />
+                <Space size={ 4 } />{ `body: '${(qrCodeProps.color as QrCodePart<string>).body}'` }<br />
+                <Space size={ 3 } />{ "}}" }<br />
+                <Space size={ 3 } />{ `padding={ ${qrCodeProps.padding} }` }<br />
+                <Space size={ 3 } />{ `margin={ ${qrCodeProps.padding} }` }<br />
+                <Space size={ 3 } />{ `bgColor='${qrCodeProps.bgColor}'` }<br />
+                { qrCodeProps.bgRounded ? <><Space size={ 3 } />{ `bgRounded` }<br /></> : '' }
+                { qrCodeProps.divider ? <><Space size={ 3 } />{ `divider` }<br /></> : '' }
+                <Space size={ 2 } />{ "/>" }
             </p>
             <p><Space />);</p>
             <p>{ "}" }</p>
