@@ -51,12 +51,12 @@ yarn add react-qrcode-pretty
 ```js
 import { QrCode } from "react-qrcode-pretty";
 
-export default function QrCodeCustom() {
+export default function QrCodeCustom({ value = 'react-qrcode-pretty' }) {
 
     return (
 
         <QrCode
-            value="react-qrcode-pretty"
+            value={ value }
             variant={{
                 eyes: 'gravity',
                 body: 'fluid'
@@ -66,8 +66,8 @@ export default function QrCodeCustom() {
                 body: '#335577'
             }}
             padding={ 20 }
-            margin={ 30 }
-            bgColor="#ddeeff"
+            margin={ 20 }
+            bgColor='#ddeeff'
             bgRounded
             divider
         />
