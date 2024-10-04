@@ -1,11 +1,11 @@
-import { QrCode } from "react-qrcode-pretty";
+import { QrCode } from 'react-qrcode-pretty';
 
-export default function QrCodeCustom() {
+export default function QrCodeCustom({ value = 'react-qrcode-pretty' }) {
 
     return (
 
         <QrCode
-            value="react-qrcode-pretty"
+            value={ value }
             variant={{
                 eyes: 'gravity',
                 body: 'fluid'
@@ -16,7 +16,7 @@ export default function QrCodeCustom() {
             }}
             padding={ 20 }
             margin={ 30 }
-            bgColor="#ddeeff"
+            bgColor='#ddeeff'
             bgRounded
             divider
         />
