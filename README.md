@@ -48,7 +48,7 @@ yarn add react-qrcode-pretty
 
 ## Code Example
 
-```
+```js
 import { QrCode } from "react-qrcode-pretty";
 
 export default function QrCodeCustom() {
