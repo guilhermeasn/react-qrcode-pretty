@@ -10,6 +10,7 @@ export default function App() {
         'standard',
         'rounded',
         'dots',
+        'circle',
         'fluid',
         'reverse',
         'shower',
