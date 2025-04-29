@@ -79,12 +79,12 @@ export default function QrCodeCustom({ value = 'react-qrcode-pretty' }) {
 
 ## Qrcode Examples
 
-![Qrcode example](examples/standart.qrcode.png)
-![Qrcode example](examples/authors.qrcode.png)
-![Qrcode example](examples/email.qrcode.png)
-![Qrcode example](examples/site.qrcode.png)
-![Qrcode example](examples/contato.qrcode.png)
-![Qrcode example](examples/github.qrcode.png)
+![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/standart.qrcode.png)
+![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/authors.qrcode.png)
+![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/email.qrcode.png)
+![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/site.qrcode.png)
+![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/contato.qrcode.png)
+![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/github.qrcode.png)
 
 ## Author
 
