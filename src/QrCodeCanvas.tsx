@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
 import qrcodeGenerator from 'qrcode-generator';
-import canvasRectangle from './canvasRectangle';
+import React, { useEffect, useRef } from 'react';
 import type { CanvasRectangleProps } from './canvasRectangle';
+import canvasRectangle from './canvasRectangle';
 
 type ModeNumber =
   | 0 // Automatic type number
@@ -140,6 +140,7 @@ export type QrCodeStyle = (
     'standard' |
     'rounded'  |
     'dots'     |
+    'circle'   |
     'fluid'    |
     'reverse'  |
     'shower'   |
@@ -223,7 +224,7 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
             positionY: space.margin,
             fill: props.bgColor ?? '#FFF',
             radius: props.bgRounded ? 10 : undefined
-        })
+        });
 
         for(let row = 0; row < modules; row++) {
 
@@ -251,7 +252,7 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
                         before: col > 0 ? qrcode.isDark(row, col - 1) : false,
                         after: col < modules - 1 ? qrcode.isDark(row, col + 1) : false
                     }
-                }
+                };
 
                 switch(variant[key]) {
 
@@ -262,6 +263,15 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
                     case 'rounded':
                         changer.radius = moduleSize / 2;
                         break;
+
+                        case 'circle':
+                            changer.radius = {
+                                top_left:     !isDark.col.before && !isDark.row.before && isDark.col.after && isDark.row.after ? moduleSize * 1.5 : 0,
+                                top_right:    isDark.col.before && !isDark.row.before && !isDark.col.after && isDark.row.after ? moduleSize * 1.5 : 0,
+                                bottom_left:  !isDark.col.before && isDark.row.before && isDark.col.after && !isDark.row.after ? moduleSize * 1.5 : 0,
+                                bottom_right: isDark.col.before && isDark.row.before && !isDark.col.after && !isDark.row.after ? moduleSize * 1.5 : 0
+                            };
+                            break;
                     
                     case 'fluid':
                         changer.radius = {

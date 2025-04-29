@@ -101,7 +101,7 @@ export declare type QrCodePart<T> = {
 /**
  * Style variations for qrcode parts
  */
-export declare type QrCodeStyle = ('standard' | 'rounded' | 'dots' | 'fluid' | 'reverse' | 'shower' | 'gravity' | 'morse');
+export declare type QrCodeStyle = ('standard' | 'rounded' | 'dots' | 'circle' | 'fluid' | 'reverse' | 'shower' | 'gravity' | 'morse');
 /**
  * QrCode React Component
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>

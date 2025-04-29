@@ -38,7 +38,7 @@ yarn add react-qrcode-pretty
 | overlap | `boolean` | false | For the image to overlay the qrcode without cropping it |
 | margin | `number` | 0 | Margin size. Area without background color |
 | padding | `number` | 0 | Padding size. Area with background color |
-| variant | `standard` <br /> `rounded`  <br /> `dots` <br /> `fluid` <br /> `reverse` <br /> `shower` <br /> `gravity`  <br /> `morse` <br /> `{ 'eyes': variant, 'body': variant }` | 'standard' | Style applied to the entire qrcode or each part (eyes and body) of it |
+| variant | `standard` <br /> `rounded`  <br /> `dots` <br /> `circle` <br /> `fluid` <br /> `reverse` <br /> `shower` <br /> `gravity`  <br /> `morse` <br /> `{ 'eyes': variant, 'body': variant }` | 'standard' | Style applied to the entire qrcode or each part (eyes and body) of it |
 | divider | `boolean` | false | Active a small separation between the qrcode body points |
 | bgColor | `string` | '#FFFFFF' | Background color |
 | bgRounded | `boolean` | false | Background color rounded |
@@ -83,6 +83,8 @@ export default function QrCodeCustom({ value = 'react-qrcode-pretty' }) {
 ![Qrcode example](examples/authors.qrcode.png)
 ![Qrcode example](examples/email.qrcode.png)
 ![Qrcode example](examples/site.qrcode.png)
+![Qrcode example](examples/contato.qrcode.png)
+![Qrcode example](examples/github.qrcode.png)
 
 ## Author
 

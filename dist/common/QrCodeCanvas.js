@@ -37,8 +37,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importStar(require("react"));
 var qrcode_generator_1 = __importDefault(require("qrcode-generator"));
+var react_1 = __importStar(require("react"));
 var canvasRectangle_1 = __importDefault(require("./canvasRectangle"));
 /**
  * QrCode React Component
@@ -136,6 +136,14 @@ function QrCodeCanvas(props) {
                         break;
                     case 'rounded':
                         changer.radius = moduleSize / 2;
+                        break;
+                    case 'circle':
+                        changer.radius = {
+                            top_left: !isDark.col.before && !isDark.row.before && isDark.col.after && isDark.row.after ? moduleSize * 1.5 : 0,
+                            top_right: isDark.col.before && !isDark.row.before && !isDark.col.after && isDark.row.after ? moduleSize * 1.5 : 0,
+                            bottom_left: !isDark.col.before && isDark.row.before && isDark.col.after && !isDark.row.after ? moduleSize * 1.5 : 0,
+                            bottom_right: isDark.col.before && isDark.row.before && !isDark.col.after && !isDark.row.after ? moduleSize * 1.5 : 0
+                        };
                         break;
                     case 'fluid':
                         changer.radius = {

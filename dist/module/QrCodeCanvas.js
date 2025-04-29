@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
 import qrcodeGenerator from 'qrcode-generator';
+import React, { useEffect, useRef } from 'react';
 import canvasRectangle from './canvasRectangle';
 /**
  * QrCode React Component
@@ -97,6 +97,14 @@ export default function QrCodeCanvas(props) {
                         break;
                     case 'rounded':
                         changer.radius = moduleSize / 2;
+                        break;
+                    case 'circle':
+                        changer.radius = {
+                            top_left: !isDark.col.before && !isDark.row.before && isDark.col.after && isDark.row.after ? moduleSize * 1.5 : 0,
+                            top_right: isDark.col.before && !isDark.row.before && !isDark.col.after && isDark.row.after ? moduleSize * 1.5 : 0,
+                            bottom_left: !isDark.col.before && isDark.row.before && isDark.col.after && !isDark.row.after ? moduleSize * 1.5 : 0,
+                            bottom_right: isDark.col.before && isDark.row.before && !isDark.col.after && !isDark.row.after ? moduleSize * 1.5 : 0
+                        };
                         break;
                     case 'fluid':
                         changer.radius = {
