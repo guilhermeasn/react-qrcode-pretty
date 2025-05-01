@@ -3,6 +3,17 @@
  */
 export type QrCodeColor = string;
 
+export type QrCodeColorEffect = (
+    | 'gradient-dark-vertical'
+    | 'gradient-dark-horizontal'
+    | 'gradient-light-vertical'
+    | 'gradient-light-horizontal'
+    | 'gradient-light'
+    | 'colored'
+    | 'none'
+    | null
+);
+
 /**
  * Qrcode Parts (eyes and body)
  */
