@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Accordion, Button, Col, Container, FloatingLabel, Form, Navbar, Row } from "react-bootstrap";
 import Code from './Code';
 
-import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "./qrcode";
-// import { QrCode, QrCodeProps, QrCodeStyle } from "react-qrcode-pretty";
+import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "react-qrcode-pretty";
+// import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "./qrcode";
 
 export default function App() {
 
@@ -52,6 +52,7 @@ export default function App() {
             className: 'img-fluid my-2'
         },
         padding: 20,
+        margin: 20,
         bgRounded: true,
         divider: true,
         onReady: setCanvas
