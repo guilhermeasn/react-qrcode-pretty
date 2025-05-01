@@ -3,6 +3,9 @@
  * Color string
  */
 export declare type QrCodeColor = string;
+/**
+ * Apply effects to coloring options
+ */
 export declare type QrCodeColorEffect = ('gradient-dark-vertical' | 'gradient-dark-horizontal' | 'gradient-dark-diagonal' | 'gradient-light-vertical' | 'gradient-light-horizontal' | 'gradient-light-diagonal' | 'colored' | 'none');
 export declare type QrCodePartOption = ('eyes' | 'body');
 /**
