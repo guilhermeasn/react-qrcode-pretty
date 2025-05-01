@@ -3,6 +3,9 @@
  */
 export type QrCodeColor = string;
 
+/**
+ * Apply effects to coloring options
+ */
 export type QrCodeColorEffect = (
     | 'gradient-dark-vertical'
     | 'gradient-dark-horizontal'
