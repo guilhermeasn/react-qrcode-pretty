@@ -91,6 +91,8 @@ export default function QrCodeCustom({ value = 'react-qrcode-pretty' }) {
 ![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/qrcode_example_09.png)
 ![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/qrcode_example_10.png)
 
+[Qrcode generator website](https://guilhermeasn.github.io/react-qrcode-pretty/)
+
 ## Author
 
 * **Guilherme Neves** - [github](https://github.com/guilhermeasn/) - [website](https://gn.dev.br/)
