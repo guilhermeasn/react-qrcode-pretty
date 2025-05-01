@@ -2,7 +2,8 @@ import qrcodeGenerator from 'qrcode-generator';
 import React, { useEffect, useRef } from 'react';
 import type { CanvasRectangleProps } from './canvasRectangle';
 import canvasRectangle from './canvasRectangle';
-import type { QrCodeColor, QrCodePart, QrCodeProps, QrCodeStyle } from './types';
+import { colorGradient, getRandomColor } from './helpers';
+import type { QrCodeColor, QrCodeColorEffect, QrCodePart, QrCodePartOption, QrCodeProps, QrCodeStyle } from './types';
 
 /**
  * QrCode React Component
@@ -34,6 +35,34 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
         eyes: props.color ?? '#000',
         body: props.color ?? '#000'
     };
+
+    const colorEffect : QrCodePart<QrCodeColorEffect> = (
+        typeof props.colorEffect === 'object'
+        && 'eyes' in props.colorEffect
+        && 'body' in props.colorEffect
+    ) ? props.colorEffect : {
+        eyes: props.colorEffect ?? 'none',
+        body: props.colorEffect ?? 'none'
+    };
+
+    const getColor = (key : QrCodePartOption, col: number, row: number) : QrCodeColor => {
+
+        switch(colorEffect[key]) {
+
+            case 'gradient-dark-vertical': return colorGradient(color[key], row * -3);
+            case 'gradient-dark-horizontal': return colorGradient(color[key], col * -3);
+            case 'gradient-dark-diagonal': return colorGradient(color[key], (col + row) * -2);
+            case 'gradient-light-vertical': return colorGradient(color[key], row * 3);
+            case 'gradient-light-horizontal': return colorGradient(color[key], col * 3);
+            case 'gradient-light-diagonal': return colorGradient(color[key], (col + row) * 2);
+            
+            case 'colored': return getRandomColor(color[key]);
+
+            default: return color[key];
+
+        }
+
+    }
 
     const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? (props.image && props.imageBig ? 'H' : 'M'));
     qrcode.addData(props.value ?? '', props.mode);
@@ -88,10 +117,11 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
 
                 if(!qrcode.isDark(row, col)) continue;
 
-                let key : keyof QrCodePart<any> = (col < moduleEyeStart && row < moduleEyeStart) ||
-                                                  (col < moduleEyeStart && row > moduleEyeEnd)   || 
-                                                  (col > moduleEyeEnd && row < moduleEyeStart)
-                                                  ? 'eyes' : 'body';
+                let key : QrCodePartOption = (
+                    (col < moduleEyeStart && row < moduleEyeStart) ||
+                    (col < moduleEyeStart && row > moduleEyeEnd)   || 
+                    (col > moduleEyeEnd && row < moduleEyeStart)
+                ) ? 'eyes' : 'body';
 
                 let changer : Partial<CanvasRectangleProps> = {
                     stroke: key === 'body' && props.divider ? (props.bgColor ?? '#FFF') : null
@@ -176,15 +206,15 @@ export default function QrCodeCanvas(props : QrCodeProps) : JSX.Element {
                         };
                         break;
             
-                }                
-                
+                }
+
                 canvasRectangle({
                     canvas2d: context,
                     positionX: col * moduleSize + space.margin + space.padding,
                     positionY: row * moduleSize + space.margin + space.padding,
                     height: moduleSize,
                     width: moduleSize,
-                    fill: color[key],
+                    fill: getColor(key, col, row),
                     ...changer
                 });
 

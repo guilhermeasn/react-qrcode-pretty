@@ -1,12 +1,13 @@
 import qrcodeGenerator from 'qrcode-generator';
 import React, { useEffect, useRef } from 'react';
 import canvasRectangle from './canvasRectangle';
+import { colorGradient, getRandomColor } from './helpers';
 /**
  * QrCode React Component
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
 export default function QrCodeCanvas(props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
     const canvas = useRef(null);
     const space = {
         margin: (_a = props.margin) !== null && _a !== void 0 ? _a : 0,
@@ -25,11 +26,29 @@ export default function QrCodeCanvas(props) {
         eyes: (_g = props.color) !== null && _g !== void 0 ? _g : '#000',
         body: (_h = props.color) !== null && _h !== void 0 ? _h : '#000'
     };
-    const qrcode = qrcodeGenerator((_j = props.modules) !== null && _j !== void 0 ? _j : 0, (_k = props.level) !== null && _k !== void 0 ? _k : (props.image && props.imageBig ? 'H' : 'M'));
-    qrcode.addData((_l = props.value) !== null && _l !== void 0 ? _l : '', props.mode);
+    const colorEffect = (typeof props.colorEffect === 'object'
+        && 'eyes' in props.colorEffect
+        && 'body' in props.colorEffect) ? props.colorEffect : {
+        eyes: (_j = props.colorEffect) !== null && _j !== void 0 ? _j : 'none',
+        body: (_k = props.colorEffect) !== null && _k !== void 0 ? _k : 'none'
+    };
+    const getColor = (key, col, row) => {
+        switch (colorEffect[key]) {
+            case 'gradient-dark-vertical': return colorGradient(color[key], row * -3);
+            case 'gradient-dark-horizontal': return colorGradient(color[key], col * -3);
+            case 'gradient-dark-diagonal': return colorGradient(color[key], (col + row) * -2);
+            case 'gradient-light-vertical': return colorGradient(color[key], row * 3);
+            case 'gradient-light-horizontal': return colorGradient(color[key], col * 3);
+            case 'gradient-light-diagonal': return colorGradient(color[key], (col + row) * 2);
+            case 'colored': return getRandomColor(color[key]);
+            default: return color[key];
+        }
+    };
+    const qrcode = qrcodeGenerator((_l = props.modules) !== null && _l !== void 0 ? _l : 0, (_m = props.level) !== null && _m !== void 0 ? _m : (props.image && props.imageBig ? 'H' : 'M'));
+    qrcode.addData((_o = props.value) !== null && _o !== void 0 ? _o : '', props.mode);
     qrcode.make();
     const modules = qrcode.getModuleCount();
-    const size = (_m = props.size) !== null && _m !== void 0 ? _m : modules * 10;
+    const size = (_p = props.size) !== null && _p !== void 0 ? _p : modules * 10;
     const moduleSize = size / modules;
     const moduleEyeStart = 7;
     const moduleEyeEnd = modules - moduleEyeStart - 1;
@@ -73,10 +92,9 @@ export default function QrCodeCanvas(props) {
             for (let col = 0; col < modules; col++) {
                 if (!qrcode.isDark(row, col))
                     continue;
-                let key = (col < moduleEyeStart && row < moduleEyeStart) ||
+                let key = ((col < moduleEyeStart && row < moduleEyeStart) ||
                     (col < moduleEyeStart && row > moduleEyeEnd) ||
-                    (col > moduleEyeEnd && row < moduleEyeStart)
-                    ? 'eyes' : 'body';
+                    (col > moduleEyeEnd && row < moduleEyeStart)) ? 'eyes' : 'body';
                 let changer = {
                     stroke: key === 'body' && props.divider ? ((_b = props.bgColor) !== null && _b !== void 0 ? _b : '#FFF') : null
                 };
@@ -148,7 +166,7 @@ export default function QrCodeCanvas(props) {
                         };
                         break;
                 }
-                canvasRectangle(Object.assign({ canvas2d: context, positionX: col * moduleSize + space.margin + space.padding, positionY: row * moduleSize + space.margin + space.padding, height: moduleSize, width: moduleSize, fill: color[key] }, changer));
+                canvasRectangle(Object.assign({ canvas2d: context, positionX: col * moduleSize + space.margin + space.padding, positionY: row * moduleSize + space.margin + space.padding, height: moduleSize, width: moduleSize, fill: getColor(key, col, row) }, changer));
             }
         }
         if (props.image)
@@ -158,5 +176,5 @@ export default function QrCodeCanvas(props) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props]);
-    return React.createElement("canvas", Object.assign({}, (_o = props.canvasProps) !== null && _o !== void 0 ? _o : {}, { style: props.resize ? Object.assign(Object.assign({}, ((_q = (_p = props.canvasProps) === null || _p === void 0 ? void 0 : _p.style) !== null && _q !== void 0 ? _q : {})), { width: props.resize, height: props.resize }) : (_r = props.canvasProps) === null || _r === void 0 ? void 0 : _r.style, ref: canvas, width: size + space.total, height: size + space.total }), props.children);
+    return React.createElement("canvas", Object.assign({}, (_q = props.canvasProps) !== null && _q !== void 0 ? _q : {}, { style: props.resize ? Object.assign(Object.assign({}, ((_s = (_r = props.canvasProps) === null || _r === void 0 ? void 0 : _r.style) !== null && _s !== void 0 ? _s : {})), { width: props.resize, height: props.resize }) : (_t = props.canvasProps) === null || _t === void 0 ? void 0 : _t.style, ref: canvas, width: size + space.total, height: size + space.total }), props.children);
 }

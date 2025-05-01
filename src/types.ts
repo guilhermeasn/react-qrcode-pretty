@@ -6,35 +6,39 @@ export type QrCodeColor = string;
 export type QrCodeColorEffect = (
     | 'gradient-dark-vertical'
     | 'gradient-dark-horizontal'
+    | 'gradient-dark-diagonal'
     | 'gradient-light-vertical'
     | 'gradient-light-horizontal'
-    | 'gradient-light'
+    | 'gradient-light-diagonal'
     | 'colored'
     | 'none'
-    | null
+);
+
+export type QrCodePartOption = (
+    | 'eyes'
+    | 'body'
 );
 
 /**
  * Qrcode Parts (eyes and body)
  */
-export type QrCodePart<T> = {
-    eyes : T;
-    body : T;
-}
+export type QrCodePart<T> = (
+    Record<QrCodePartOption, T>
+);
 
 /**
  * Style variations for qrcode parts
  */
 export type QrCodeStyle = (
-    'standard' |
-    'rounded'  |
-    'dots'     |
-    'circle'   |
-    'fluid'    |
-    'reverse'  |
-    'shower'   |
-    'gravity'  |
-    'morse'
+    | 'standard' 
+    | 'rounded'  
+    | 'dots'     
+    | 'circle'   
+    | 'fluid'    
+    | 'reverse'  
+    | 'shower'   
+    | 'gravity'  
+    | 'morse'
 );
 
 type TypeNumber =
@@ -73,6 +77,11 @@ export type QrCodeProps = {
      * Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode
      */
     color ?: QrCodeColor | QrCodePart<QrCodeColor>;
+
+    /**
+     * Apply effects to coloring
+     */
+    colorEffect ?: QrCodeColorEffect | QrCodePart<QrCodeColorEffect>;
 
     /**
      * Mode that payload (value) will be logged
