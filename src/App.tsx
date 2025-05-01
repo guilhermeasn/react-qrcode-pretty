@@ -1,8 +1,10 @@
 import download from 'downloadjs';
 import { useState } from "react";
 import { Accordion, Button, Col, Container, FloatingLabel, Form, Navbar, Row } from "react-bootstrap";
-import { QrCode, QrCodeProps, QrCodeStyle } from "react-qrcode-pretty";
 import Code from './Code';
+
+import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "./qrcode";
+// import { QrCode, QrCodeProps, QrCodeStyle } from "react-qrcode-pretty";
 
 export default function App() {
 
@@ -18,6 +20,17 @@ export default function App() {
         'morse'
     ];
 
+    const colorEffect : Array<QrCodeColorEffect> = [
+        'gradient-dark-vertical',
+        'gradient-dark-horizontal',
+        'gradient-dark-diagonal',
+        'gradient-light-vertical',
+        'gradient-light-horizontal',
+        'gradient-light-diagonal',
+        'colored',
+        'none'
+    ];
+
     const [ canvas, setCanvas ] = useState<HTMLCanvasElement | null>(null);
 
     const [ props, setProps ] = useState<QrCodeProps>({
@@ -29,6 +42,10 @@ export default function App() {
         color: {
             eyes: '#223344',
             body: '#335577'
+        },
+        colorEffect: {
+            eyes: 'none',
+            body: 'none'
         },
         bgColor: '#ddeeff',
         canvasProps: {
@@ -132,6 +149,26 @@ export default function App() {
                                     onChange={ (input: any) => setProps({ ...props, variant: { body: input.currentTarget.value, eyes: typeof props.variant === 'object' ? props.variant.eyes : (props.variant ?? 'standard') } }) }
                                 >
                                     { variants.map(v => <option key={ v } value={ v }>{ v }</option>) }
+                                </Form.Select>
+                            </FloatingLabel>
+
+                            <hr />
+
+                            <FloatingLabel label='Eyes Color Effect' className="mb-3">
+                                <Form.Select
+                                    value={ typeof props.colorEffect === 'object' ? props.colorEffect.eyes : props.colorEffect }
+                                    onChange={ (input: any) => setProps({ ...props, colorEffect: { eyes: input.currentTarget.value, body: typeof props.colorEffect === 'object' ? props.colorEffect.body : (props.colorEffect ?? 'none') } }) }
+                                >
+                                    { colorEffect.map(v => <option key={ v } value={ v }>{ v }</option>) }
+                                </Form.Select>
+                            </FloatingLabel>
+
+                            <FloatingLabel label='Body Color Effect' className="mb-3">
+                                <Form.Select
+                                    value={ typeof props.colorEffect === 'object' ? props.colorEffect.body : props.colorEffect }
+                                    onChange={ (input: any) => setProps({ ...props, colorEffect: { body: input.currentTarget.value, eyes: typeof props.colorEffect === 'object' ? props.colorEffect.eyes : (props.colorEffect ?? 'none') } }) }
+                                >
+                                    { colorEffect.map(v => <option key={ v } value={ v }>{ v }</option>) }
                                 </Form.Select>
                             </FloatingLabel>
 

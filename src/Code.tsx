@@ -1,5 +1,6 @@
 import { Fragment } from "react";
-import { QrCodePart, QrCodeProps } from "react-qrcode-pretty";
+// import { QrCodePart, QrCodeProps } from "react-qrcode-pretty";
+import { QrCodePart, QrCodeProps } from "./qrcode";
 
 function Space({ size = 1 }) {
     return <>{
@@ -27,6 +28,10 @@ export default function Code(qrCodeProps : QrCodeProps) {
                 <Space size={ 3 } />{ "color={{" }<br />
                 <Space size={ 4 } />{ `eyes: '${(qrCodeProps.color as QrCodePart<string>).eyes}',` }<br />
                 <Space size={ 4 } />{ `body: '${(qrCodeProps.color as QrCodePart<string>).body}'` }<br />
+                <Space size={ 3 } />{ "}}" }<br />
+                <Space size={ 3 } />{ "colorEffect={{" }<br />
+                <Space size={ 4 } />{ `eyes: '${(qrCodeProps.colorEffect as QrCodePart<string>).eyes}',` }<br />
+                <Space size={ 4 } />{ `body: '${(qrCodeProps.colorEffect as QrCodePart<string>).body}'` }<br />
                 <Space size={ 3 } />{ "}}" }<br />
                 <Space size={ 3 } />{ `padding={ ${qrCodeProps.padding} }` }<br />
                 <Space size={ 3 } />{ `margin={ ${qrCodeProps.padding} }` }<br />
