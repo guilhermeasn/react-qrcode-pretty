@@ -1,8 +1,11 @@
-import { Edge, QrCodeRectangleProps } from "./types";
+import type {
+    QrCodeRadiusEdge,
+    QrCodeRectangleProps
+} from "./types";
 
 export default function canvasRectangle(context: CanvasRenderingContext2D, props : QrCodeRectangleProps) {
 
-    const radius : Required<Edge> = ( typeof props.radius === 'number' || !props.radius ) ? {
+    const radius : Required<QrCodeRadiusEdge> = ( typeof props.radius === 'number' || !props.radius ) ? {
         top_left:     props.radius ?? 0,
         top_right:    props.radius ?? 0,
         bottom_left:  props.radius ?? 0,

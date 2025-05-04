@@ -2,7 +2,7 @@ import qrcodeGenerator from 'qrcode-generator';
 import React, { useEffect, useRef } from 'react';
 import canvasRectangle from './canvasRectangle';
 import { colorGradient, getRandomColor, qrCodePartNormalize } from './helpers';
-import type { QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeProps, QrCodeRectangleProps, QrCodeRenderAs, QrCodeRenderElement, QrCodeStyle } from './types';
+import type { QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeProps, QrCodeRadius, QrCodeRectangleProps, QrCodeRenderAs, QrCodeRenderElement, QrCodeStyle, QrCodeWrapped } from './types';
 
 /**
  * QrCode React Component
@@ -110,9 +110,7 @@ export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCo
                     stroke: key === 'body' && props.divider ? (props.bgColor ?? '#FFF') : null
                 };
 
-                const radius = moduleSize / 1.6;
-
-                const isDark = {
+                const wrapped : QrCodeWrapped = {
                     row: {
                         before: row > 0 ? qrcode.isDark(row - 1, col) : false,
                         after: row < modules - 1 ? qrcode.isDark(row + 1, col) : false
@@ -123,73 +121,15 @@ export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCo
                     }
                 };
 
-                switch(variant[key]) {
-
-                    case 'dots':
-                        changer.radius = radius;
-                        break;
-
-                    case 'rounded':
-                        changer.radius = moduleSize / 2;
-                        break;
-
-                    case 'circle':
-                        changer.radius = {
-                            top_left:     !isDark.col.before && !isDark.row.before && isDark.col.after && isDark.row.after ? moduleSize * 1.5 : 0,
-                            top_right:    isDark.col.before && !isDark.row.before && !isDark.col.after && isDark.row.after ? moduleSize * 1.5 : 0,
-                            bottom_left:  !isDark.col.before && isDark.row.before && isDark.col.after && !isDark.row.after ? moduleSize * 1.5 : 0,
-                            bottom_right: isDark.col.before && isDark.row.before && !isDark.col.after && !isDark.row.after ? moduleSize * 1.5 : 0
-                        };
-                        break;
-                    
-                    case 'fluid':
-                        changer.radius = {
-                            top_right:    !isDark.col.after  && !isDark.row.before ? radius : 0,
-                            top_left:     !isDark.col.before && !isDark.row.before ? radius : 0,
-                            bottom_right: !isDark.col.after  && !isDark.row.after  ? radius : 0,
-                            bottom_left:  !isDark.col.before && !isDark.row.after  ? radius : 0
-                        };
-                        break;
-
-                    case 'reverse':
-                        changer.radius = {
-                            top_right:    isDark.col.after  && isDark.row.before ? radius : 0,
-                            top_left:     isDark.col.before && isDark.row.before ? radius : 0,
-                            bottom_right: isDark.col.after  && isDark.row.after  ? radius : 0,
-                            bottom_left:  isDark.col.before && isDark.row.after  ? radius : 0
-                        };
-                        break;
-
-                    case 'morse':
-                        changer.radius = !isDark.col.before && !isDark.col.after ? radius : {
-                            top_left:     !isDark.col.before ? radius : 0,
-                            bottom_left:  !isDark.col.before ? radius : 0,
-                            top_right:    !isDark.col.after  ? radius : 0,
-                            bottom_right: !isDark.col.after  ? radius : 0
-                        };
-                        break;
-
-                    
-                    case 'shower':
-                        changer.radius = !isDark.row.before && !isDark.row.after ? radius : {
-                            top_left:     !isDark.row.before ? radius : 0,
-                            top_right:    !isDark.row.before ? radius : 0,
-                            bottom_left:  !isDark.row.after  ? radius : 0,
-                            bottom_right: !isDark.row.after  ? radius : 0
-                        };
-                        break;
-
-                    case 'gravity':
-                        const half = Math.floor(modules / 2);
-                        changer.radius = {
-                            top_right:    !isDark.col.after  && !isDark.row.before && !(row > half && col < half) ? radius : 0,
-                            top_left:     !isDark.col.before && !isDark.row.before && !(row > half && col > half) ? radius : 0,
-                            bottom_right: !isDark.col.after  && !isDark.row.after  && !(row < half && col < half) ? radius : 0,
-                            bottom_left:  !isDark.col.before && !isDark.row.after  && !(row < half && col > half) ? radius : 0
-                        };
-                        break;
-            
-                }
+                changer.radius = qrCodeStyleRadius(
+                    variant[key],
+                    moduleSize,
+                    modules,
+                    wrapped,
+                    row,
+                    col
+                );
+                
 
                 if(element.current instanceof HTMLCanvasElement && context) {
                     canvasRectangle(context, {
@@ -257,6 +197,75 @@ export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCo
             ></canvas>
 
         );
+
+    }
+
+}
+
+function qrCodeStyleRadius(
+    variant : QrCodeStyle,
+    moduleSize : number,
+    modules: number,
+    wrapped : QrCodeWrapped,
+    row: number,
+    col: number
+) : QrCodeRadius {
+
+    const radius = moduleSize / 1.6;
+
+    switch(variant) {
+
+        case 'dots': return radius;
+
+        case 'rounded': return moduleSize / 2;
+
+        case 'circle': return {
+            top_left:     !wrapped.col.before && !wrapped.row.before && wrapped.col.after && wrapped.row.after ? moduleSize * 1.5 : 0,
+            top_right:    wrapped.col.before && !wrapped.row.before && !wrapped.col.after && wrapped.row.after ? moduleSize * 1.5 : 0,
+            bottom_left:  !wrapped.col.before && wrapped.row.before && wrapped.col.after && !wrapped.row.after ? moduleSize * 1.5 : 0,
+            bottom_right: wrapped.col.before && wrapped.row.before && !wrapped.col.after && !wrapped.row.after ? moduleSize * 1.5 : 0
+        };
+        
+        case 'fluid': return {
+            top_right:    !wrapped.col.after  && !wrapped.row.before ? radius : 0,
+            top_left:     !wrapped.col.before && !wrapped.row.before ? radius : 0,
+            bottom_right: !wrapped.col.after  && !wrapped.row.after  ? radius : 0,
+            bottom_left:  !wrapped.col.before && !wrapped.row.after  ? radius : 0
+        };
+
+        case 'reverse': return {
+            top_right:    wrapped.col.after  && wrapped.row.before ? radius : 0,
+            top_left:     wrapped.col.before && wrapped.row.before ? radius : 0,
+            bottom_right: wrapped.col.after  && wrapped.row.after  ? radius : 0,
+            bottom_left:  wrapped.col.before && wrapped.row.after  ? radius : 0
+        };
+            
+
+        case 'morse': return !wrapped.col.before && !wrapped.col.after ? radius : {
+            top_left:     !wrapped.col.before ? radius : 0,
+            bottom_left:  !wrapped.col.before ? radius : 0,
+            top_right:    !wrapped.col.after  ? radius : 0,
+            bottom_right: !wrapped.col.after  ? radius : 0
+        };
+
+        
+        case 'shower': return !wrapped.row.before && !wrapped.row.after ? radius : {
+            top_left:     !wrapped.row.before ? radius : 0,
+            top_right:    !wrapped.row.before ? radius : 0,
+            bottom_left:  !wrapped.row.after  ? radius : 0,
+            bottom_right: !wrapped.row.after  ? radius : 0
+        };
+
+        case 'gravity':
+            const half = Math.floor(modules / 2);
+            return {
+                top_right:    !wrapped.col.after  && !wrapped.row.before && !(row > half && col < half) ? radius : 0,
+                top_left:     !wrapped.col.before && !wrapped.row.before && !(row > half && col > half) ? radius : 0,
+                bottom_right: !wrapped.col.after  && !wrapped.row.after  && !(row < half && col < half) ? radius : 0,
+                bottom_left:  !wrapped.col.before && !wrapped.row.after  && !(row < half && col > half) ? radius : 0
+            };
+
+        default: return 0;
 
     }
 

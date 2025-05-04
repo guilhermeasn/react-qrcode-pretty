@@ -188,12 +188,19 @@ export type QrCodeRectangleProps = {
     height    : number;
     fill     ?: string | null;
     stroke   ?: string | null; 
-    radius   ?: number | Edge;
+    radius   ?: QrCodeRadius
 }
 
-export type Edge = {
+export type QrCodeRadius = number | QrCodeRadiusEdge;
+
+export type QrCodeRadiusEdge = {
     top_left     ?: number;
     top_right    ?: number;
     bottom_left  ?: number;
     bottom_right ?: number;
 }
+
+export type QrCodeWrapped = Record<'row' | 'col', {
+    before: boolean;
+    after: boolean;
+}>;
