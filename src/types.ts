@@ -29,6 +29,27 @@ export type QrCodePart<T> = (
     Record<QrCodePartOption, T>
 );
 
+export type QrCodeRenderAs = (
+    | 'svg'
+    | 'canvas'
+    | 'table'
+);
+
+export type QrCodeRenderElement<E extends QrCodeRenderAs> = (
+    E extends 'svg' ? SVGSVGElement :
+    E extends 'canvas' ? HTMLCanvasElement :
+    E extends 'table' ? HTMLTableElement :
+    never
+);
+
+export type QrCodeImageSettings = {
+    src: string;
+    width ?: number;
+    height ?: number;
+    positionX ?: number;
+    positionY ?: number;
+}
+
 /**
  * Style variations for qrcode parts
  */
@@ -59,7 +80,7 @@ type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' /* Default */ | 'Kanji';
 /**
  * Props of the QrCode Component
  */
-export type QrCodeProps = {
+export type QrCodeProps<E extends QrCodeRenderAs = 'canvas'> = {
 
     /**
      * Qrcode payload (required)
@@ -109,12 +130,7 @@ export type QrCodeProps = {
     /**
      * Location (src) of an image to be inserted into the center of the qrcode
      */
-    image ?: string;
-
-    /**
-     * Imagem a ser exibida em tamanho grande
-     */
-    imageBig ?: boolean;
+    image ?: string | QrCodeImageSettings;
 
     /**
      * For the image to overlay the qrcode without cropping it
@@ -151,19 +167,16 @@ export type QrCodeProps = {
      */
     bgRounded ?: boolean;
 
-    /**
-     * The canvas tag children
-     */
-    children ?: React.ReactNode;
+    renderAs ?: E;
 
     /**
-     * The canvas attributes
+     * The internal props attributes
      */
-    canvasProps ?: React.HTMLAttributes<HTMLCanvasElement>;
+    internalProps ?: React.HTMLAttributes<QrCodeRenderElement<E>>;
 
     /**
-     * Provides canvas properties and methods when available.
+     * Provides internal properties and methods when available.
      */
-    onReady ?: (canvas : HTMLCanvasElement) => void
+    onReady ?: (element : QrCodeRenderElement<E>) => void
 
 }

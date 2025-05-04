@@ -1,4 +1,4 @@
-export { default as QrCode } from './QrCodeCanvas';
+export { default as QrCode } from './QrCode';
 
 export type {
     QrCodeColor,
