@@ -11,6 +11,8 @@ import type { QrCodeColor, QrCodeColorEffect, QrCodePart, QrCodePartOption, QrCo
  */
 export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCodeProps<E>) {
 
+    const renderAs : QrCodeRenderAs = props.renderAs ?? 'canvas';
+
     const element : React.RefObject<QrCodeRenderElement<E>> = useRef<QrCodeRenderElement<E>>(null);
 
     const space = {
@@ -246,20 +248,44 @@ export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCo
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ props ]);
 
-    if(element.current instanceof HTMLCanvasElement) return (
-        //@ts-ignore
-        <canvas
-            { ...props.internalProps ?? {} }
-            style={ props.resize ? {
-                ...(props.internalProps?.style ?? {}),
-                width: props.resize,
-                height: props.resize
-            } : props.internalProps?.style }
-            ref={ element as React.RefObject<HTMLCanvasElement> }
-            width={ size + space.total }
-            height={ size + space.total }
-        ></canvas>
-    );
-    else <></>;
+    switch(renderAs) {
+
+        case 'table': return (
+
+            // FAZER
+            <table
+                { ...(props.internalProps as React.HTMLAttributes<HTMLTableElement>) ?? {} }
+                ref={ element as React.RefObject<HTMLTableElement> }
+            ></table>
+
+        );
+
+        case 'svg': return (
+
+            // FAZER
+            <svg
+                { ...(props.internalProps as React.HTMLAttributes<SVGSVGElement>) ?? {} }
+                ref={ element as React.RefObject<SVGSVGElement> }
+            ></svg>
+
+        );
+
+        default: return (
+
+            <canvas
+                { ...(props.internalProps as React.HTMLAttributes<HTMLCanvasElement>) ?? {} }
+                style={ props.resize ? {
+                    ...(props.internalProps?.style ?? {}),
+                    width: props.resize,
+                    height: props.resize
+                } : props.internalProps?.style }
+                ref={ element as React.RefObject<HTMLCanvasElement> }
+                width={ size + space.total }
+                height={ size + space.total }
+            ></canvas>
+
+        );
+
+    }
 
 }
