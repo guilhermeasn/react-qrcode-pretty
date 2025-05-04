@@ -1,22 +1,6 @@
-export type CanvasRectangleProps = {
-    canvas2d  : CanvasRenderingContext2D;
-    positionX : number;
-    positionY : number;
-    width     : number;
-    height    : number;
-    fill     ?: string | CanvasGradient | CanvasPattern | null;
-    stroke   ?: string | CanvasGradient | CanvasPattern | null; 
-    radius   ?: number | Edge;
-}
+import { Edge, QrCodeRectangleProps } from "./types";
 
-export type Edge = {
-    top_left     ?: number;
-    top_right    ?: number;
-    bottom_left  ?: number;
-    bottom_right ?: number;
-}
-
-export default function canvasRectangle(props : CanvasRectangleProps) {
+export default function canvasRectangle(context: CanvasRenderingContext2D, props : QrCodeRectangleProps) {
 
     const radius : Required<Edge> = ( typeof props.radius === 'number' || !props.radius ) ? {
         top_left:     props.radius ?? 0,
@@ -32,32 +16,32 @@ export default function canvasRectangle(props : CanvasRectangleProps) {
     }
     
     
-    props.canvas2d.beginPath();
+    context.beginPath();
 
-    props.canvas2d.moveTo(props.positionX + radius.top_left, props.positionY);
+    context.moveTo(props.positionX + radius.top_left, props.positionY);
 
-    props.canvas2d.lineTo(props.positionX + props.width - radius.top_right, props.positionY);
-    props.canvas2d.quadraticCurveTo(props.positionX + props.width, props.positionY, props.positionX + props.width, props.positionY + radius.top_right);
+    context.lineTo(props.positionX + props.width - radius.top_right, props.positionY);
+    context.quadraticCurveTo(props.positionX + props.width, props.positionY, props.positionX + props.width, props.positionY + radius.top_right);
 
-    props.canvas2d.lineTo(props.positionX + props.width, props.positionY + props.height - radius.bottom_right);
-    props.canvas2d.quadraticCurveTo(props.positionX + props.width, props.positionY + props.height, props.positionX + props.width - radius.bottom_right, props.positionY + props.height);
+    context.lineTo(props.positionX + props.width, props.positionY + props.height - radius.bottom_right);
+    context.quadraticCurveTo(props.positionX + props.width, props.positionY + props.height, props.positionX + props.width - radius.bottom_right, props.positionY + props.height);
 
-    props.canvas2d.lineTo(props.positionX + radius.bottom_left, props.positionY + props.height);
-    props.canvas2d.quadraticCurveTo(props.positionX, props.positionY + props.height, props.positionX, props.positionY + props.height - radius.bottom_left);
+    context.lineTo(props.positionX + radius.bottom_left, props.positionY + props.height);
+    context.quadraticCurveTo(props.positionX, props.positionY + props.height, props.positionX, props.positionY + props.height - radius.bottom_left);
 
-    props.canvas2d.lineTo(props.positionX, props.positionY + radius.top_left);
-    props.canvas2d.quadraticCurveTo(props.positionX, props.positionY, props.positionX + radius.top_left, props.positionY);
+    context.lineTo(props.positionX, props.positionY + radius.top_left);
+    context.quadraticCurveTo(props.positionX, props.positionY, props.positionX + radius.top_left, props.positionY);
 
     if(props.fill) {
-        props.canvas2d.fillStyle = props.fill;
-        props.canvas2d.fill();
+        context.fillStyle = props.fill;
+        context.fill();
     }
     
     if(props.stroke) {
-        props.canvas2d.strokeStyle = props.stroke;
-        props.canvas2d.stroke();
+        context.strokeStyle = props.stroke;
+        context.stroke();
     }
 
-    props.canvas2d.closePath();
+    context.closePath();
 
 }

@@ -180,3 +180,20 @@ export type QrCodeProps<E extends QrCodeRenderAs = 'canvas'> = {
     onReady ?: (element : QrCodeRenderElement<E>) => void
 
 }
+
+export type QrCodeRectangleProps = {
+    positionX : number;
+    positionY : number;
+    width     : number;
+    height    : number;
+    fill     ?: string | null;
+    stroke   ?: string | null; 
+    radius   ?: number | Edge;
+}
+
+export type Edge = {
+    top_left     ?: number;
+    top_right    ?: number;
+    bottom_left  ?: number;
+    bottom_right ?: number;
+}

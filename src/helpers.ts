@@ -1,3 +1,5 @@
+import { QrCodePart } from "./types";
+
 type ColorRGB = {
     r : number;
     g : number;
@@ -58,4 +60,17 @@ export function getRandomColor(colorBase: string) : string {
     const min : number = level === 'dark' ? 0 : level === 'medium' ? 63 : 127;
     const max : number = level === 'dark' ? 127 : level === 'medium' ? 191 : 255;
     return colorRGBtoHex({ r: getRandomInt(min, max), g: getRandomInt(min, max), b: getRandomInt(min, max) });
+}
+
+export function qrCodePartNormalize<T>(defaultReturn : T, part : undefined | null | T | QrCodePart<T>) : QrCodePart<T> {
+
+    return (part
+        && typeof part === 'object'
+        && 'eyes' in part
+        && 'body' in part
+    ) ? part : {
+        eyes: part ?? defaultReturn,
+        body: part ?? defaultReturn
+    };
+    
 }

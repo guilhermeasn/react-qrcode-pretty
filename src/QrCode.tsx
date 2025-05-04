@@ -1,9 +1,8 @@
 import qrcodeGenerator from 'qrcode-generator';
 import React, { useEffect, useRef } from 'react';
-import type { CanvasRectangleProps } from './canvasRectangle';
 import canvasRectangle from './canvasRectangle';
-import { colorGradient, getRandomColor } from './helpers';
-import type { QrCodeColor, QrCodeColorEffect, QrCodePart, QrCodePartOption, QrCodeProps, QrCodeRenderAs, QrCodeRenderElement, QrCodeStyle } from './types';
+import { colorGradient, getRandomColor, qrCodePartNormalize } from './helpers';
+import type { QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeProps, QrCodeRectangleProps, QrCodeRenderAs, QrCodeRenderElement, QrCodeStyle } from './types';
 
 /**
  * QrCode React Component
@@ -12,7 +11,6 @@ import type { QrCodeColor, QrCodeColorEffect, QrCodePart, QrCodePartOption, QrCo
 export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCodeProps<E>) {
 
     const renderAs : QrCodeRenderAs = props.renderAs ?? 'canvas';
-
     const element : React.RefObject<QrCodeRenderElement<E>> = useRef<QrCodeRenderElement<E>>(null);
 
     const space = {
@@ -21,32 +19,9 @@ export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCo
         total: ((props.margin ?? 0) + (props.padding ?? 0)) * 2
     }
 
-    const variant : QrCodePart<QrCodeStyle> = (
-        typeof props.variant === 'object'
-        && 'eyes' in props.variant
-        && 'body' in props.variant
-    ) ? props.variant : {
-        eyes: props.variant ?? 'standard',
-        body: props.variant ?? 'standard'
-    };
-
-    const color : QrCodePart<QrCodeColor> = (
-        typeof props.color === 'object'
-        && 'eyes' in props.color
-        && 'body' in props.color
-    ) ? props.color : {
-        eyes: props.color ?? '#000',
-        body: props.color ?? '#000'
-    };
-
-    const colorEffect : QrCodePart<QrCodeColorEffect> = (
-        typeof props.colorEffect === 'object'
-        && 'eyes' in props.colorEffect
-        && 'body' in props.colorEffect
-    ) ? props.colorEffect : {
-        eyes: props.colorEffect ?? 'none',
-        body: props.colorEffect ?? 'none'
-    };
+    const variant = qrCodePartNormalize<QrCodeStyle>('standard', props.variant);
+    const color = qrCodePartNormalize<QrCodeColor>('#000', props.color);
+    const colorEffect = qrCodePartNormalize<QrCodeColorEffect>('none', props.colorEffect);
 
     const getColor = (key : QrCodePartOption, col: number, row: number) : QrCodeColor => {
 
@@ -84,8 +59,7 @@ export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCo
         image.onload = () => {
             const size = Math.floor(modules * moduleSize / (big ? 4 : 5));
             const position = size * (big ? 1.5 : 2) + space.margin + space.padding;
-            if(clear) canvasRectangle({
-                canvas2d: context,
+            if(clear) canvasRectangle(context, {
                 height: size,
                 width: size,
                 positionX: position,
@@ -109,8 +83,7 @@ export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCo
 
             context.clearRect(0, 0, space.total + size, space.total + size);
 
-            canvasRectangle({
-                canvas2d: context,
+            canvasRectangle(context, {
                 height: space.padding * 2 + size,
                 width: space.padding * 2 + size,
                 positionX: space.margin,
@@ -133,7 +106,7 @@ export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCo
                     (col > moduleEyeEnd && row < moduleEyeStart)
                 ) ? 'eyes' : 'body';
 
-                let changer : Partial<CanvasRectangleProps> = {
+                let changer : Partial<QrCodeRectangleProps> = {
                     stroke: key === 'body' && props.divider ? (props.bgColor ?? '#FFF') : null
                 };
 
@@ -219,8 +192,7 @@ export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCo
                 }
 
                 if(element.current instanceof HTMLCanvasElement && context) {
-                    canvasRectangle({
-                        canvas2d: context,
+                    canvasRectangle(context, {
                         positionX: col * moduleSize + space.margin + space.padding,
                         positionY: row * moduleSize + space.margin + space.padding,
                         height: moduleSize,
