@@ -29,19 +29,6 @@ export type QrCodePart<T> = (
     Record<QrCodePartOption, T>
 );
 
-export type QrCodeRenderAs = (
-    | 'svg'
-    | 'canvas'
-    | 'table'
-);
-
-export type QrCodeRenderElement<E extends QrCodeRenderAs> = (
-    E extends 'svg' ? SVGSVGElement :
-    E extends 'canvas' ? HTMLCanvasElement :
-    E extends 'table' ? HTMLTableElement :
-    never
-);
-
 export type QrCodeImageSettings = {
     src: string;
     width ?: number;
@@ -80,7 +67,7 @@ type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' /* Default */ | 'Kanji';
 /**
  * Props of the QrCode Component
  */
-export type QrCodeProps<E extends QrCodeRenderAs = 'canvas'> = {
+export type QrCodeBaseProps = {
 
     /**
      * Qrcode payload (required)
@@ -167,18 +154,10 @@ export type QrCodeProps<E extends QrCodeRenderAs = 'canvas'> = {
      */
     bgRounded ?: boolean;
 
-    renderAs ?: E;
+}
 
-    /**
-     * The internal props attributes
-     */
-    internalProps ?: React.HTMLAttributes<QrCodeRenderElement<E>>;
-
-    /**
-     * Provides internal properties and methods when available.
-     */
-    onReady ?: (element : QrCodeRenderElement<E>) => void
-
+export type QrCodeCanvasProps = QrCodeBaseProps & {
+    
 }
 
 export type QrCodeRectangleProps = {
