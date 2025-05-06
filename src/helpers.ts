@@ -1,4 +1,4 @@
-import { QrCodePart } from "./types";
+import { QrCodePart, QrCodeRadius, QrCodeStyle, QrCodeWrapped } from "./types";
 
 type ColorRGB = {
     r : number;
@@ -73,4 +73,73 @@ export function qrCodePartNormalize<T>(defaultReturn : T, part : undefined | nul
         body: part ?? defaultReturn
     };
     
+}
+
+export function qrCodeStyleRadius(
+    variant : QrCodeStyle,
+    moduleSize : number,
+    modules: number,
+    wrapped : QrCodeWrapped,
+    row: number,
+    col: number
+) : QrCodeRadius {
+
+    const radius = moduleSize / 1.6;
+
+    switch(variant) {
+
+        case 'dots': return radius;
+
+        case 'rounded': return moduleSize / 2;
+
+        case 'circle': return {
+            top_left:     !wrapped.col.before && !wrapped.row.before && wrapped.col.after && wrapped.row.after ? moduleSize * 1.5 : 0,
+            top_right:    wrapped.col.before && !wrapped.row.before && !wrapped.col.after && wrapped.row.after ? moduleSize * 1.5 : 0,
+            bottom_left:  !wrapped.col.before && wrapped.row.before && wrapped.col.after && !wrapped.row.after ? moduleSize * 1.5 : 0,
+            bottom_right: wrapped.col.before && wrapped.row.before && !wrapped.col.after && !wrapped.row.after ? moduleSize * 1.5 : 0
+        };
+        
+        case 'fluid': return {
+            top_right:    !wrapped.col.after  && !wrapped.row.before ? radius : 0,
+            top_left:     !wrapped.col.before && !wrapped.row.before ? radius : 0,
+            bottom_right: !wrapped.col.after  && !wrapped.row.after  ? radius : 0,
+            bottom_left:  !wrapped.col.before && !wrapped.row.after  ? radius : 0
+        };
+
+        case 'reverse': return {
+            top_right:    wrapped.col.after  && wrapped.row.before ? radius : 0,
+            top_left:     wrapped.col.before && wrapped.row.before ? radius : 0,
+            bottom_right: wrapped.col.after  && wrapped.row.after  ? radius : 0,
+            bottom_left:  wrapped.col.before && wrapped.row.after  ? radius : 0
+        };
+            
+
+        case 'morse': return !wrapped.col.before && !wrapped.col.after ? radius : {
+            top_left:     !wrapped.col.before ? radius : 0,
+            bottom_left:  !wrapped.col.before ? radius : 0,
+            top_right:    !wrapped.col.after  ? radius : 0,
+            bottom_right: !wrapped.col.after  ? radius : 0
+        };
+
+        
+        case 'shower': return !wrapped.row.before && !wrapped.row.after ? radius : {
+            top_left:     !wrapped.row.before ? radius : 0,
+            top_right:    !wrapped.row.before ? radius : 0,
+            bottom_left:  !wrapped.row.after  ? radius : 0,
+            bottom_right: !wrapped.row.after  ? radius : 0
+        };
+
+        case 'gravity':
+            const half = Math.floor(modules / 2);
+            return {
+                top_right:    !wrapped.col.after  && !wrapped.row.before && !(row > half && col < half) ? radius : 0,
+                top_left:     !wrapped.col.before && !wrapped.row.before && !(row > half && col > half) ? radius : 0,
+                bottom_right: !wrapped.col.after  && !wrapped.row.after  && !(row < half && col < half) ? radius : 0,
+                bottom_left:  !wrapped.col.before && !wrapped.row.after  && !(row < half && col > half) ? radius : 0
+            };
+
+        default: return 0;
+
+    }
+
 }
