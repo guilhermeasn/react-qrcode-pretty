@@ -1,4 +1,6 @@
 export { default as QrCodeCanvas } from './QrCodeCanvas';
+export { default as QrCodeSVG } from './QrCodeSVG';
+export { default as QrCodeTable } from './QrCodeTable';
 
 export type {
     QrCodeCanvasProps,
