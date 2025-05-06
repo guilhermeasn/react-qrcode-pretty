@@ -1,10 +1,13 @@
-export { default as QrCode } from './QrCode';
+export { default as QrCodeCanvas } from './QrCodeCanvas';
 
 export type {
+    QrCodeCanvasProps,
     QrCodeColor,
     QrCodeColorEffect,
     QrCodePart,
     QrCodePartOption,
-    QrCodeProps,
-    QrCodeStyle
+    QrCodeStyle,
+    QrCodeSVGProps,
+    QrCodeTableProps
 } from './types';
+

@@ -1,3 +1,5 @@
+import type { HTMLAttributes, SVGProps } from "react";
+
 /**
  * Color string
  */
@@ -65,9 +67,9 @@ type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
 type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' /* Default */ | 'Kanji';
 
 /**
- * Props of the QrCode Component
+ * Common props of the QrCode Components
  */
-export type QrCodeBaseProps = {
+type QrCodeBaseProps = {
 
     /**
      * Qrcode payload (required)
@@ -156,9 +158,69 @@ export type QrCodeBaseProps = {
 
 }
 
-export type QrCodeCanvasProps = QrCodeBaseProps & {
+export type QrCodeCanvasProps = Expose<QrCodeBaseProps & {
     
-}
+    /**
+     * The canvas tag children
+     */
+    children ?: React.ReactNode;
+
+    /**
+     * The canvas attributes
+     */
+    canvasProps ?: HTMLAttributes<HTMLCanvasElement>;
+
+    /**
+     * Provides canvas properties and methods when available.
+     */
+    onReady ?: (canvas : HTMLCanvasElement) => void
+
+    /**
+     * Download QrCode.
+     */
+    onDownload ?: () => void
+
+}>
+
+export type QrCodeSVGProps = Expose<QrCodeBaseProps & {
+
+    /**
+     * The svg attributes
+     */
+    svgProps ?: SVGProps<SVGSVGElement>;
+
+    /**
+     * Download QrCode.
+     */
+    onDownload ?: () => void
+
+}>
+
+export type QrCodeTableProps = Expose<QrCodeBaseProps & {
+
+    /**
+     * The table html attributes
+     */
+    tableProps ?: HTMLAttributes<HTMLTableElement>;
+
+    /**
+     * Whithout inline styles
+     */
+    noStyled ?: boolean;
+
+    /**
+     * Default CSS Class Names
+     */
+    defaultClassNames ?: {
+        root: 'qrcode-table',
+        line: 'qrcode-table-line',
+        eyes: 'qrcode-table-eyes',
+        body: 'qrcode-table-body',
+        filled: 'qrcode-table-filled'
+        unfilled: 'qrcode-table-unfilled'
+    }
+
+}>
 
 export type QrCodeRectangleProps = {
     positionX : number;
@@ -183,3 +245,12 @@ export type QrCodeWrapped = Record<'row' | 'col', {
     before: boolean;
     after: boolean;
 }>;
+
+/**
+ * Forces intellisense to display the built-in types of a complex type
+ */
+type Expose<T> = (
+    T extends (...args: infer A) => infer R ? (...args: A) => R :
+    T extends object ? T extends infer O ?
+    { [K in keyof O]: O[K] } : never : T
+);

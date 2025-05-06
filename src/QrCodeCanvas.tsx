@@ -2,15 +2,14 @@ import qrcodeGenerator from 'qrcode-generator';
 import React, { useEffect, useRef } from 'react';
 import canvasRectangle from './canvasRectangle';
 import { colorGradient, getRandomColor, qrCodePartNormalize } from './helpers';
-import type { QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeProps, QrCodeRadius, QrCodeRectangleProps, QrCodeRenderAs, QrCodeRenderElement, QrCodeStyle, QrCodeWrapped } from './types';
+import type { QrCodeCanvasProps, QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeRadius, QrCodeRectangleProps, QrCodeRenderElement, QrCodeStyle, QrCodeWrapped } from './types';
 
 /**
  * QrCode React Component
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
-export default function QrCode<E extends QrCodeRenderAs = 'canvas'>(props : QrCodeProps<E>) {
+export default function QrCodeCanvas(props : QrCodeCanvasProps) {
 
-    const renderAs : QrCodeRenderAs = props.renderAs ?? 'canvas';
     const element : React.RefObject<QrCodeRenderElement<E>> = useRef<QrCodeRenderElement<E>>(null);
 
     const space = {
