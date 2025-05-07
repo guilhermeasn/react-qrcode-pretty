@@ -1,7 +1,7 @@
 import qrcodeGenerator from 'qrcode-generator';
 import React, { useEffect, useRef } from 'react';
 import canvasRectangle from './canvasRectangle';
-import { colorGradient, getRandomColor, qrCodePartNormalize, qrCodeStyleRadius } from './helpers';
+import { getColor, qrCodePartNormalize, qrCodeStyleRadius } from './helpers';
 import type { QrCodeCanvasProps, QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeRectangleProps, QrCodeStyle, QrCodeWrapped } from './types';
 
 /**
@@ -21,25 +21,6 @@ export default function QrCodeCanvas(props : QrCodeCanvasProps) {
     const variant = qrCodePartNormalize<QrCodeStyle>('standard', props.variant);
     const color = qrCodePartNormalize<QrCodeColor>('#000', props.color);
     const colorEffect = qrCodePartNormalize<QrCodeColorEffect>('none', props.colorEffect);
-
-    const getColor = (key : QrCodePartOption, col: number, row: number) : QrCodeColor => {
-
-        switch(colorEffect[key]) {
-
-            case 'gradient-dark-vertical': return colorGradient(color[key], row * -3);
-            case 'gradient-dark-horizontal': return colorGradient(color[key], col * -3);
-            case 'gradient-dark-diagonal': return colorGradient(color[key], (col + row) * -2);
-            case 'gradient-light-vertical': return colorGradient(color[key], row * 3);
-            case 'gradient-light-horizontal': return colorGradient(color[key], col * 3);
-            case 'gradient-light-diagonal': return colorGradient(color[key], (col + row) * 2);
-            
-            case 'colored': return getRandomColor(color[key]);
-
-            default: return color[key];
-
-        }
-
-    }
 
     const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? props.image ? 'H' : 'M');
     qrcode.addData(props.value ?? '', props.mode);
@@ -128,7 +109,7 @@ export default function QrCodeCanvas(props : QrCodeCanvasProps) {
                     positionY: row * moduleSize + space.margin + space.padding,
                     height: moduleSize,
                     width: moduleSize,
-                    fill: getColor(key, col, row),
+                    fill: getColor(color[key], colorEffect[key], col, row),
                     ...changer
                 });
 

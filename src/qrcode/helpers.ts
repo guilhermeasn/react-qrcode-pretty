@@ -1,4 +1,4 @@
-import { QrCodePart, QrCodeRadius, QrCodeStyle, QrCodeWrapped } from "./types";
+import { QrCodeColor, QrCodeColorEffect, QrCodePart, QrCodeRadius, QrCodeStyle, QrCodeWrapped } from "./types";
 
 type ColorRGB = {
     r : number;
@@ -139,6 +139,25 @@ export function qrCodeStyleRadius(
             };
 
         default: return 0;
+
+    }
+
+}
+
+export function getColor(color : QrCodeColor, effect : QrCodeColorEffect , col: number, row: number) : QrCodeColor {
+
+    switch(effect) {
+
+        case 'gradient-dark-vertical': return colorGradient(color, row * -3);
+        case 'gradient-dark-horizontal': return colorGradient(color, col * -3);
+        case 'gradient-dark-diagonal': return colorGradient(color, (col + row) * -2);
+        case 'gradient-light-vertical': return colorGradient(color, row * 3);
+        case 'gradient-light-horizontal': return colorGradient(color, col * 3);
+        case 'gradient-light-diagonal': return colorGradient(color, (col + row) * 2);
+        
+        case 'colored': return getRandomColor(color);
+
+        default: return color;
 
     }
 

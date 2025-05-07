@@ -16,10 +16,11 @@ export type UseQrCodeDownload = [
 ];
 
 /**
- * React Hook to download Qrcode
+ * React Hook to download Qrcode Canvas (PNG) or SVG
+ * @param [suffix=''] add a suffix to the file name to download
  * @returns [ setQrcode, onDownload, isReady ]
  */
-export function useQrCodeDownload(sufix : string = '') : UseQrCodeDownload {
+export function useQrCodeDownload(suffix : string = '') : UseQrCodeDownload {
     
     const [ qrcode, setQrcode ] = useState<HTMLCanvasElement | SVGSVGElement | null>(null);
     const isCanvas : boolean = qrcode instanceof HTMLCanvasElement;
@@ -28,7 +29,7 @@ export function useQrCodeDownload(sufix : string = '') : UseQrCodeDownload {
         setQrcode,
         (fileName : string) => { if(qrcode) download(
             isCanvas ? (qrcode as HTMLCanvasElement).toDataURL('png') : new Blob([qrcode.outerHTML], {type:"image/svg+xml;charset=utf-8"}),
-            fileName + sufix + (isCanvas ? '.png' : '.svg'),
+            fileName + suffix + (isCanvas ? '.png' : '.svg'),
             isCanvas ? 'image/png' : 'image/svg+xml'
         ) },
         qrcode !== null
