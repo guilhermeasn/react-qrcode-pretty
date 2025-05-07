@@ -172,13 +172,9 @@ export type QrCodeCanvasProps = Expose<QrCodeBaseProps & {
 
     /**
      * Provides canvas properties and methods when available.
+     * To be used with the useQrCodeDownload hook
      */
     onReady ?: (canvas : HTMLCanvasElement) => void
-
-    /**
-     * Download QrCode.
-     */
-    onDownload ?: () => void
 
 }>
 
@@ -190,9 +186,10 @@ export type QrCodeSVGProps = Expose<QrCodeBaseProps & {
     svgProps ?: SVGProps<SVGSVGElement>;
 
     /**
-     * Download QrCode.
+     * Provides canvas properties and methods when available.
+     * To be used with the useQrCodeDownload hook.
      */
-    onDownload ?: () => void
+    onReady ?: (SVG : SVGSVGElement) => void
 
 }>
 
