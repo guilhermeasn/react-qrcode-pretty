@@ -1,3 +1,5 @@
+### UPDATE THIS ###
+
 # react-qrcode-pretty
 
 [![pages-build-deployment](https://github.com/guilhermeasn/react-qrcode-pretty/actions/workflows/pages/pages-build-deployment/badge.svg?branch=example)](https://guilhermeasn.github.io/react-qrcode-pretty/)

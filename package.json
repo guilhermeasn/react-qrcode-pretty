@@ -21,11 +21,13 @@
   },
   "homepage": "https://github.com/guilhermeasn/react-qrcode-pretty#readme",
   "devDependencies": {
+    "@types/downloadjs": "^1.4.6",
     "@types/react": "^18.0.17",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "downloadjs": "^1.4.7",
     "qrcode-generator": "^1.4.4"
   },
   "peerDependencies": {
