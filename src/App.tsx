@@ -1,10 +1,9 @@
-import download from 'downloadjs';
 import { useState } from "react";
 import { Accordion, Button, Col, Container, FloatingLabel, Form, Navbar, Row } from "react-bootstrap";
 import Code from './Code';
 
-import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "react-qrcode-pretty";
-// import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "./qrcode";
+// import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "react-qrcode-pretty";
+import { QrCodeCanvas, QrCodeCanvasProps, QrCodeColorEffect, QrCodeStyle, useQrCodeDownload } from "./qrcode";
 
 export default function App() {
 
@@ -31,9 +30,9 @@ export default function App() {
         'none'
     ];
 
-    const [ canvas, setCanvas ] = useState<HTMLCanvasElement | null>(null);
+    const [ setQrcode, onDownload, isReady ] = useQrCodeDownload();
 
-    const [ props, setProps ] = useState<QrCodeProps>({
+    const [ props, setProps ] = useState<QrCodeCanvasProps>({
         value:'react-qrcode-pretty',
         variant: {
             eyes: 'gravity',
@@ -55,7 +54,7 @@ export default function App() {
         margin: 20,
         bgRounded: true,
         divider: true,
-        onReady: setCanvas
+        onReady: setQrcode
     });
     
     return <>
@@ -96,14 +95,14 @@ export default function App() {
                                     onChange={ () => setProps({ ...props, image: props.image ? undefined : './scanme.png' }) }
                                 />
 
-                                <Form.Check
+                                {/* <Form.Check
                                     className='mx-2'
                                     type="switch"
                                     checked={ !!props.image && props.imageBig }
                                     label='Imagem Big'
                                     onChange={ () => setProps({ ...props, imageBig: !props.imageBig }) }
                                     disabled={ !props.image }
-                                />
+                                /> */}
 
                                 <Form.Check
                                     className='mx-2'
@@ -228,14 +227,14 @@ export default function App() {
                             </Accordion.Item>
                         </Accordion>
 
-                        <QrCode { ...props } /><br/>
+                        <QrCodeCanvas { ...props } /><br/>
                         
                         <Button
                             className='mb-3'
-                            onClick={ () => !!canvas && download(canvas.toDataURL('png'), 'qrcode.png', 'image/png') }
+                            onClick={ () => onDownload('qrcode') }
                             variant='outline-primary'
                             title="Download qrcode"
-                            disabled={ !canvas }
+                            disabled={ !isReady }
                         >Download</Button>
 
                     </Col>
