@@ -28,7 +28,7 @@ export function useQrCodeDownload(suffix : string = '') : UseQrCodeDownload {
     return [
         setQrcode,
         (fileName : string) => { if(qrcode) download(
-            isCanvas ? (qrcode as HTMLCanvasElement).toDataURL('png') : new Blob([qrcode.outerHTML], {type:"image/svg+xml;charset=utf-8"}),
+            isCanvas ? (qrcode as HTMLCanvasElement).toDataURL('image/png') : new Blob([qrcode.outerHTML], {type:"image/svg+xml;charset=utf-8"}),
             fileName + suffix + (isCanvas ? '.png' : '.svg'),
             isCanvas ? 'image/png' : 'image/svg+xml'
         ) },
