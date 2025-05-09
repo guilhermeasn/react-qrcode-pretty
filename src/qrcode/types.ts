@@ -37,6 +37,7 @@ export type QrCodeImageSettings = {
     height ?: number;
     positionX ?: number;
     positionY ?: number;
+    overlap ?: boolean;
 }
 
 /**
@@ -82,11 +83,6 @@ type QrCodeBaseProps = {
     size ?: number;
 
     /**
-     * Resize ready qrcode with CSS
-     */
-     resize ?: number;
-
-    /**
      * Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode
      */
     color ?: QrCodeColor | QrCodePart<QrCodeColor>;
@@ -120,11 +116,6 @@ type QrCodeBaseProps = {
      * Location (src) of an image to be inserted into the center of the qrcode
      */
     image ?: string | QrCodeImageSettings;
-
-    /**
-     * For the image to overlay the qrcode without cropping it
-     */
-    overlap ?: boolean;
 
     /**
      * Margin size. Area without background color

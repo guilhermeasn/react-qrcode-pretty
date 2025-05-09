@@ -1,4 +1,4 @@
-import { QrCodeColor, QrCodeColorEffect, QrCodePart, QrCodeRadius, QrCodeStyle, QrCodeWrapped } from "./types";
+import { QrCodeColor, QrCodeColorEffect, QrCodeImageSettings, QrCodePart, QrCodeRadius, QrCodeStyle, QrCodeWrapped } from "./types";
 
 type ColorRGB = {
     r : number;
@@ -73,6 +73,12 @@ export function qrCodePartNormalize<T>(defaultReturn : T, part : undefined | nul
         body: part ?? defaultReturn
     };
     
+}
+
+export function qrCodeImageNormalize(imageSet ?: string | QrCodeImageSettings) : QrCodeImageSettings | null {
+    if(imageSet && typeof imageSet === 'object') return imageSet;
+    if(typeof imageSet === 'string') return { src: imageSet };
+    return null;
 }
 
 export function qrCodeStyleRadius(

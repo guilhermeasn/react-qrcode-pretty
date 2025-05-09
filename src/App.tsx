@@ -92,7 +92,7 @@ export default function App() {
                                     type="switch"
                                     checked={ !!props.image }
                                     label='Imagem'
-                                    onChange={ () => setProps({ ...props, image: props.image ? undefined : './scanme.png' }) }
+                                    onChange={ () => setProps({ ...props, image: props.image ? undefined : { src: './scanme.png', positionX: 100, positionY: 100, width: 50, overlap: true } }) }
                                 />
 
                                 {/* <Form.Check
@@ -102,7 +102,7 @@ export default function App() {
                                     label='Imagem Big'
                                     onChange={ () => setProps({ ...props, imageBig: !props.imageBig }) }
                                     disabled={ !props.image }
-                                /> */}
+                                />
 
                                 <Form.Check
                                     className='mx-2'
@@ -111,7 +111,7 @@ export default function App() {
                                     label='Imagem Overlap'
                                     onChange={ () => setProps({ ...props, overlap: !props.overlap }) }
                                     disabled={ !props.image }
-                                />
+                                /> */}
 
                             </div>
 
