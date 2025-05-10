@@ -3,7 +3,7 @@ import { Accordion, Button, Col, Container, FloatingLabel, Form, Navbar, Row } f
 import Code from './Code';
 
 // import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "react-qrcode-pretty";
-import { QrCodeColorEffect, QrCodeProps, QrCodeStyle, QrCodeSVG, useQrCodeDownload } from "./qrcode";
+import { QrCodeCanvas, QrCodeColorEffect, QrCodeFormat, QrCodeProps, QrCodeStyle, QrCodeSVG, useQrCodeDownload } from "./qrcode";
 
 export default function App() {
 
@@ -30,9 +30,11 @@ export default function App() {
         'none'
     ];
 
+    const [ format, setFormat ] = useState<QrCodeFormat>('canvas');
+
     const [ setQrcode, onDownload, isReady ] = useQrCodeDownload();
 
-    const [ props, setProps ] = useState<QrCodeProps<'SVG'>>({
+    const [ props, setProps ] = useState<QrCodeProps<typeof format>>({
         value:'react-qrcode-pretty',
         variant: {
             eyes: 'gravity',
@@ -47,9 +49,9 @@ export default function App() {
             body: 'none'
         },
         bgColor: '#ddeeff',
-        internalProps: {
-            className: 'img-fluid my-2'
-        },
+        // internalProps: {
+        //     className: 'img-fluid my-2'
+        // },
         padding: 20,
         margin: 20,
         bgRounded: true,
@@ -92,26 +94,22 @@ export default function App() {
                                     type="switch"
                                     checked={ !!props.image }
                                     label='Imagem'
-                                    onChange={ () => setProps({ ...props, image: props.image ? undefined : { src: './scanme.png', positionX: 100, positionY: 100, width: 50, overlap: true } }) }
-                                />
-
-                                {/* <Form.Check
-                                    className='mx-2'
-                                    type="switch"
-                                    checked={ !!props.image && props.imageBig }
-                                    label='Imagem Big'
-                                    onChange={ () => setProps({ ...props, imageBig: !props.imageBig }) }
-                                    disabled={ !props.image }
+                                    onChange={ () => setProps({ ...props, image: props.image ? undefined : { src: './scanme.png' } }) }
                                 />
 
                                 <Form.Check
                                     className='mx-2'
                                     type="switch"
-                                    checked={ !!props.image && props.overlap }
+                                    checked={ props.image && typeof props.image === 'object' ? props.image.overlap : false }
                                     label='Imagem Overlap'
-                                    onChange={ () => setProps({ ...props, overlap: !props.overlap }) }
+                                    onChange={ () => setProps({ 
+                                        ...props, 
+                                        image: typeof props.image === 'object' 
+                                            ? { ...props.image, overlap: !props.image.overlap } 
+                                            : props.image 
+                                    }) }
                                     disabled={ !props.image }
-                                /> */}
+                                />
 
                             </div>
 
@@ -121,6 +119,16 @@ export default function App() {
                                     maxLength={ 500 }
                                     onChange={ (input: any) => setProps({ ...props, value: input.currentTarget.value }) }
                                 />
+                            </FloatingLabel>
+
+                            <FloatingLabel label='Format' className="mb-3">
+                                <Form.Select
+                                    value={ format }
+                                    onChange={ (input: any) => setFormat(input.currentTarget.value) }
+                                >
+                                    <option value='canvas'>Canvas (.png)</option>
+                                    <option value='SVG'>SVG (.svg)</option>
+                                </Form.Select>
                             </FloatingLabel>
 
                             <hr />
@@ -227,7 +235,10 @@ export default function App() {
                             </Accordion.Item>
                         </Accordion>
 
-                        <QrCodeSVG { ...props } /><br/>
+                        { format ===  'canvas'
+                            ? <QrCodeCanvas { ...props } />
+                            : <QrCodeSVG { ...props } />
+                        }<br/>
                         
                         <Button
                             className='mb-3'

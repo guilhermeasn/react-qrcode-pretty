@@ -15,3 +15,8 @@ code {
 a {
     text-decoration: none !important;
 }
+
+canvas, svg {
+    margin: 0;
+    padding: 0;
+}

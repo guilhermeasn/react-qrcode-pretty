@@ -169,7 +169,6 @@ export type QrCodeProps<F extends QrCodeFormat> = {
 
 }
 
-
 export type QrCodeRectangleProps = {
     positionX : number;
     positionY : number;
