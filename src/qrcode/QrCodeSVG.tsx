@@ -1,9 +1,29 @@
 import qrcodeGenerator from 'qrcode-generator';
-import { useEffect, useRef } from 'react';
-import { getColor, qrCodeImageNormalize, qrCodePartNormalize, qrCodeStyleRadius } from './helpers';
-import rectanglePath from './rectanglePath';
-import type { QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeProps, QrCodeStyle, QrCodeWrapped } from './types';
+import React, { useEffect, useRef } from 'react';
 
+import rectanglePath from './rectanglePath';
+
+import {
+    getColor,
+    qrCodeImageNormalize,
+    qrCodePartNormalize,
+    qrCodeStyleRadius
+} from './helpers';
+
+import type {
+    QrCodeColor,
+    QrCodeColorEffect,
+    QrCodeImageSettings,
+    QrCodePartOption,
+    QrCodeProps,
+    QrCodeStyle,
+    QrCodeWrapped
+} from './types';
+
+/**
+ * QrCode React Component
+ * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
+ */
 export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
 
     const SVG : React.RefObject<SVGSVGElement> = useRef<SVGSVGElement>(null);
@@ -25,28 +45,39 @@ export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
     const variant = qrCodePartNormalize<QrCodeStyle>('standard', props.variant);
     const color = qrCodePartNormalize<QrCodeColor>('#000', props.color);
     const colorEffect = qrCodePartNormalize<QrCodeColorEffect>('none', props.colorEffect);
-    const imagem = qrCodeImageNormalize(props.image);
 
-    const imageOverlap = imagem && !imagem?.overlap ? (
-        <rect
-            x={imagem.positionX ?? (size + space.total - (imagem.width ?? Math.floor(modules * moduleSize / 5))) / 2}
-            y={imagem.positionY ?? (size + space.total - (imagem.height ?? Math.floor(modules * moduleSize / 5))) / 2}
-            width={imagem.width ?? Math.floor(modules * moduleSize / 5)}
-            height={imagem.height ?? Math.floor(modules * moduleSize / 5)}
-            fill={ props.bgColor ?? '#FFF' }
-        />
-    ) : <></>;
+    const Image = () => {
 
-    const imageElement = imagem?.src ? (
-        <image
-            href={imagem.src}
-            width={imagem.width ?? Math.floor(modules * moduleSize / 5)}
-            height={imagem.height ?? Math.floor(modules * moduleSize / 5)}
-            x={imagem.positionX ?? (size + space.total - (imagem.width ?? Math.floor(modules * moduleSize / 5))) / 2}
-            y={imagem.positionY ?? (size + space.total - (imagem.height ?? Math.floor(modules * moduleSize / 5))) / 2}
-            preserveAspectRatio="xMidYMid meet"
-        />
-    ) : <></>;
+        if(!props.image) return <></>;
+
+        const image = qrCodeImageNormalize(props.image) as QrCodeImageSettings;
+        const size = Math.floor(modules * moduleSize / 5);
+        const position = size * 2 + space.margin + space.padding;
+
+        return <>
+
+            { image.overlap ? <></> : (
+                <rect
+                    width={image.width ?? size }
+                    height={image.height ?? size }
+                    x={ image.positionX ?? position }
+                    y={ image.positionY ?? position }
+                    fill={ props.bgColor ?? '#FFF' }
+                />
+            ) }
+
+            <image
+                href={ image.src }
+                width={ image.width ?? size }
+                height={ image.height ?? size }
+                x={ image.positionX ?? position }
+                y={ image.positionY ?? position }
+                preserveAspectRatio="xMidYMid meet"
+            />
+
+        </>;
+
+    }
 
     const rects: JSX.Element[] = [];
 
@@ -123,8 +154,7 @@ export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
                 rx={props.bgRounded ? 10 : 0}
             />
             { rects }
-            { imageOverlap }
-            { imageElement }
+            <Image />
         </svg>
     );
 }

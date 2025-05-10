@@ -93,7 +93,7 @@ export default function App() {
                                     className='mx-2'
                                     type="switch"
                                     checked={ !!props.image }
-                                    label='Imagem'
+                                    label='Image'
                                     onChange={ () => setProps({ ...props, image: props.image ? undefined : { src: './scanme.png' } }) }
                                 />
 
@@ -101,7 +101,7 @@ export default function App() {
                                     className='mx-2'
                                     type="switch"
                                     checked={ props.image && typeof props.image === 'object' ? props.image.overlap : false }
-                                    label='Imagem Overlap'
+                                    label='Image Overlap'
                                     onChange={ () => setProps({ 
                                         ...props, 
                                         image: typeof props.image === 'object' 

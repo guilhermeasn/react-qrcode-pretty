@@ -1,8 +1,25 @@
 import qrcodeGenerator from 'qrcode-generator';
 import React, { useEffect, useRef } from 'react';
-import { getColor, qrCodeImageNormalize, qrCodePartNormalize, qrCodeStyleRadius } from './helpers';
+
 import canvasRectangle from './rectangleCanvas';
-import type { QrCodeColor, QrCodeColorEffect, QrCodeImageSettings, QrCodePartOption, QrCodeProps, QrCodeRectangleProps, QrCodeStyle, QrCodeWrapped } from './types';
+
+import {
+    getColor,
+    qrCodeImageNormalize,
+    qrCodePartNormalize,
+    qrCodeStyleRadius
+} from './helpers';
+
+import type {
+    QrCodeColor,
+    QrCodeColorEffect,
+    QrCodeImageSettings,
+    QrCodePartOption,
+    QrCodeProps,
+    QrCodeRectangleProps,
+    QrCodeStyle,
+    QrCodeWrapped
+} from './types';
 
 /**
  * QrCode React Component
