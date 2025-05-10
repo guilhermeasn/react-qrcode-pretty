@@ -107,7 +107,9 @@ function QrcodeSvg(props) {
                     width: moduleSize,
                     positionX: x,
                     positionY: y,
-                    radius: (0, helpers_1.qrCodeStyleRadius)(variant[key], moduleSize, modules, wrapped, row, col)
+                    radius: typeof variant[key] === 'function'
+                        ? variant[key](key, moduleSize, modules, wrapped, row, col)
+                        : (0, helpers_1.qrCodeStyleRadius)(variant[key], moduleSize, modules, wrapped, row, col, key)
                 }), key: "".concat(row, "-").concat(col), fill: c, stroke: props.divider && key === 'body' ? ((_j = props.bgColor) !== null && _j !== void 0 ? _j : '#FFF') : undefined }));
         }
     }

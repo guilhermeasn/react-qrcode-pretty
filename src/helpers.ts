@@ -1,4 +1,4 @@
-import { QrcodeColor, QrcodeColorEffect, QrcodeImageSettings, QrcodePart, QrcodeRadius, QrcodeRadiusEdge, QrcodeStyle, QrcodeWrapped } from "./types";
+import { QrcodeColor, QrcodeColorEffect, QrcodeImageSettings, QrcodePart, QrcodePartOption, QrcodeRadius, QrcodeRadiusEdge, QrcodeStyle, QrcodeWrapped } from "./types";
 
 type ColorRGB = {
     r : number;
@@ -98,7 +98,8 @@ export function qrCodeStyleRadius(
     modules: number,
     wrapped : QrcodeWrapped,
     row: number,
-    col: number
+    col: number,
+    key: QrcodePartOption
 ) : QrcodeRadius {
 
     const radius = moduleSize / 1.6;
@@ -154,6 +155,13 @@ export function qrCodeStyleRadius(
                 bottom_right: !wrapped.col.after  && !wrapped.row.after  && !(row < half && col < half) ? radius : 0,
                 bottom_left:  !wrapped.col.before && !wrapped.row.after  && !(row < half && col > half) ? radius : 0
             };
+
+        case 'italic': return {
+            top_right: 0,
+            top_left: !wrapped.col.before && !wrapped.row.before ? (key === 'eyes' ? moduleSize * 1.2 : radius) : 0,
+            bottom_right: !wrapped.col.after  && !wrapped.row.after ? (key === 'eyes' ? moduleSize * 1.2 : radius) : 0,
+            bottom_left: 0
+        }
 
         default: return 0;
 

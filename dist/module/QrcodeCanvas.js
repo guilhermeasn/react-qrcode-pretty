@@ -80,7 +80,9 @@ export default function QrcodeCanvas(props) {
                         after: col < modules - 1 ? qrcode.isDark(row, col + 1) : false
                     }
                 };
-                changer.radius = qrCodeStyleRadius(variant[key], moduleSize, modules, wrapped, row, col);
+                changer.radius = typeof variant[key] === 'function'
+                    ? variant[key](key, moduleSize, modules, wrapped, row, col)
+                    : qrCodeStyleRadius(variant[key], moduleSize, modules, wrapped, row, col, key);
                 canvasRectangle(context, Object.assign({ positionX: col * moduleSize + space.margin + space.padding, positionY: row * moduleSize + space.margin + space.padding, height: moduleSize, width: moduleSize, fill: getColor(color[key], colorEffect[key], col, row) }, changer));
             }
         }

@@ -13,6 +13,7 @@ import {
 import type {
     QrcodeColor,
     QrcodeColorEffect,
+    QrcodeCustomStyle,
     QrcodeImageSettings,
     QrcodePartOption,
     QrcodeProps,
@@ -35,7 +36,7 @@ export default function QrcodeCanvas(props : QrcodeProps<'canvas'>) : JSX.Elemen
         total: ((props.margin ?? 0) + (props.padding ?? 0)) * 2
     }
 
-    const variant = qrCodePartNormalize<QrcodeStyle>('standard', props.variant);
+    const variant = qrCodePartNormalize<QrcodeStyle | QrcodeCustomStyle>('standard', props.variant);
     const color = qrCodePartNormalize<QrcodeColor>('#000', props.color);
     const colorEffect = qrCodePartNormalize<QrcodeColorEffect>('none', props.colorEffect);
     const imagem = qrCodeImageNormalize(props.image);
@@ -119,14 +120,9 @@ export default function QrcodeCanvas(props : QrcodeProps<'canvas'>) : JSX.Elemen
                     }
                 };
 
-                changer.radius = qrCodeStyleRadius(
-                    variant[key],
-                    moduleSize,
-                    modules,
-                    wrapped,
-                    row,
-                    col
-                );
+                changer.radius = typeof variant[key] === 'function'
+                    ? (variant[key] as QrcodeCustomStyle)(key, moduleSize, modules, wrapped, row, col)
+                    : qrCodeStyleRadius((variant[key] as QrcodeStyle), moduleSize, modules, wrapped, row, col, key);
                 
                 canvasRectangle(context, {
                     positionX: col * moduleSize + space.margin + space.padding,

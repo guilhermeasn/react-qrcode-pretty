@@ -68,7 +68,9 @@ export default function QrcodeSvg(props) {
                     width: moduleSize,
                     positionX: x,
                     positionY: y,
-                    radius: qrCodeStyleRadius(variant[key], moduleSize, modules, wrapped, row, col)
+                    radius: typeof variant[key] === 'function'
+                        ? variant[key](key, moduleSize, modules, wrapped, row, col)
+                        : qrCodeStyleRadius(variant[key], moduleSize, modules, wrapped, row, col, key)
                 }), key: `${row}-${col}`, fill: c, stroke: props.divider && key === 'body' ? ((_j = props.bgColor) !== null && _j !== void 0 ? _j : '#FFF') : undefined }));
         }
     }

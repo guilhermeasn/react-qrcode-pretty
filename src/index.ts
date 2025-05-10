@@ -39,11 +39,17 @@ export function useQrcodeDownload(suffix : string = '') : UseQrcodeDownload {
 export type {
     QrcodeColor,
     QrcodeColorEffect,
+    QrcodeCustomStyle,
     QrcodeElement,
     QrcodeFormat,
+    QrcodeImageSettings,
     QrcodePart,
     QrcodePartOption,
     QrcodeProps,
-    QrcodeStyle
+    QrcodeRadius,
+    QrcodeRadiusEdge,
+    QrcodeRectangleProps,
+    QrcodeStyle,
+    QrcodeWrapped
 } from './types';
 

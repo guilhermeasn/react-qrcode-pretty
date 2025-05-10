@@ -14,6 +14,7 @@ import {
 import type {
     QrcodeColor,
     QrcodeColorEffect,
+    QrcodeCustomStyle,
     QrcodeImageSettings,
     QrcodePartOption,
     QrcodeProps,
@@ -43,7 +44,7 @@ export default function QrcodeSvg(props: QrcodeProps<'SVG'>): JSX.Element {
         total: ((props.margin ?? 0) + (props.padding ?? 0)) * 2
     };
 
-    const variant = qrCodePartNormalize<QrcodeStyle>('standard', props.variant);
+    const variant = qrCodePartNormalize<QrcodeStyle | QrcodeCustomStyle>('standard', props.variant);
     const color = qrCodePartNormalize<QrcodeColor>('#000', props.color);
     const colorEffect = qrCodePartNormalize<QrcodeColorEffect>('none', props.colorEffect);
 
@@ -123,14 +124,9 @@ export default function QrcodeSvg(props: QrcodeProps<'SVG'>): JSX.Element {
                         width: moduleSize,
                         positionX: x,
                         positionY: y,
-                        radius: qrCodeStyleRadius(
-                            variant[key],
-                            moduleSize,
-                            modules,
-                            wrapped,
-                            row,
-                            col
-                        )
+                        radius: typeof variant[key] === 'function'
+                            ? (variant[key] as QrcodeCustomStyle)(key, moduleSize, modules, wrapped, row, col)
+                            : qrCodeStyleRadius((variant[key] as QrcodeStyle), moduleSize, modules, wrapped, row, col, key)
                     }) }
                     key={ `${row}-${col}` }
                     fill={ c }

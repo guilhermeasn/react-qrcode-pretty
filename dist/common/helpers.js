@@ -112,7 +112,7 @@ function qrCodeRadiusNormalize(radius) {
     } : __assign({ top_left: 0, top_right: 0, bottom_left: 0, bottom_right: 0 }, radius);
 }
 exports.qrCodeRadiusNormalize = qrCodeRadiusNormalize;
-function qrCodeStyleRadius(variant, moduleSize, modules, wrapped, row, col) {
+function qrCodeStyleRadius(variant, moduleSize, modules, wrapped, row, col, key) {
     var radius = moduleSize / 1.6;
     switch (variant) {
         case 'dots': return radius;
@@ -155,6 +155,12 @@ function qrCodeStyleRadius(variant, moduleSize, modules, wrapped, row, col) {
                 bottom_right: !wrapped.col.after && !wrapped.row.after && !(row < half && col < half) ? radius : 0,
                 bottom_left: !wrapped.col.before && !wrapped.row.after && !(row < half && col > half) ? radius : 0
             };
+        case 'italic': return {
+            top_right: 0,
+            top_left: !wrapped.col.before && !wrapped.row.before ? (key === 'eyes' ? moduleSize * 1.2 : radius) : 0,
+            bottom_right: !wrapped.col.after && !wrapped.row.after ? (key === 'eyes' ? moduleSize * 1.2 : radius) : 0,
+            bottom_left: 0
+        };
         default: return 0;
     }
 }
