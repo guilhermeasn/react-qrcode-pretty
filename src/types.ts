@@ -19,6 +19,9 @@ export type QrCodeColorEffect = (
     | 'none'
 );
 
+/**
+ * Qrcode Parts options
+ */
 export type QrCodePartOption = (
     | 'eyes'
     | 'body'
@@ -31,6 +34,9 @@ export type QrCodePart<T> = (
     Record<QrCodePartOption, T>
 );
 
+/**
+ * Settings for the image to be inserted into the qrcode
+ */
 export type QrCodeImageSettings = {
     src: string;
     width ?: number;
@@ -67,7 +73,14 @@ type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
 
 type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' /* Default */ | 'Kanji';
 
+/**
+ * Available formats for qrcode
+ */
 export type QrCodeFormat = 'canvas' | 'SVG';
+
+/**
+ * Qrcode html element
+ */
 export type QrCodeElement<F extends QrCodeFormat> = F extends 'canvas' ? HTMLCanvasElement : SVGSVGElement;
 
 /**
@@ -159,7 +172,6 @@ export type QrCodeProps<F extends QrCodeFormat> = {
      * The internal props attributes
      */
     internalProps ?: HTMLAttributes<QrCodeElement<F>>;
-
 
     /**
      * Provides element properties and methods when available.

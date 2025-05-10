@@ -1,5 +1,3 @@
-### UPDATE THIS ###
-
 # react-qrcode-pretty
 
 [![pages-build-deployment](https://github.com/guilhermeasn/react-qrcode-pretty/actions/workflows/pages/pages-build-deployment/badge.svg?branch=example)](https://guilhermeasn.github.io/react-qrcode-pretty/)
@@ -24,30 +22,33 @@ Or with Yarn
 yarn add react-qrcode-pretty
 ```
 
+## Resources
+
+- **QrCodeCanvas**: React Element to generate a Qrcode with canvas.
+- **QrCodeSVG**: React Element to generate a Qrcode with SVG.
+- **useQrCodeDownload**: React Hook to download Qrcode in browser.
+
 ## QrCode Props
 
 |Prop|Type|Default|Details|
 |---|---|---|---|
 | value | `string` | | Qrcode payload (required) |
 | size | `number` | auto | Size of the qrcode without margin and padding |
-| resize | `number` | undefined | Resize ready qrcode with CSS |
 | color | `string` <br /> `{ 'eyes': string, 'body': string }` | '#000000' | Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode |
 | colorEffect | `gradient-dark-vertical` <br /> `gradient-dark-horizontal` <br /> `gradient-dark-diagonal` <br /> `gradient-light-vertical` <br /> `gradient-light-horizontal` <br /> `gradient-light-diagonal` <br /> `colored` <br /> `none` <br /> `{ 'eyes': colorEffect, 'body': colorEffect }` | 'none' | Apply effects to coloring |
 | mode | `Numeric` <br /> `Alphanumeric` <br /> `Byte` <br /> `Kanji` | 'Byte' | Mode that payload (value) will be logged |
 | level | `L` <br /> `M` <br /> `Q` <br /> `H` | 'M' | Error correction level |
 | modules | `[0-40]` | 0 | Number of qrcode modules. 0 is auto |
-| image | `string` | undefined | Location (src) of an image to be inserted into the center of the qrcode |
-| imageBig | `boolean` | false | Image to be displayed in full size |
-| overlap | `boolean` | false | For the image to overlay the qrcode without cropping it |
+| image | `string` <br /> `{ src: string; width ?: number; height ?: number; positionX ?: number; positionY ?: number; overlap ?: boolean; }` | undefined | Settings for the image to be inserted into the qrcode |
 | margin | `number` | 0 | Margin size. Area without background color |
 | padding | `number` | 0 | Padding size. Area with background color |
 | variant | `standard` <br /> `rounded`  <br /> `dots` <br /> `circle` <br /> `fluid` <br /> `reverse` <br /> `shower` <br /> `gravity`  <br /> `morse` <br /> `{ 'eyes': variant, 'body': variant }` | 'standard' | Style applied to the entire qrcode or each part (eyes and body) of it |
 | divider | `boolean` | false | Active a small separation between the qrcode body points |
 | bgColor | `string` | '#FFFFFF' | Background color |
 | bgRounded | `boolean` | false | Background color rounded |
-| children | `React.ReactNode` | undefined | The canvas tag children |
-| canvasProps | `React.HTMLAttributes<HTMLCanvasElement>` | {} | The canvas attributes |
-| onReady | `(canvas : HTMLCanvasElement) => void` | undefined | Provides canvas properties and methods when available. |
+| children | `React.ReactNode` | undefined | The tag children |
+| internalProps | `HTMLAttributes<HTMLCanvasElement \| SVGSVGElements>` | undefined | The internal props attributes |
+| onReady | `(element : HTMLCanvasElement \| SVGSVGElements) => void` | undefined | Provides element properties and methods when available. To be used with the useQrCodeDownload hook. |
 
 ## Code Example
 
@@ -85,7 +86,10 @@ export function QrCodeCustom({ value = 'react-qrcode-pretty' }) {
 
             <br />
 
-            <button onClick={ () => download('qrcode') } disabled={ !isReady }>
+            <button
+                onClick={ () => download('qrcode_file_name') }
+                disabled={ !isReady }
+            >
                 Download Qrcode
             </button>
 
