@@ -4,9 +4,9 @@
 [![downloads](https://img.shields.io/npm/dt/react-qrcode-pretty)](https://www.npmjs.com/package/react-qrcode-pretty/)
 [![npm](https://img.shields.io/npm/v/react-qrcode-pretty.svg)](https://www.npmjs.com/package/react-qrcode-pretty/v/latest)
 
-[Qrcode generator website](https://guilhermeasn.github.io/react-qrcode-pretty/)
-
 Qrcode generator for react apps with many customization options.
+
+[Qrcode generator website](https://guilhermeasn.github.io/react-qrcode-pretty/)
 
 ## Installation
 
