@@ -46,7 +46,6 @@ yarn add react-qrcode-pretty
 | divider | `boolean` | false | Active a small separation between the qrcode body points |
 | bgColor | `string` | '#FFFFFF' | Background color |
 | bgRounded | `boolean` | false | Background color rounded |
-| children | `React.ReactNode` | undefined | The tag children |
 | internalProps | `HTMLAttributes<HTMLCanvasElement \| SVGSVGElements>` | undefined | The internal props attributes |
 | onReady | `(element : HTMLCanvasElement \| SVGSVGElements) => void` | undefined | Provides element properties and methods when available. To be used with the useQrcodeDownload hook. |
 
@@ -89,9 +88,7 @@ export function QrcodeCustom({ value = 'react-qrcode-pretty' }) {
             <button
                 onClick={ () => download('qrcode_file_name') }
                 disabled={ !isReady }
-            >
-                Download Qrcode
-            </button>
+            >Download Qrcode</button>
 
         </div>
 
