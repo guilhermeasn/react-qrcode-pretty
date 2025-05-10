@@ -6,8 +6,6 @@
 
 Qrcode generator for react apps with many customization options.
 
-![Qrcode_URL](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/qrcode_url.png)
-
 [Qrcode generator website](https://guilhermeasn.github.io/react-qrcode-pretty/)
 
 ## Installation
