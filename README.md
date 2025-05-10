@@ -6,6 +6,8 @@
 
 Qrcode generator for react apps with many customization options.
 
+![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/qrcode_url_inclined.png)
+
 [Qrcode generator website](https://guilhermeasn.github.io/react-qrcode-pretty/)
 
 ## Installation
@@ -42,7 +44,7 @@ yarn add react-qrcode-pretty
 | image | `string` <br /> `{ src: string; width ?: number; height ?: number; positionX ?: number; positionY ?: number; overlap ?: boolean; }` | undefined | Settings for the image to be inserted into the qrcode |
 | margin | `number` | 0 | Margin size. Area without background color |
 | padding | `number` | 0 | Padding size. Area with background color |
-| variant | `standard` <br /> `rounded`  <br /> `dots` <br /> `circle` <br /> `fluid` <br /> `reverse` <br /> `shower` <br /> `gravity`  <br /> `morse` <br /> `{ 'eyes': variant, 'body': variant }` | 'standard' | Style applied to the entire qrcode or each part (eyes and body) of it |
+| variant | `standard` <br /> `rounded`  <br /> `dots` <br /> `circle` <br /> `fluid` <br /> `reverse` <br /> `shower` <br /> `gravity`  <br /> `morse` <br /> `italic` <br /> `inclined` <br /> `{ 'eyes': variant, 'body': variant }` | 'standard' | Style applied to the entire qrcode or each part (eyes and body) of it |
 | divider | `boolean` | false | Active a small separation between the qrcode body points |
 | bgColor | `string` | '#FFFFFF' | Background color |
 | bgRounded | `boolean` | false | Background color rounded |

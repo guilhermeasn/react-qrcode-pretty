@@ -119,9 +119,7 @@ function QrcodeCanvas(props) {
                         after: col < modules - 1 ? qrcode.isDark(row, col + 1) : false
                     }
                 };
-                changer.radius = typeof variant[key] === 'function'
-                    ? variant[key](key, moduleSize, modules, wrapped, row, col)
-                    : (0, helpers_1.qrCodeStyleRadius)(variant[key], moduleSize, modules, wrapped, row, col, key);
+                changer.radius = (0, helpers_1.qrCodeStyleRadius)(variant[key], moduleSize, modules, wrapped, row, col, key);
                 (0, rectangleCanvas_1.default)(context, __assign({ positionX: col * moduleSize + space.margin + space.padding, positionY: row * moduleSize + space.margin + space.padding, height: moduleSize, width: moduleSize, fill: (0, helpers_1.getColor)(color[key], colorEffect[key], col, row) }, changer));
             }
         }

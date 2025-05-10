@@ -60,19 +60,8 @@ export type QrcodeStyle = (
     | 'gravity'  
     | 'morse'
     | 'italic'
+    | 'inclined'
 );
-
-/**
- * Custom style function to determine the radius of qrcode modules.
- */
-export type QrcodeCustomStyle = (
-    key: QrcodePartOption,
-    moduleSize: number,
-    modules: number,
-    wrapped: QrcodeWrapped,
-    row: number,
-    col: number
-) => QrcodeRadius;
 
 type TypeNumber =
   | 0 // Automatic type number
@@ -159,7 +148,7 @@ export type QrcodeProps<F extends QrcodeFormat> = {
     /**
      * Style applied to the entire qrcode or each part (eyes and body) of it
      */
-    variant ?: QrcodeStyle | QrcodeCustomStyle | QrcodePart<QrcodeStyle | QrcodeCustomStyle>;
+    variant ?: QrcodeStyle | QrcodePart<QrcodeStyle>;
 
     /**
      * Active a small separation between the qrcode body points

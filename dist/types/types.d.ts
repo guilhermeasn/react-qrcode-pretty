@@ -29,11 +29,7 @@ export declare type QrcodeImageSettings = {
 /**
  * Style variations for qrcode parts
  */
-export declare type QrcodeStyle = ('standard' | 'rounded' | 'dots' | 'circle' | 'fluid' | 'reverse' | 'shower' | 'gravity' | 'morse' | 'italic');
-/**
- * Custom style function to determine the radius of qrcode modules.
- */
-export declare type QrcodeCustomStyle = (key: QrcodePartOption, moduleSize: number, modules: number, wrapped: QrcodeWrapped, row: number, col: number) => QrcodeRadius;
+export declare type QrcodeStyle = ('standard' | 'rounded' | 'dots' | 'circle' | 'fluid' | 'reverse' | 'shower' | 'gravity' | 'morse' | 'italic' | 'inclined');
 declare type TypeNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40;
 declare type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
 declare type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' | 'Kanji';
@@ -97,7 +93,7 @@ export declare type QrcodeProps<F extends QrcodeFormat> = {
     /**
      * Style applied to the entire qrcode or each part (eyes and body) of it
      */
-    variant?: QrcodeStyle | QrcodeCustomStyle | QrcodePart<QrcodeStyle | QrcodeCustomStyle>;
+    variant?: QrcodeStyle | QrcodePart<QrcodeStyle>;
     /**
      * Active a small separation between the qrcode body points
      */

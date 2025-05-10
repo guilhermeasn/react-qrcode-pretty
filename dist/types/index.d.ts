@@ -15,4 +15,4 @@ export declare type UseQrcodeDownload = [
  * @returns [ setQrcode, download, isReady ]
  */
 export declare function useQrcodeDownload(suffix?: string): UseQrcodeDownload;
-export type { QrcodeColor, QrcodeColorEffect, QrcodeElement, QrcodeFormat, QrcodePart, QrcodePartOption, QrcodeProps, QrcodeStyle } from './types';
+export type { QrcodeColor, QrcodeColorEffect, QrcodeElement, QrcodeFormat, QrcodeImageSettings, QrcodePart, QrcodePartOption, QrcodeProps, QrcodeRadius, QrcodeRadiusEdge, QrcodeRectangleProps, QrcodeStyle, QrcodeWrapped } from './types';

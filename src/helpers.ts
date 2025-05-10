@@ -163,6 +163,13 @@ export function qrCodeStyleRadius(
             bottom_left: 0
         }
 
+        case 'inclined': return {
+            top_right: !wrapped.col.after  && !wrapped.row.before ? (key === 'eyes' ? moduleSize * 1.2 : radius) : 0,
+            top_left: 0,
+            bottom_right: 0,
+            bottom_left: !wrapped.col.before && !wrapped.row.after ? (key === 'eyes' ? moduleSize * 1.2 : radius) : 0
+        }
+
         default: return 0;
 
     }
