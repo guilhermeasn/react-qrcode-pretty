@@ -3,12 +3,12 @@ import type { HTMLAttributes } from "react";
 /**
  * Color string
  */
-export type QrCodeColor = string;
+export type QrcodeColor = string;
 
 /**
  * Apply effects to coloring options
  */
-export type QrCodeColorEffect = (
+export type QrcodeColorEffect = (
     | 'gradient-dark-vertical'
     | 'gradient-dark-horizontal'
     | 'gradient-dark-diagonal'
@@ -22,7 +22,7 @@ export type QrCodeColorEffect = (
 /**
  * Qrcode Parts options
  */
-export type QrCodePartOption = (
+export type QrcodePartOption = (
     | 'eyes'
     | 'body'
 );
@@ -30,14 +30,14 @@ export type QrCodePartOption = (
 /**
  * Qrcode Parts (eyes and body)
  */
-export type QrCodePart<T> = (
-    Record<QrCodePartOption, T>
+export type QrcodePart<T> = (
+    Record<QrcodePartOption, T>
 );
 
 /**
  * Settings for the image to be inserted into the qrcode
  */
-export type QrCodeImageSettings = {
+export type QrcodeImageSettings = {
     src: string;
     width ?: number;
     height ?: number;
@@ -49,7 +49,7 @@ export type QrCodeImageSettings = {
 /**
  * Style variations for qrcode parts
  */
-export type QrCodeStyle = (
+export type QrcodeStyle = (
     | 'standard' 
     | 'rounded'  
     | 'dots'     
@@ -76,17 +76,17 @@ type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' /* Default */ | 'Kanji';
 /**
  * Available formats for qrcode
  */
-export type QrCodeFormat = 'canvas' | 'SVG';
+export type QrcodeFormat = 'canvas' | 'SVG';
 
 /**
  * Qrcode html element
  */
-export type QrCodeElement<F extends QrCodeFormat> = F extends 'canvas' ? HTMLCanvasElement : SVGSVGElement;
+export type QrcodeElement<F extends QrcodeFormat> = F extends 'canvas' ? HTMLCanvasElement : SVGSVGElement;
 
 /**
- * Common props of the QrCode Components
+ * Common props of the Qrcode Components
  */
-export type QrCodeProps<F extends QrCodeFormat> = {
+export type QrcodeProps<F extends QrcodeFormat> = {
 
     /**
      * Qrcode payload (required)
@@ -101,12 +101,12 @@ export type QrCodeProps<F extends QrCodeFormat> = {
     /**
      * Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode
      */
-    color ?: QrCodeColor | QrCodePart<QrCodeColor>;
+    color ?: QrcodeColor | QrcodePart<QrcodeColor>;
 
     /**
      * Apply effects to coloring
      */
-    colorEffect ?: QrCodeColorEffect | QrCodePart<QrCodeColorEffect>;
+    colorEffect ?: QrcodeColorEffect | QrcodePart<QrcodeColorEffect>;
 
     /**
      * Mode that payload (value) will be logged
@@ -131,7 +131,7 @@ export type QrCodeProps<F extends QrCodeFormat> = {
     /**
      * Location (src) of an image to be inserted into the center of the qrcode
      */
-    image ?: string | QrCodeImageSettings;
+    image ?: string | QrcodeImageSettings;
 
     /**
      * Margin size. Area without background color
@@ -146,7 +146,7 @@ export type QrCodeProps<F extends QrCodeFormat> = {
     /**
      * Style applied to the entire qrcode or each part (eyes and body) of it
      */
-    variant ?: QrCodeStyle | QrCodePart<QrCodeStyle>;
+    variant ?: QrcodeStyle | QrcodePart<QrcodeStyle>;
 
     /**
      * Active a small separation between the qrcode body points
@@ -171,36 +171,36 @@ export type QrCodeProps<F extends QrCodeFormat> = {
     /**
      * The internal props attributes
      */
-    internalProps ?: HTMLAttributes<QrCodeElement<F>>;
+    internalProps ?: HTMLAttributes<QrcodeElement<F>>;
 
     /**
      * Provides element properties and methods when available.
-     * To be used with the useQrCodeDownload hook.
+     * To be used with the useQrcodeDownload hook.
      */
-    onReady ?: (element : QrCodeElement<F>) => void
+    onReady ?: (element : QrcodeElement<F>) => void
 
 }
 
-export type QrCodeRectangleProps = {
+export type QrcodeRectangleProps = {
     positionX : number;
     positionY : number;
     width     : number;
     height    : number;
     fill     ?: string | null;
     stroke   ?: string | null; 
-    radius   ?: QrCodeRadius
+    radius   ?: QrcodeRadius
 }
 
-export type QrCodeRadius = number | QrCodeRadiusEdge;
+export type QrcodeRadius = number | QrcodeRadiusEdge;
 
-export type QrCodeRadiusEdge = {
+export type QrcodeRadiusEdge = {
     top_left     ?: number;
     top_right    ?: number;
     bottom_left  ?: number;
     bottom_right ?: number;
 }
 
-export type QrCodeWrapped = Record<'row' | 'col', {
+export type QrcodeWrapped = Record<'row' | 'col', {
     before: boolean;
     after: boolean;
 }>;

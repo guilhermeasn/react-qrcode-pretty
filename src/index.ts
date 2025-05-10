@@ -1,15 +1,15 @@
 import download from 'downloadjs';
 import { useState } from 'react';
 
-export { default as QrCodeCanvas } from './QrCodeCanvas';
-export { default as QrCodeSVG } from './QrCodeSVG';
+export { default as QrcodeCanvas } from './QrcodeCanvas';
+export { default as QrcodeSVG } from './QrcodeSVG';
 
 /**
  * React Hook to download Qrcode Type
  * @returns [ setQrcode, download, isReady ]
  */
-export type UseQrCodeDownload = [
-    (QrCodeRef : HTMLCanvasElement | SVGSVGElement) => void,
+export type UseQrcodeDownload = [
+    (QrcodeRef : HTMLCanvasElement | SVGSVGElement) => void,
     (fileName : string) => void,
     boolean
 ];
@@ -19,7 +19,7 @@ export type UseQrCodeDownload = [
  * @param [suffix=''] add a suffix to the file name to download
  * @returns [ setQrcode, download, isReady ]
  */
-export function useQrCodeDownload(suffix : string = '') : UseQrCodeDownload {
+export function useQrcodeDownload(suffix : string = '') : UseQrcodeDownload {
     
     const [ qrcode, setQrcode ] = useState<HTMLCanvasElement | SVGSVGElement | null>(null);
     const isCanvas : boolean = qrcode instanceof HTMLCanvasElement;
@@ -37,13 +37,13 @@ export function useQrCodeDownload(suffix : string = '') : UseQrCodeDownload {
 }
 
 export type {
-    QrCodeColor,
-    QrCodeColorEffect,
-    QrCodeElement,
-    QrCodeFormat,
-    QrCodePart,
-    QrCodePartOption,
-    QrCodeProps,
-    QrCodeStyle
+    QrcodeColor,
+    QrcodeColorEffect,
+    QrcodeElement,
+    QrcodeFormat,
+    QrcodePart,
+    QrcodePartOption,
+    QrcodeProps,
+    QrcodeStyle
 } from './types';
 

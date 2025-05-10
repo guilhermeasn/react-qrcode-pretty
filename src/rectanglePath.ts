@@ -1,7 +1,7 @@
 import { qrCodeRadiusNormalize } from "./helpers";
-import type { QrCodeRectangleProps } from "./types";
+import type { QrcodeRectangleProps } from "./types";
 
-export default function rectanglePath(props : QrCodeRectangleProps) {
+export default function rectanglePath(props : QrcodeRectangleProps) {
 
     const radius = qrCodeRadiusNormalize(props.radius);
 

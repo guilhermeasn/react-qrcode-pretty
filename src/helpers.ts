@@ -1,4 +1,4 @@
-import { QrCodeColor, QrCodeColorEffect, QrCodeImageSettings, QrCodePart, QrCodeRadius, QrCodeRadiusEdge, QrCodeStyle, QrCodeWrapped } from "./types";
+import { QrcodeColor, QrcodeColorEffect, QrcodeImageSettings, QrcodePart, QrcodeRadius, QrcodeRadiusEdge, QrcodeStyle, QrcodeWrapped } from "./types";
 
 type ColorRGB = {
     r : number;
@@ -62,7 +62,7 @@ export function getRandomColor(colorBase: string) : string {
     return colorRGBtoHex({ r: getRandomInt(min, max), g: getRandomInt(min, max), b: getRandomInt(min, max) });
 }
 
-export function qrCodePartNormalize<T>(defaultReturn : T, part : undefined | null | T | QrCodePart<T>) : QrCodePart<T> {
+export function qrCodePartNormalize<T>(defaultReturn : T, part : undefined | null | T | QrcodePart<T>) : QrcodePart<T> {
 
     return (part
         && typeof part === 'object'
@@ -75,13 +75,13 @@ export function qrCodePartNormalize<T>(defaultReturn : T, part : undefined | nul
     
 }
 
-export function qrCodeImageNormalize(imageSet ?: string | QrCodeImageSettings) : QrCodeImageSettings | null {
+export function qrCodeImageNormalize(imageSet ?: string | QrcodeImageSettings) : QrcodeImageSettings | null {
     if(imageSet && typeof imageSet === 'object') return imageSet;
     if(typeof imageSet === 'string') return { src: imageSet };
     return null;
 }
 
-export function qrCodeRadiusNormalize(radius?: QrCodeRadius) : Required<QrCodeRadiusEdge> {
+export function qrCodeRadiusNormalize(radius?: QrcodeRadius) : Required<QrcodeRadiusEdge> {
     return ( typeof radius === 'number' || !radius ) ? {
         top_left: radius ?? 0, top_right: radius ?? 0,
         bottom_left: radius ?? 0, bottom_right: radius ?? 0
@@ -93,13 +93,13 @@ export function qrCodeRadiusNormalize(radius?: QrCodeRadius) : Required<QrCodeRa
 }
 
 export function qrCodeStyleRadius(
-    variant : QrCodeStyle,
+    variant : QrcodeStyle,
     moduleSize : number,
     modules: number,
-    wrapped : QrCodeWrapped,
+    wrapped : QrcodeWrapped,
     row: number,
     col: number
-) : QrCodeRadius {
+) : QrcodeRadius {
 
     const radius = moduleSize / 1.6;
 
@@ -161,7 +161,7 @@ export function qrCodeStyleRadius(
 
 }
 
-export function getColor(color : QrCodeColor, effect : QrCodeColorEffect , col: number, row: number) : QrCodeColor {
+export function getColor(color : QrcodeColor, effect : QrcodeColorEffect , col: number, row: number) : QrcodeColor {
 
     switch(effect) {
 

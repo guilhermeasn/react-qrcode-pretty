@@ -11,21 +11,21 @@ import {
 } from './helpers';
 
 import type {
-    QrCodeColor,
-    QrCodeColorEffect,
-    QrCodeImageSettings,
-    QrCodePartOption,
-    QrCodeProps,
-    QrCodeRectangleProps,
-    QrCodeStyle,
-    QrCodeWrapped
+    QrcodeColor,
+    QrcodeColorEffect,
+    QrcodeImageSettings,
+    QrcodePartOption,
+    QrcodeProps,
+    QrcodeRectangleProps,
+    QrcodeStyle,
+    QrcodeWrapped
 } from './types';
 
 /**
- * QrCode React Component
+ * Qrcode React Component
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
-export default function QrCodeCanvas(props : QrCodeProps<'canvas'>) : JSX.Element {
+export default function QrcodeCanvas(props : QrcodeProps<'canvas'>) : JSX.Element {
 
     const canvas : React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
 
@@ -35,9 +35,9 @@ export default function QrCodeCanvas(props : QrCodeProps<'canvas'>) : JSX.Elemen
         total: ((props.margin ?? 0) + (props.padding ?? 0)) * 2
     }
 
-    const variant = qrCodePartNormalize<QrCodeStyle>('standard', props.variant);
-    const color = qrCodePartNormalize<QrCodeColor>('#000', props.color);
-    const colorEffect = qrCodePartNormalize<QrCodeColorEffect>('none', props.colorEffect);
+    const variant = qrCodePartNormalize<QrcodeStyle>('standard', props.variant);
+    const color = qrCodePartNormalize<QrcodeColor>('#000', props.color);
+    const colorEffect = qrCodePartNormalize<QrcodeColorEffect>('none', props.colorEffect);
     const imagem = qrCodeImageNormalize(props.image);
 
     const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? props.image ? 'H' : 'M');
@@ -51,7 +51,7 @@ export default function QrCodeCanvas(props : QrCodeProps<'canvas'>) : JSX.Elemen
     const moduleEyeStart : number = 7;
     const moduleEyeEnd   : number = modules - moduleEyeStart - 1;
 
-    function addImage(context : CanvasRenderingContext2D, imageSet : QrCodeImageSettings) {
+    function addImage(context : CanvasRenderingContext2D, imageSet : QrcodeImageSettings) {
         const image = new Image();
         image.src = imageSet.src;
         image.onload = () => {
@@ -98,17 +98,17 @@ export default function QrCodeCanvas(props : QrCodeProps<'canvas'>) : JSX.Elemen
 
                 if(!qrcode.isDark(row, col)) continue;
 
-                let key : QrCodePartOption = (
+                let key : QrcodePartOption = (
                     (col < moduleEyeStart && row < moduleEyeStart) ||
                     (col < moduleEyeStart && row > moduleEyeEnd)   || 
                     (col > moduleEyeEnd && row < moduleEyeStart)
                 ) ? 'eyes' : 'body';
 
-                let changer : Partial<QrCodeRectangleProps> = {
+                let changer : Partial<QrcodeRectangleProps> = {
                     stroke: key === 'body' && props.divider ? (props.bgColor ?? '#FFF') : null
                 };
 
-                const wrapped : QrCodeWrapped = {
+                const wrapped : QrcodeWrapped = {
                     row: {
                         before: row > 0 ? qrcode.isDark(row - 1, col) : false,
                         after: row < modules - 1 ? qrcode.isDark(row + 1, col) : false

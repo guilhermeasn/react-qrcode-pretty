@@ -11,20 +11,20 @@ import {
 } from './helpers';
 
 import type {
-    QrCodeColor,
-    QrCodeColorEffect,
-    QrCodeImageSettings,
-    QrCodePartOption,
-    QrCodeProps,
-    QrCodeStyle,
-    QrCodeWrapped
+    QrcodeColor,
+    QrcodeColorEffect,
+    QrcodeImageSettings,
+    QrcodePartOption,
+    QrcodeProps,
+    QrcodeStyle,
+    QrcodeWrapped
 } from './types';
 
 /**
- * QrCode React Component
+ * Qrcode React Component
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
-export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
+export default function QrcodeSvg(props: QrcodeProps<'SVG'>): JSX.Element {
 
     const SVG : React.RefObject<SVGSVGElement> = useRef<SVGSVGElement>(null);
 
@@ -42,15 +42,15 @@ export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
         total: ((props.margin ?? 0) + (props.padding ?? 0)) * 2
     };
 
-    const variant = qrCodePartNormalize<QrCodeStyle>('standard', props.variant);
-    const color = qrCodePartNormalize<QrCodeColor>('#000', props.color);
-    const colorEffect = qrCodePartNormalize<QrCodeColorEffect>('none', props.colorEffect);
+    const variant = qrCodePartNormalize<QrcodeStyle>('standard', props.variant);
+    const color = qrCodePartNormalize<QrcodeColor>('#000', props.color);
+    const colorEffect = qrCodePartNormalize<QrcodeColorEffect>('none', props.colorEffect);
 
     const Image = () => {
 
         if(!props.image) return <></>;
 
-        const image = qrCodeImageNormalize(props.image) as QrCodeImageSettings;
+        const image = qrCodeImageNormalize(props.image) as QrcodeImageSettings;
         const size = Math.floor(modules * moduleSize / 5);
         const position = size * 2 + space.margin + space.padding;
 
@@ -85,7 +85,7 @@ export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
         for (let col = 0; col < modules; col++) {
             if (!qrcode.isDark(row, col)) continue;
 
-            const key: QrCodePartOption = (
+            const key: QrcodePartOption = (
                 (col < 7 && row < 7) ||
                 (col < 7 && row >= modules - 7) ||
                 (col >= modules - 7 && row < 7)
@@ -95,7 +95,7 @@ export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
             const y = row * moduleSize + space.margin + space.padding;
             const c = getColor(color[key], colorEffect[key], col, row);
 
-            const wrapped : QrCodeWrapped = {
+            const wrapped : QrcodeWrapped = {
                 row: {
                     before: row > 0 ? qrcode.isDark(row - 1, col) : false,
                     after: row < modules - 1 ? qrcode.isDark(row + 1, col) : false

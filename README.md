@@ -24,11 +24,11 @@ yarn add react-qrcode-pretty
 
 ## Resources
 
-- **QrCodeCanvas**: React Element to generate a Qrcode with canvas.
-- **QrCodeSVG**: React Element to generate a Qrcode with SVG.
-- **useQrCodeDownload**: React Hook to download Qrcode in browser.
+- **QrcodeCanvas**: React Element to generate a Qrcode with canvas.
+- **QrcodeSVG**: React Element to generate a Qrcode with SVG.
+- **useQrcodeDownload**: React Hook to download Qrcode in browser.
 
-## QrCode Props
+## Qrcode Props
 
 |Prop|Type|Default|Details|
 |---|---|---|---|
@@ -48,25 +48,25 @@ yarn add react-qrcode-pretty
 | bgRounded | `boolean` | false | Background color rounded |
 | children | `React.ReactNode` | undefined | The tag children |
 | internalProps | `HTMLAttributes<HTMLCanvasElement \| SVGSVGElements>` | undefined | The internal props attributes |
-| onReady | `(element : HTMLCanvasElement \| SVGSVGElements) => void` | undefined | Provides element properties and methods when available. To be used with the useQrCodeDownload hook. |
+| onReady | `(element : HTMLCanvasElement \| SVGSVGElements) => void` | undefined | Provides element properties and methods when available. To be used with the useQrcodeDownload hook. |
 
 ## Code Example
 
 ```js
 import {
-    QrCodeCanvas, 
-    useQrCodeDownload
+    QrcodeCanvas, 
+    useQrcodeDownload
 } from "react-qrcode-pretty";
 
-export function QrCodeCustom({ value = 'react-qrcode-pretty' }) {
+export function QrcodeCustom({ value = 'react-qrcode-pretty' }) {
 
-    const [ setQrcode, download, isReady ] = useQrCodeDownload();
+    const [ setQrcode, download, isReady ] = useQrcodeDownload();
 
     return (
 
         <div>
 
-            <QrCodeCanvas
+            <QrcodeCanvas
                 value={ value }
                 variant={{
                     eyes: 'gravity',
