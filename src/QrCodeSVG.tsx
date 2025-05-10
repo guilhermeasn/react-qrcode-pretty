@@ -5,6 +5,7 @@ import rectanglePath from './rectanglePath';
 
 import {
     getColor,
+    loadImageAsBase64,
     qrCodeImageNormalize,
     qrCodePartNormalize,
     qrCodeStyleRadius
@@ -53,6 +54,15 @@ export default function QrcodeSvg(props: QrcodeProps<'SVG'>): JSX.Element {
         const image = qrCodeImageNormalize(props.image) as QrcodeImageSettings;
         const size = Math.floor(modules * moduleSize / 5);
         const position = size * 2 + space.margin + space.padding;
+        
+        const [ src, setSrc ] = React.useState<string>();
+
+        useEffect(() => {
+            if(src) return;
+            loadImageAsBase64(image.src).then(setSrc);
+        }, [ props.image ]);
+
+        if(!src) return <></>;
 
         return <>
 
@@ -67,7 +77,7 @@ export default function QrcodeSvg(props: QrcodeProps<'SVG'>): JSX.Element {
             ) }
 
             <image
-                href={ image.src }
+                href={ src }
                 width={ image.width ?? size }
                 height={ image.height ?? size }
                 x={ image.positionX ?? position }

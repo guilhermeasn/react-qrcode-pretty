@@ -1,7 +1,7 @@
 import qrcodeGenerator from 'qrcode-generator';
 import React, { useEffect, useRef } from 'react';
 import rectanglePath from './rectanglePath';
-import { getColor, qrCodeImageNormalize, qrCodePartNormalize, qrCodeStyleRadius } from './helpers';
+import { getColor, loadImageAsBase64, qrCodeImageNormalize, qrCodePartNormalize, qrCodeStyleRadius } from './helpers';
 /**
  * Qrcode React Component
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
@@ -30,9 +30,17 @@ export default function QrcodeSvg(props) {
         const image = qrCodeImageNormalize(props.image);
         const size = Math.floor(modules * moduleSize / 5);
         const position = size * 2 + space.margin + space.padding;
+        const [src, setSrc] = React.useState();
+        useEffect(() => {
+            if (src)
+                return;
+            loadImageAsBase64(image.src).then(setSrc);
+        }, [props.image]);
+        if (!src)
+            return React.createElement(React.Fragment, null);
         return React.createElement(React.Fragment, null,
             image.overlap ? React.createElement(React.Fragment, null) : (React.createElement("rect", { width: (_a = image.width) !== null && _a !== void 0 ? _a : size, height: (_b = image.height) !== null && _b !== void 0 ? _b : size, x: (_c = image.positionX) !== null && _c !== void 0 ? _c : position, y: (_d = image.positionY) !== null && _d !== void 0 ? _d : position, fill: (_e = props.bgColor) !== null && _e !== void 0 ? _e : '#FFF' })),
-            React.createElement("image", { href: image.src, width: (_f = image.width) !== null && _f !== void 0 ? _f : size, height: (_g = image.height) !== null && _g !== void 0 ? _g : size, x: (_h = image.positionX) !== null && _h !== void 0 ? _h : position, y: (_j = image.positionY) !== null && _j !== void 0 ? _j : position, preserveAspectRatio: "xMidYMid meet" }));
+            React.createElement("image", { href: src, width: (_f = image.width) !== null && _f !== void 0 ? _f : size, height: (_g = image.height) !== null && _g !== void 0 ? _g : size, x: (_h = image.positionX) !== null && _h !== void 0 ? _h : position, y: (_j = image.positionY) !== null && _j !== void 0 ? _j : position, preserveAspectRatio: "xMidYMid meet" }));
     };
     const rects = [];
     for (let row = 0; row < modules; row++) {

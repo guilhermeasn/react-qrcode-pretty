@@ -6,3 +6,4 @@ export declare function qrCodeImageNormalize(imageSet?: string | QrcodeImageSett
 export declare function qrCodeRadiusNormalize(radius?: QrcodeRadius): Required<QrcodeRadiusEdge>;
 export declare function qrCodeStyleRadius(variant: QrcodeStyle, moduleSize: number, modules: number, wrapped: QrcodeWrapped, row: number, col: number): QrcodeRadius;
 export declare function getColor(color: QrcodeColor, effect: QrcodeColorEffect, col: number, row: number): QrcodeColor;
+export declare function loadImageAsBase64(src: string): Promise<string>;

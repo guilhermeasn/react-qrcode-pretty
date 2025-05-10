@@ -69,9 +69,17 @@ function QrcodeSvg(props) {
         var image = (0, helpers_1.qrCodeImageNormalize)(props.image);
         var size = Math.floor(modules * moduleSize / 5);
         var position = size * 2 + space.margin + space.padding;
+        var _k = react_1.default.useState(), src = _k[0], setSrc = _k[1];
+        (0, react_1.useEffect)(function () {
+            if (src)
+                return;
+            (0, helpers_1.loadImageAsBase64)(image.src).then(setSrc);
+        }, [props.image]);
+        if (!src)
+            return react_1.default.createElement(react_1.default.Fragment, null);
         return react_1.default.createElement(react_1.default.Fragment, null,
             image.overlap ? react_1.default.createElement(react_1.default.Fragment, null) : (react_1.default.createElement("rect", { width: (_a = image.width) !== null && _a !== void 0 ? _a : size, height: (_b = image.height) !== null && _b !== void 0 ? _b : size, x: (_c = image.positionX) !== null && _c !== void 0 ? _c : position, y: (_d = image.positionY) !== null && _d !== void 0 ? _d : position, fill: (_e = props.bgColor) !== null && _e !== void 0 ? _e : '#FFF' })),
-            react_1.default.createElement("image", { href: image.src, width: (_f = image.width) !== null && _f !== void 0 ? _f : size, height: (_g = image.height) !== null && _g !== void 0 ? _g : size, x: (_h = image.positionX) !== null && _h !== void 0 ? _h : position, y: (_j = image.positionY) !== null && _j !== void 0 ? _j : position, preserveAspectRatio: "xMidYMid meet" }));
+            react_1.default.createElement("image", { href: src, width: (_f = image.width) !== null && _f !== void 0 ? _f : size, height: (_g = image.height) !== null && _g !== void 0 ? _g : size, x: (_h = image.positionX) !== null && _h !== void 0 ? _h : position, y: (_j = image.positionY) !== null && _j !== void 0 ? _j : position, preserveAspectRatio: "xMidYMid meet" }));
     };
     var rects = [];
     for (var row = 0; row < modules; row++) {

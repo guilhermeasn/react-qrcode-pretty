@@ -179,3 +179,13 @@ export function getColor(color : QrcodeColor, effect : QrcodeColorEffect , col: 
     }
 
 }
+
+export async function loadImageAsBase64(src: string): Promise<string> {
+    const response = await fetch(src);
+    const blob = await response.blob();
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(blob);
+    });
+}
