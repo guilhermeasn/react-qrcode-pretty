@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Accordion, Button, Col, Container, FloatingLabel, Form, Navbar, Row } from "react-bootstrap";
 import Code from './Code';
 
-// import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "react-qrcode-pretty";
-import { QrCodeCanvas, QrCodeColorEffect, QrCodeFormat, QrCodeProps, QrCodeStyle, QrCodeSVG, useQrCodeDownload } from "./qrcode";
+import { QrcodeCanvas, QrcodeColorEffect, QrcodeFormat, QrcodeProps, QrcodeStyle, QrcodeSVG, useQrcodeDownload } from "react-qrcode-pretty";
+// import { QrcodeCanvas, QrcodeColorEffect, QrcodeFormat, QrcodeProps, QrcodeStyle, QrcodeSVG, useQrcodeDownload } from "./qrcode";
 
 export default function App() {
 
-    const variants : Array<QrCodeStyle> = [
+    const variants : Array<QrcodeStyle> = [
         'standard',
         'rounded',
         'dots',
@@ -19,7 +19,7 @@ export default function App() {
         'morse'
     ];
 
-    const colorEffect : Array<QrCodeColorEffect> = [
+    const colorEffect : Array<QrcodeColorEffect> = [
         'gradient-dark-vertical',
         'gradient-dark-horizontal',
         'gradient-dark-diagonal',
@@ -30,11 +30,11 @@ export default function App() {
         'none'
     ];
 
-    const [ format, setFormat ] = useState<QrCodeFormat>('canvas');
+    const [ format, setFormat ] = useState<QrcodeFormat>('canvas');
 
-    const [ setQrcode, onDownload, isReady ] = useQrCodeDownload();
+    const [ setQrcode, onDownload, isReady ] = useQrcodeDownload();
 
-    const [ props, setProps ] = useState<QrCodeProps<typeof format>>({
+    const [ props, setProps ] = useState<QrcodeProps<typeof format>>({
         value:'react-qrcode-pretty',
         variant: {
             eyes: 'gravity',
@@ -236,8 +236,8 @@ export default function App() {
                         </Accordion>
 
                         { format ===  'canvas'
-                            ? <QrCodeCanvas { ...props } />
-                            : <QrCodeSVG { ...props } />
+                            ? <QrcodeCanvas { ...props } />
+                            : <QrcodeSVG { ...props } />
                         }<br/>
                         
                         <Button
