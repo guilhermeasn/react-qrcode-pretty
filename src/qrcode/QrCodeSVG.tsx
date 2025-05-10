@@ -27,8 +27,6 @@ export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
     const colorEffect = qrCodePartNormalize<QrCodeColorEffect>('none', props.colorEffect);
     const imagem = qrCodeImageNormalize(props.image);
 
-    const position = size * 2 + space.margin + space.padding;
-
     const imageOverlap = imagem && !imagem?.overlap ? (
         <rect
             x={imagem.positionX ?? (size + space.total - (imagem.width ?? Math.floor(modules * moduleSize / 5))) / 2}
