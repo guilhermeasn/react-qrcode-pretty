@@ -95,7 +95,11 @@ export function QrcodeCustom({ value = 'react-qrcode-pretty' }) {
     );
 
 }
+
+export default QrcodeCustom;
 ```
+
+[Try it in the code sandbox](https://codesandbox.io/p/sandbox/tjxv5d)
 
 ## Qrcode Examples
 
