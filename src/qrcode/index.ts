@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 export { default as QrCodeCanvas } from './QrCodeCanvas';
 export { default as QrCodeSVG } from './QrCodeSVG';
-export { default as QrCodeTable } from './QrCodeTable';
 
 /**
  * React Hook to download Qrcode Type
@@ -38,13 +37,11 @@ export function useQrCodeDownload(suffix : string = '') : UseQrCodeDownload {
 }
 
 export type {
-    QrCodeCanvasProps,
     QrCodeColor,
     QrCodeColorEffect,
     QrCodePart,
     QrCodePartOption,
-    QrCodeStyle,
-    QrCodeSVGProps,
-    QrCodeTableProps
+    QrCodeProps,
+    QrCodeStyle
 } from './types';
 

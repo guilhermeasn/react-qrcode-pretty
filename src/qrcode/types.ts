@@ -1,4 +1,4 @@
-import type { HTMLAttributes, SVGProps } from "react";
+import type { HTMLAttributes } from "react";
 
 /**
  * Color string
@@ -67,10 +67,13 @@ type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
 
 type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' /* Default */ | 'Kanji';
 
+export type QrCodeFormat = 'canvas' | 'SVG';
+export type QrCodeElement<F extends QrCodeFormat> = F extends 'canvas' ? HTMLCanvasElement : SVGSVGElement;
+
 /**
  * Common props of the QrCode Components
  */
-type QrCodeBaseProps = {
+export type QrCodeProps<F extends QrCodeFormat> = {
 
     /**
      * Qrcode payload (required)
@@ -147,68 +150,25 @@ type QrCodeBaseProps = {
      */
     bgRounded ?: boolean;
 
-}
-
-export type QrCodeCanvasProps = Expose<QrCodeBaseProps & {
-    
     /**
-     * The canvas tag children
+     * The tag children
      */
     children ?: React.ReactNode;
 
     /**
-     * The canvas attributes
+     * The internal props attributes
      */
-    canvasProps ?: HTMLAttributes<HTMLCanvasElement>;
+    internalProps ?: HTMLAttributes<QrCodeElement<F>>;
+
 
     /**
-     * Provides canvas properties and methods when available.
-     * To be used with the useQrCodeDownload hook
-     */
-    onReady ?: (canvas : HTMLCanvasElement) => void
-
-}>
-
-export type QrCodeSVGProps = Expose<QrCodeBaseProps & {
-
-    /**
-     * The svg attributes
-     */
-    svgProps ?: SVGProps<SVGSVGElement>;
-
-    /**
-     * Provides canvas properties and methods when available.
+     * Provides element properties and methods when available.
      * To be used with the useQrCodeDownload hook.
      */
-    onReady ?: (SVG : SVGSVGElement) => void
+    onReady ?: (element : QrCodeElement<F>) => void
 
-}>
+}
 
-export type QrCodeTableProps = Expose<QrCodeBaseProps & {
-
-    /**
-     * The table html attributes
-     */
-    tableProps ?: HTMLAttributes<HTMLTableElement>;
-
-    /**
-     * Whithout inline styles
-     */
-    noStyled ?: boolean;
-
-    /**
-     * Default CSS Class Names
-     */
-    defaultClassNames ?: {
-        root: 'qrcode-table',
-        line: 'qrcode-table-line',
-        eyes: 'qrcode-table-eyes',
-        body: 'qrcode-table-body',
-        filled: 'qrcode-table-filled'
-        unfilled: 'qrcode-table-unfilled'
-    }
-
-}>
 
 export type QrCodeRectangleProps = {
     positionX : number;
@@ -233,12 +193,3 @@ export type QrCodeWrapped = Record<'row' | 'col', {
     before: boolean;
     after: boolean;
 }>;
-
-/**
- * Forces intellisense to display the built-in types of a complex type
- */
-type Expose<T> = (
-    T extends (...args: infer A) => infer R ? (...args: A) => R :
-    T extends object ? T extends infer O ?
-    { [K in keyof O]: O[K] } : never : T
-);

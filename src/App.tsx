@@ -3,7 +3,7 @@ import { Accordion, Button, Col, Container, FloatingLabel, Form, Navbar, Row } f
 import Code from './Code';
 
 // import { QrCode, QrCodeColorEffect, QrCodeProps, QrCodeStyle } from "react-qrcode-pretty";
-import { QrCodeCanvas, QrCodeCanvasProps, QrCodeColorEffect, QrCodeStyle, useQrCodeDownload } from "./qrcode";
+import { QrCodeColorEffect, QrCodeProps, QrCodeStyle, QrCodeSVG, useQrCodeDownload } from "./qrcode";
 
 export default function App() {
 
@@ -32,7 +32,7 @@ export default function App() {
 
     const [ setQrcode, onDownload, isReady ] = useQrCodeDownload();
 
-    const [ props, setProps ] = useState<QrCodeCanvasProps>({
+    const [ props, setProps ] = useState<QrCodeProps<'SVG'>>({
         value:'react-qrcode-pretty',
         variant: {
             eyes: 'gravity',
@@ -47,7 +47,7 @@ export default function App() {
             body: 'none'
         },
         bgColor: '#ddeeff',
-        canvasProps: {
+        internalProps: {
             className: 'img-fluid my-2'
         },
         padding: 20,
@@ -227,7 +227,7 @@ export default function App() {
                             </Accordion.Item>
                         </Accordion>
 
-                        <QrCodeCanvas { ...props } /><br/>
+                        <QrCodeSVG { ...props } /><br/>
                         
                         <Button
                             className='mb-3'

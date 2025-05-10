@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 // import { QrCodePart, QrCodeProps } from "react-qrcode-pretty";
-import { QrCodeCanvasProps, QrCodePart } from "./qrcode";
+import { QrCodePart, QrCodeProps } from "./qrcode";
 
 function Space({ size = 1 }) {
     return <>{
@@ -10,7 +10,7 @@ function Space({ size = 1 }) {
     }</>;
 }
 
-export default function Code(qrCodeProps : QrCodeCanvasProps) {
+export default function Code(qrCodeProps : QrCodeProps<'canvas'> | QrCodeProps<'SVG'>) {
 
     return (
 
