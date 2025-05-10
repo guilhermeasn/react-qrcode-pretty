@@ -13,10 +13,12 @@ export default function App() {
         'dots',
         'circle',
         'fluid',
+        'gravity',
         'reverse',
         'shower',
-        'gravity',
-        'morse'
+        'morse',
+        'italic',
+        'inclined'
     ];
 
     const colorEffect : Array<QrcodeColorEffect> = [
