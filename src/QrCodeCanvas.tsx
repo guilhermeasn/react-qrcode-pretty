@@ -1,14 +1,31 @@
 import qrcodeGenerator from 'qrcode-generator';
 import React, { useEffect, useRef } from 'react';
-import canvasRectangle from './canvasRectangle';
-import { colorGradient, getRandomColor, qrCodePartNormalize, qrCodeStyleRadius } from './helpers';
-import type { QrCodeCanvasProps, QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeRectangleProps, QrCodeStyle, QrCodeWrapped } from './types';
+
+import canvasRectangle from './rectangleCanvas';
+
+import {
+    getColor,
+    qrCodeImageNormalize,
+    qrCodePartNormalize,
+    qrCodeStyleRadius
+} from './helpers';
+
+import type {
+    QrCodeColor,
+    QrCodeColorEffect,
+    QrCodeImageSettings,
+    QrCodePartOption,
+    QrCodeProps,
+    QrCodeRectangleProps,
+    QrCodeStyle,
+    QrCodeWrapped
+} from './types';
 
 /**
  * QrCode React Component
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
-export default function QrCodeCanvas(props : QrCodeCanvasProps) {
+export default function QrCodeCanvas(props : QrCodeProps<'canvas'>) : JSX.Element {
 
     const canvas : React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
 
@@ -21,25 +38,7 @@ export default function QrCodeCanvas(props : QrCodeCanvasProps) {
     const variant = qrCodePartNormalize<QrCodeStyle>('standard', props.variant);
     const color = qrCodePartNormalize<QrCodeColor>('#000', props.color);
     const colorEffect = qrCodePartNormalize<QrCodeColorEffect>('none', props.colorEffect);
-
-    const getColor = (key : QrCodePartOption, col: number, row: number) : QrCodeColor => {
-
-        switch(colorEffect[key]) {
-
-            case 'gradient-dark-vertical': return colorGradient(color[key], row * -3);
-            case 'gradient-dark-horizontal': return colorGradient(color[key], col * -3);
-            case 'gradient-dark-diagonal': return colorGradient(color[key], (col + row) * -2);
-            case 'gradient-light-vertical': return colorGradient(color[key], row * 3);
-            case 'gradient-light-horizontal': return colorGradient(color[key], col * 3);
-            case 'gradient-light-diagonal': return colorGradient(color[key], (col + row) * 2);
-            
-            case 'colored': return getRandomColor(color[key]);
-
-            default: return color[key];
-
-        }
-
-    }
+    const imagem = qrCodeImageNormalize(props.image);
 
     const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? props.image ? 'H' : 'M');
     qrcode.addData(props.value ?? '', props.mode);
@@ -52,20 +51,26 @@ export default function QrCodeCanvas(props : QrCodeCanvasProps) {
     const moduleEyeStart : number = 7;
     const moduleEyeEnd   : number = modules - moduleEyeStart - 1;
 
-    function addImage(context : CanvasRenderingContext2D, src : string, clear : boolean, big : boolean) {
+    function addImage(context : CanvasRenderingContext2D, imageSet : QrCodeImageSettings) {
         const image = new Image();
-        image.src = src;
+        image.src = imageSet.src;
         image.onload = () => {
-            const size = Math.floor(modules * moduleSize / (big ? 4 : 5));
-            const position = size * (big ? 1.5 : 2) + space.margin + space.padding;
-            if(clear) canvasRectangle(context, {
-                height: size,
-                width: size,
-                positionX: position,
-                positionY: position,
+            const size = Math.floor(modules * moduleSize / 5);
+            const position = size * 2 + space.margin + space.padding;
+            if(!imageSet.overlap) canvasRectangle(context, {
+                height: imageSet.height ?? size,
+                width: imageSet.width ?? size,
+                positionX: imageSet.positionX ?? position,
+                positionY: imageSet.positionY ?? position,
                 fill: props.bgColor ?? '#FFF',
             });
-            context.drawImage(image, position, position, size, size);
+            context.drawImage(
+                image,
+                imageSet.positionX ?? position,
+                imageSet.positionY ?? position,
+                imageSet.width ?? size,
+                imageSet.height ?? size
+            );
         }
     }
     
@@ -128,7 +133,7 @@ export default function QrCodeCanvas(props : QrCodeCanvasProps) {
                     positionY: row * moduleSize + space.margin + space.padding,
                     height: moduleSize,
                     width: moduleSize,
-                    fill: getColor(key, col, row),
+                    fill: getColor(color[key], colorEffect[key], col, row),
                     ...changer
                 });
 
@@ -136,12 +141,7 @@ export default function QrCodeCanvas(props : QrCodeCanvasProps) {
 
         }
 
-        // if(props.image) addImage(
-        //     context,
-        //     props.image,
-        //     !props.overlap,
-        //     props.imageBig ?? false
-        // );
+        if(imagem) addImage(context, imagem);
 
         if(typeof props.onReady === 'function') {
             props.onReady(canvas.current);
@@ -151,12 +151,7 @@ export default function QrCodeCanvas(props : QrCodeCanvasProps) {
     }, [ props ]);
 
     return <canvas
-        { ...props.canvasProps ?? {} }
-        style={ props.resize ? {
-            ...(props.canvasProps?.style ?? {}),
-            width: props.resize,
-            height: props.resize
-        } : props.canvasProps?.style }
+        { ...props.internalProps }
         ref={ canvas }
         width={ size + space.total }
         height={ size + space.total }

@@ -1,4 +1,4 @@
-import { QrCodePart, QrCodeRadius, QrCodeStyle, QrCodeWrapped } from "./types";
+import { QrCodeColor, QrCodeColorEffect, QrCodeImageSettings, QrCodePart, QrCodeRadius, QrCodeRadiusEdge, QrCodeStyle, QrCodeWrapped } from "./types";
 
 type ColorRGB = {
     r : number;
@@ -75,6 +75,23 @@ export function qrCodePartNormalize<T>(defaultReturn : T, part : undefined | nul
     
 }
 
+export function qrCodeImageNormalize(imageSet ?: string | QrCodeImageSettings) : QrCodeImageSettings | null {
+    if(imageSet && typeof imageSet === 'object') return imageSet;
+    if(typeof imageSet === 'string') return { src: imageSet };
+    return null;
+}
+
+export function qrCodeRadiusNormalize(radius?: QrCodeRadius) : Required<QrCodeRadiusEdge> {
+    return ( typeof radius === 'number' || !radius ) ? {
+        top_left: radius ?? 0, top_right: radius ?? 0,
+        bottom_left: radius ?? 0, bottom_right: radius ?? 0
+    } : {
+        top_left: 0, top_right: 0,
+        bottom_left:  0, bottom_right: 0,
+        ...radius
+    }
+}
+
 export function qrCodeStyleRadius(
     variant : QrCodeStyle,
     moduleSize : number,
@@ -93,10 +110,10 @@ export function qrCodeStyleRadius(
         case 'rounded': return moduleSize / 2;
 
         case 'circle': return {
-            top_left:     !wrapped.col.before && !wrapped.row.before && wrapped.col.after && wrapped.row.after ? moduleSize * 1.5 : 0,
-            top_right:    wrapped.col.before && !wrapped.row.before && !wrapped.col.after && wrapped.row.after ? moduleSize * 1.5 : 0,
-            bottom_left:  !wrapped.col.before && wrapped.row.before && wrapped.col.after && !wrapped.row.after ? moduleSize * 1.5 : 0,
-            bottom_right: wrapped.col.before && wrapped.row.before && !wrapped.col.after && !wrapped.row.after ? moduleSize * 1.5 : 0
+            top_left:     !wrapped.col.before && !wrapped.row.before && wrapped.col.after && wrapped.row.after ? moduleSize * 1.35 : 0,
+            top_right:    wrapped.col.before && !wrapped.row.before && !wrapped.col.after && wrapped.row.after ? moduleSize * 1.35 : 0,
+            bottom_left:  !wrapped.col.before && wrapped.row.before && wrapped.col.after && !wrapped.row.after ? moduleSize * 1.35 : 0,
+            bottom_right: wrapped.col.before && wrapped.row.before && !wrapped.col.after && !wrapped.row.after ? moduleSize * 1.35 : 0
         };
         
         case 'fluid': return {
@@ -139,6 +156,25 @@ export function qrCodeStyleRadius(
             };
 
         default: return 0;
+
+    }
+
+}
+
+export function getColor(color : QrCodeColor, effect : QrCodeColorEffect , col: number, row: number) : QrCodeColor {
+
+    switch(effect) {
+
+        case 'gradient-dark-vertical': return colorGradient(color, row * -3);
+        case 'gradient-dark-horizontal': return colorGradient(color, col * -3);
+        case 'gradient-dark-diagonal': return colorGradient(color, (col + row) * -2);
+        case 'gradient-light-vertical': return colorGradient(color, row * 3);
+        case 'gradient-light-horizontal': return colorGradient(color, col * 3);
+        case 'gradient-light-diagonal': return colorGradient(color, (col + row) * 2);
+        
+        case 'colored': return getRandomColor(color);
+
+        default: return color;
 
     }
 
