@@ -52,28 +52,44 @@ yarn add react-qrcode-pretty
 ## Code Example
 
 ```js
-import { QrCode } from "react-qrcode-pretty";
+import {
+    QrCodeCanvas, 
+    useQrCodeDownload
+} from "react-qrcode-pretty";
 
-export default function QrCodeCustom({ value = 'react-qrcode-pretty' }) {
+export function QrCodeCustom({ value = 'react-qrcode-pretty' }) {
+
+    const [ setQrcode, download, isReady ] = useQrCodeDownload();
 
     return (
 
-        <QrCode
-            value={ value }
-            variant={{
-                eyes: 'gravity',
-                body: 'fluid'
-            }}
-            color={{
-                eyes: '#223344',
-                body: '#335577'
-            }}
-            padding={ 20 }
-            margin={ 20 }
-            bgColor='#ddeeff'
-            bgRounded
-            divider
-        />
+        <div>
+
+            <QrCodeCanvas
+                value={ value }
+                variant={{
+                    eyes: 'gravity',
+                    body: 'fluid'
+                }}
+                color={{
+                    eyes: '#223344',
+                    body: '#335577'
+                }}
+                padding={ 20 }
+                margin={ 20 }
+                bgColor='#ddeeff'
+                onReady={ setQrcode }
+                bgRounded
+                divider
+            />
+
+            <br />
+
+            <button onClick={ () => download('qrcode') } disabled={ !isReady }>
+                Download Qrcode
+            </button>
+
+        </div>
 
     );
 

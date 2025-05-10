@@ -6,7 +6,7 @@ export { default as QrCodeSVG } from './QrCodeSVG';
 
 /**
  * React Hook to download Qrcode Type
- * @returns [ setQrcode, onDownload, isReady ]
+ * @returns [ setQrcode, download, isReady ]
  */
 export type UseQrCodeDownload = [
     (QrCodeRef : HTMLCanvasElement | SVGSVGElement) => void,
@@ -17,7 +17,7 @@ export type UseQrCodeDownload = [
 /**
  * React Hook to download Qrcode Canvas (PNG) or SVG
  * @param [suffix=''] add a suffix to the file name to download
- * @returns [ setQrcode, onDownload, isReady ]
+ * @returns [ setQrcode, download, isReady ]
  */
 export function useQrCodeDownload(suffix : string = '') : UseQrCodeDownload {
     
