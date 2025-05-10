@@ -1,4 +1,4 @@
-import { QrCodeColor, QrCodeColorEffect, QrCodeImageSettings, QrCodePart, QrCodeRadius, QrCodeStyle, QrCodeWrapped } from "./types";
+import { QrCodeColor, QrCodeColorEffect, QrCodeImageSettings, QrCodePart, QrCodeRadius, QrCodeRadiusEdge, QrCodeStyle, QrCodeWrapped } from "./types";
 
 type ColorRGB = {
     r : number;
@@ -81,6 +81,17 @@ export function qrCodeImageNormalize(imageSet ?: string | QrCodeImageSettings) :
     return null;
 }
 
+export function qrCodeRadiusNormalize(radius?: QrCodeRadius) : Required<QrCodeRadiusEdge> {
+    return ( typeof radius === 'number' || !radius ) ? {
+        top_left: radius ?? 0, top_right: radius ?? 0,
+        bottom_left: radius ?? 0, bottom_right: radius ?? 0
+    } : {
+        top_left: 0, top_right: 0,
+        bottom_left:  0, bottom_right: 0,
+        ...radius
+    }
+}
+
 export function qrCodeStyleRadius(
     variant : QrCodeStyle,
     moduleSize : number,
@@ -99,10 +110,10 @@ export function qrCodeStyleRadius(
         case 'rounded': return moduleSize / 2;
 
         case 'circle': return {
-            top_left:     !wrapped.col.before && !wrapped.row.before && wrapped.col.after && wrapped.row.after ? moduleSize * 1.5 : 0,
-            top_right:    wrapped.col.before && !wrapped.row.before && !wrapped.col.after && wrapped.row.after ? moduleSize * 1.5 : 0,
-            bottom_left:  !wrapped.col.before && wrapped.row.before && wrapped.col.after && !wrapped.row.after ? moduleSize * 1.5 : 0,
-            bottom_right: wrapped.col.before && wrapped.row.before && !wrapped.col.after && !wrapped.row.after ? moduleSize * 1.5 : 0
+            top_left:     !wrapped.col.before && !wrapped.row.before && wrapped.col.after && wrapped.row.after ? moduleSize * 1.35 : 0,
+            top_right:    wrapped.col.before && !wrapped.row.before && !wrapped.col.after && wrapped.row.after ? moduleSize * 1.35 : 0,
+            bottom_left:  !wrapped.col.before && wrapped.row.before && wrapped.col.after && !wrapped.row.after ? moduleSize * 1.35 : 0,
+            bottom_right: wrapped.col.before && wrapped.row.before && !wrapped.col.after && !wrapped.row.after ? moduleSize * 1.35 : 0
         };
         
         case 'fluid': return {

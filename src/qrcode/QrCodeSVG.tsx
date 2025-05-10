@@ -1,6 +1,7 @@
 import qrcodeGenerator from 'qrcode-generator';
-import { getColor, qrCodeImageNormalize, qrCodePartNormalize } from './helpers';
-import type { QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeProps, QrCodeStyle } from './types';
+import { getColor, qrCodeImageNormalize, qrCodePartNormalize, qrCodeStyleRadius } from './helpers';
+import rectanglePath from './rectanglePath';
+import type { QrCodeColor, QrCodeColorEffect, QrCodePartOption, QrCodeProps, QrCodeStyle, QrCodeWrapped } from './types';
 
 export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
 
@@ -39,15 +40,36 @@ export default function QrCodeSvg(props: QrCodeProps<'SVG'>): JSX.Element {
             const y = row * moduleSize + space.margin + space.padding;
             const c = getColor(color[key], colorEffect[key], col, row);
 
+            const wrapped : QrCodeWrapped = {
+                row: {
+                    before: row > 0 ? qrcode.isDark(row - 1, col) : false,
+                    after: row < modules - 1 ? qrcode.isDark(row + 1, col) : false
+                },
+                col: {
+                    before: col > 0 ? qrcode.isDark(row, col - 1) : false,
+                    after: col < modules - 1 ? qrcode.isDark(row, col + 1) : false
+                }
+            };
+
             rects.push(
-                <rect
-                    key={`${row}-${col}`}
-                    x={x}
-                    y={y}
-                    width={moduleSize}
-                    height={moduleSize}
-                    fill={c}
-                    rx={props.variant === 'dots' || props.variant === 'rounded' ? moduleSize / 2 : 0}
+                <path
+                    d={ rectanglePath({
+                        height: moduleSize,
+                        width: moduleSize,
+                        positionX: x,
+                        positionY: y,
+                        radius: qrCodeStyleRadius(
+                            variant[key],
+                            moduleSize,
+                            modules,
+                            wrapped,
+                            row,
+                            col
+                        )
+                    }) }
+                    key={ `${row}-${col}` }
+                    fill={ c }
+                    stroke={ props.divider && key === 'body' ? (props.bgColor ?? '#FFF') : undefined }
                 />
             );
         }
