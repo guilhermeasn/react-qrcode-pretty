@@ -230,7 +230,7 @@ export default function App() {
                                     React JS Code
                                 </Accordion.Button>
                                 <Accordion.Body className='text-start bg-secondary bg-opacity-10'>
-                                    <Code { ...props } />
+                                    <Code format={ format } qrCodeProps={ props } />
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>

@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 // import { QrCodePart, QrCodeProps } from "react-qrcode-pretty";
-import { QrCodePart, QrCodeProps } from "./qrcode";
+import { QrCodeFormat, QrCodePart, QrCodeProps } from "./qrcode";
 
 function Space({ size = 1 }) {
     return <>{
@@ -10,16 +10,21 @@ function Space({ size = 1 }) {
     }</>;
 }
 
-export default function Code(qrCodeProps : QrCodeProps<'canvas'> | QrCodeProps<'SVG'>) {
+type CodeProps = {
+    format: QrCodeFormat,
+    qrCodeProps: QrCodeProps<'canvas'> | QrCodeProps<'SVG'>
+}
+
+export default function Code({ format, qrCodeProps } : CodeProps) {
 
     return (
 
         <blockquote className="font-monospace small text-dark">
-            <p>{ "import { QrCode } from 'react-qrcode-pretty';" }</p>
+            <p>{ format === 'canvas' ? "import { QrCodeCanvas } from 'react-qrcode-pretty';" : "import { QrCodeSVG } from 'react-qrcode-pretty';" }</p>
             <p>{ `export default function QrCodeCustom({ value = '${qrCodeProps.value}' }) {` }</p>
             <p><Space />return (</p>
             <p>
-                <Space size={ 2 } />{ "<QrCode" }<br />
+                <Space size={ 2 } />{ format === 'canvas' ? "<QrCodeCanvas" : "<QrCodeSVG" }<br />
                 <Space size={ 3 } />{ "value={ value }" }<br />
                 <Space size={ 3 } />{ "variant={{" }<br />
                 <Space size={ 4 } />{ `eyes: '${(qrCodeProps.variant as QrCodePart<string>).eyes}',` }<br />
