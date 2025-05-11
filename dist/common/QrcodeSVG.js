@@ -48,7 +48,7 @@ var helpers_1 = require("./helpers");
 function QrcodeSvg(props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
     var SVG = (0, react_1.useRef)(null);
-    var qrcode = (0, qrcode_generator_1.default)((_a = props.modules) !== null && _a !== void 0 ? _a : 0, ((_b = props.level) !== null && _b !== void 0 ? _b : props.image) ? 'H' : 'M');
+    var qrcode = (0, qrcode_generator_1.default)((_a = props.modules) !== null && _a !== void 0 ? _a : 0, (_b = props.level) !== null && _b !== void 0 ? _b : (props.image ? 'H' : 'M'));
     qrcode.addData((_c = props.value) !== null && _c !== void 0 ? _c : '', props.mode);
     qrcode.make();
     var modules = qrcode.getModuleCount();

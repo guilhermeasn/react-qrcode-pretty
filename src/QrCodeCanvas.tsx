@@ -40,7 +40,7 @@ export default function QrcodeCanvas(props : QrcodeProps<'canvas'>) : JSX.Elemen
     const colorEffect = qrCodePartNormalize<QrcodeColorEffect>('none', props.colorEffect);
     const imagem = qrCodeImageNormalize(props.image);
 
-    const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? props.image ? 'H' : 'M');
+    const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? (props.image ? 'H' : 'M'));
     qrcode.addData(props.value ?? '', props.mode);
     qrcode.make();
 

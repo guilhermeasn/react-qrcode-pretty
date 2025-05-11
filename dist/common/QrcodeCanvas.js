@@ -57,7 +57,7 @@ function QrcodeCanvas(props) {
     var color = (0, helpers_1.qrCodePartNormalize)('#000', props.color);
     var colorEffect = (0, helpers_1.qrCodePartNormalize)('none', props.colorEffect);
     var imagem = (0, helpers_1.qrCodeImageNormalize)(props.image);
-    var qrcode = (0, qrcode_generator_1.default)((_e = props.modules) !== null && _e !== void 0 ? _e : 0, ((_f = props.level) !== null && _f !== void 0 ? _f : props.image) ? 'H' : 'M');
+    var qrcode = (0, qrcode_generator_1.default)((_e = props.modules) !== null && _e !== void 0 ? _e : 0, (_f = props.level) !== null && _f !== void 0 ? _f : (props.image ? 'H' : 'M'));
     qrcode.addData((_g = props.value) !== null && _g !== void 0 ? _g : '', props.mode);
     qrcode.make();
     var modules = qrcode.getModuleCount();

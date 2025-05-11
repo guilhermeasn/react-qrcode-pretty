@@ -29,7 +29,7 @@ export default function QrcodeSvg(props: QrcodeProps<'SVG'>): JSX.Element {
 
     const SVG : React.RefObject<SVGSVGElement> = useRef<SVGSVGElement>(null);
 
-    const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? props.image ? 'H' : 'M');
+    const qrcode : QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? (props.image ? 'H' : 'M'));
     qrcode.addData(props.value ?? '', props.mode);
     qrcode.make();
 

@@ -6,7 +6,7 @@
 
 Qrcode generator for react apps with many customization options.
 
-![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/qrcode_url_inclined.png)
+![Qrcode example](https://raw.githubusercontent.com/guilhermeasn/react-qrcode-pretty/master/examples/qrcode_website.png)
 
 [Qrcode generator website](https://guilhermeasn.github.io/react-qrcode-pretty/)
 
