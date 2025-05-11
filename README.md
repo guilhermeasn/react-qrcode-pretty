@@ -37,7 +37,7 @@ yarn add react-qrcode-pretty
 | value | `string` | | Qrcode payload (required) |
 | size | `number` | auto | Size of the qrcode without margin and padding |
 | color | `string` <br /> `{ 'eyes': string, 'body': string }` | '#000000' | Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode |
-| colorEffect | `gradient-dark-vertical` <br /> `gradient-dark-horizontal` <br /> `gradient-dark-diagonal` <br /> `gradient-light-vertical` <br /> `gradient-light-horizontal` <br /> `gradient-light-diagonal` <br /> `colored` <br /> `none` <br /> `{ 'eyes': colorEffect, 'body': colorEffect }` | 'none' | Apply effects to coloring |
+| colorEffect | `gradient-dark-vertical` <br /> `gradient-dark-horizontal` <br /> `gradient-dark-diagonal` <br /> `gradient-light-vertical` <br /> `gradient-light-horizontal` <br /> `gradient-light-diagonal` <br /> `colored` <br /> `shades` <br /> `none` <br /> `{ 'eyes': colorEffect, 'body': colorEffect }` | 'none' | Apply effects to coloring |
 | mode | `Numeric` <br /> `Alphanumeric` <br /> `Byte` <br /> `Kanji` | 'Byte' | Mode that payload (value) will be logged |
 | level | `L` <br /> `M` <br /> `Q` <br /> `H` | 'M' | Error correction level |
 | modules | `[0-40]` | 0 | Number of qrcode modules. 0 is auto |
