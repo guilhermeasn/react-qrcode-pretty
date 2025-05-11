@@ -7374,10 +7374,10 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-qrcode-pretty@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/react-qrcode-pretty/-/react-qrcode-pretty-3.0.1.tgz#c30105fbeb3685885ac7dabab4b3f9279caecf01"
-  integrity sha512-SO1Ufb3rOQ5be4Nq5Vu5lMbB15EErS4j1vvitYVS2uErLdpGi5Rv7vnNYbePyMwQ9/Gm65foPwbIETKvuHmBAQ==
+react-qrcode-pretty@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-qrcode-pretty/-/react-qrcode-pretty-3.1.0.tgz#b06fe734b33047836a233a49d5d9d285d4754fea"
+  integrity sha512-Ivdmi7U4Tx30t/IX9tulFEnjORYMJ4HhEgQkWBnD63AvUXEP3Ebn5YmBlp34vJpcO+P5Cz/hPZHtbafXsCTNaw==
   dependencies:
     downloadjs "^1.4.7"
     qrcode-generator "^1.4.4"

@@ -29,6 +29,7 @@ export default function App() {
         'gradient-light-horizontal',
         'gradient-light-diagonal',
         'colored',
+        'shades',
         'none'
     ];
 
