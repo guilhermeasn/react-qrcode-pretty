@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadImageAsBase64 = exports.getColor = exports.qrCodeStyleRadius = exports.qrCodeRadiusNormalize = exports.qrCodeImageNormalize = exports.qrCodePartNormalize = exports.getRandomColor = exports.colorGradient = void 0;
+exports.loadImageAsBase64 = exports.getColor = exports.qrCodeStyleRadius = exports.qrCodeRadiusNormalize = exports.qrCodeImageNormalize = exports.qrCodePartNormalize = exports.getRandomColor = void 0;
 function colorHexToRGB(hex) {
     hex = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, function (_, r, g, b) { return (r + r + g + g + b + b); });
     var result = /([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -72,7 +72,12 @@ function colorGradient(color, level) {
     }
     return colorRGBtoHex(rgb);
 }
-exports.colorGradient = colorGradient;
+function getShadeColor(colorBase) {
+    var _a = colorHexToRGB(colorBase), r = _a.r, g = _a.g, b = _a.b;
+    var max = Math.min(r, g, b);
+    var random = getRandomInt(0, max);
+    return colorRGBtoHex({ r: r - random, g: g - random, b: b - random });
+}
 function colorLevel(color) {
     var sum = Object.values(colorHexToRGB(color)).reduce(function (t, c) { return t + c; }, 0);
     return sum > 510 ? 'light' : sum > 255 ? 'medium' : 'dark';
@@ -179,6 +184,7 @@ function getColor(color, effect, col, row) {
         case 'gradient-light-vertical': return colorGradient(color, row * 3);
         case 'gradient-light-horizontal': return colorGradient(color, col * 3);
         case 'gradient-light-diagonal': return colorGradient(color, (col + row) * 2);
+        case 'shades': return getShadeColor(color);
         case 'colored': return getRandomColor(color);
         default: return color;
     }

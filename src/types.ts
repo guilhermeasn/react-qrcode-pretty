@@ -16,6 +16,7 @@ export type QrcodeColorEffect = (
     | 'gradient-light-horizontal'
     | 'gradient-light-diagonal'
     | 'colored'
+    | 'shades'
     | 'none'
 );
 

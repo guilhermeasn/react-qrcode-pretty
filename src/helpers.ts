@@ -32,7 +32,7 @@ function colorRGBtoHex({ r, g, b } : ColorRGB) : string {
     return "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
 }
 
-export function colorGradient(color: string, level: number) : string {
+function colorGradient(color: string, level: number) : string {
 
     const rgb = colorHexToRGB(color);
 
@@ -44,6 +44,13 @@ export function colorGradient(color: string, level: number) : string {
 
     return colorRGBtoHex(rgb);
 
+}
+
+function getShadeColor(colorBase: string) : string {
+    const { r, g, b } = colorHexToRGB(colorBase);
+    const max = Math.min(r, g, b);
+    const random = getRandomInt(0, max);
+    return colorRGBtoHex({ r: r - random, g: g - random, b: b - random });
 }
 
 function colorLevel(color: string) : ColorLevel {
@@ -187,6 +194,7 @@ export function getColor(color : QrcodeColor, effect : QrcodeColorEffect , col: 
         case 'gradient-light-horizontal': return colorGradient(color, col * 3);
         case 'gradient-light-diagonal': return colorGradient(color, (col + row) * 2);
         
+        case 'shades': return getShadeColor(color);
         case 'colored': return getRandomColor(color);
 
         default: return color;
