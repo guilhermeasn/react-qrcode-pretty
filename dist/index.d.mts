@@ -1,24 +1,25 @@
-import type { HTMLAttributes } from "react";
+import { HTMLAttributes, ReactNode } from 'react';
+
 /**
  * Color string
  */
-export declare type QrcodeColor = string;
+type QrcodeColor = string;
 /**
  * Apply effects to coloring options
  */
-export declare type QrcodeColorEffect = ('gradient-dark-vertical' | 'gradient-dark-horizontal' | 'gradient-dark-diagonal' | 'gradient-light-vertical' | 'gradient-light-horizontal' | 'gradient-light-diagonal' | 'colored' | 'shades' | 'none');
+type QrcodeColorEffect = ('gradient-dark-vertical' | 'gradient-dark-horizontal' | 'gradient-dark-diagonal' | 'gradient-light-vertical' | 'gradient-light-horizontal' | 'gradient-light-diagonal' | 'colored' | 'shades' | 'none');
 /**
  * Qrcode Parts options
  */
-export declare type QrcodePartOption = ('eyes' | 'body');
+type QrcodePartOption = ('eyes' | 'body');
 /**
  * Qrcode Parts (eyes and body)
  */
-export declare type QrcodePart<T> = (Record<QrcodePartOption, T>);
+type QrcodePart<T> = (Record<QrcodePartOption, T>);
 /**
  * Settings for the image to be inserted into the qrcode
  */
-export declare type QrcodeImageSettings = {
+type QrcodeImageSettings = {
     src: string;
     width?: number;
     height?: number;
@@ -29,22 +30,22 @@ export declare type QrcodeImageSettings = {
 /**
  * Style variations for qrcode parts
  */
-export declare type QrcodeStyle = ('standard' | 'rounded' | 'dots' | 'circle' | 'fluid' | 'reverse' | 'shower' | 'gravity' | 'morse' | 'italic' | 'inclined');
-declare type TypeNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40;
-declare type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
-declare type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' | 'Kanji';
+type QrcodeStyle = ('standard' | 'rounded' | 'dots' | 'circle' | 'fluid' | 'reverse' | 'shower' | 'gravity' | 'morse' | 'italic' | 'inclined');
+type TypeNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40;
+type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
+type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' | 'Kanji';
 /**
  * Available formats for qrcode
  */
-export declare type QrcodeFormat = 'canvas' | 'SVG';
+type QrcodeFormat = 'canvas' | 'SVG';
 /**
  * Qrcode html element
  */
-export declare type QrcodeElement<F extends QrcodeFormat> = F extends 'canvas' ? HTMLCanvasElement : SVGSVGElement;
+type QrcodeElement<F extends QrcodeFormat> = F extends 'canvas' ? HTMLCanvasElement : SVGSVGElement;
 /**
  * Common props of the Qrcode Components
  */
-export declare type QrcodeProps<F extends QrcodeFormat> = {
+type QrcodeProps<F extends QrcodeFormat> = {
     /**
      * Qrcode payload (required)
      */
@@ -120,7 +121,7 @@ export declare type QrcodeProps<F extends QrcodeFormat> = {
      */
     onReady?: (element: QrcodeElement<F>) => void;
 };
-export declare type QrcodeRectangleProps = {
+type QrcodeRectangleProps = {
     positionX: number;
     positionY: number;
     width: number;
@@ -129,15 +130,44 @@ export declare type QrcodeRectangleProps = {
     stroke?: string | null;
     radius?: QrcodeRadius;
 };
-export declare type QrcodeRadius = number | QrcodeRadiusEdge;
-export declare type QrcodeRadiusEdge = {
+type QrcodeRadius = number | QrcodeRadiusEdge;
+type QrcodeRadiusEdge = {
     top_left?: number;
     top_right?: number;
     bottom_left?: number;
     bottom_right?: number;
 };
-export declare type QrcodeWrapped = Record<'row' | 'col', {
+type QrcodeWrapped = Record<'row' | 'col', {
     before: boolean;
     after: boolean;
 }>;
-export {};
+
+/**
+ * Qrcode React Component
+ * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
+ */
+declare function QrcodeCanvas(props: QrcodeProps<'canvas'>): ReactNode;
+
+/**
+ * Qrcode React Component
+ * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
+ */
+declare function QrcodeSvg(props: QrcodeProps<'SVG'>): ReactNode;
+
+/**
+ * React Hook to download Qrcode Type
+ * @returns [ setQrcode, download, isReady ]
+ */
+type UseQrcodeDownload = [
+    (QrcodeRef: HTMLCanvasElement | SVGSVGElement) => void,
+    (fileName: string) => void,
+    boolean
+];
+/**
+ * React Hook to download Qrcode Canvas (PNG) or SVG
+ * @param [suffix=''] add a suffix to the file name to download
+ * @returns [ setQrcode, download, isReady ]
+ */
+declare function useQrcodeDownload(suffix?: string): UseQrcodeDownload;
+
+export { QrcodeCanvas, type QrcodeColor, type QrcodeColorEffect, type QrcodeElement, type QrcodeFormat, type QrcodeImageSettings, type QrcodePart, type QrcodePartOption, type QrcodeProps, type QrcodeRadius, type QrcodeRadiusEdge, type QrcodeRectangleProps, QrcodeSvg as QrcodeSVG, type QrcodeStyle, type QrcodeWrapped, type UseQrcodeDownload, useQrcodeDownload };
