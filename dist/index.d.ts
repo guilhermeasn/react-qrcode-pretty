@@ -1,4 +1,5 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import * as react_jsx_runtime from 'react/jsx-runtime';
+import { HTMLAttributes } from 'react';
 
 /**
  * Color string
@@ -146,13 +147,13 @@ type QrcodeWrapped = Record<'row' | 'col', {
  * Qrcode React Component
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
-declare function QrcodeCanvas(props: QrcodeProps<'canvas'>): ReactNode;
+declare function QrcodeCanvas(props: QrcodeProps<'canvas'>): react_jsx_runtime.JSX.Element;
 
 /**
  * Qrcode React Component
  * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
  */
-declare function QrcodeSvg(props: QrcodeProps<'SVG'>): ReactNode;
+declare function QrcodeSvg(props: QrcodeProps<'SVG'>): react_jsx_runtime.JSX.Element;
 
 /**
  * React Hook to download Qrcode Type

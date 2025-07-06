@@ -1,6 +1,6 @@
 {
   "name": "react-qrcode-pretty",
-  "version": "3.2.0-beta.3",
+  "version": "3.2.0-beta.4",
   "description": "Qrcode generator for react apps with many customization options",
   "keywords": [
     "react",
@@ -29,7 +29,8 @@
   "homepage": "https://github.com/guilhermeasn/react-qrcode-pretty#readme",
   "devDependencies": {
     "@types/downloadjs": "^1.4.6",
-    "@types/react": "^18.0.17",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "rimraf": "^3.0.2",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
@@ -39,8 +40,8 @@
     "qrcode-generator": "^1.4.4"
   },
   "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+    "react": "^19",
+    "react-dom": "^19"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
