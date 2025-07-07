@@ -40,6 +40,7 @@ export default function Code({ format, qrCodeProps } : CodeProps) {
                 <Space size={ 3 } />{ "}}" }<br />
                 <Space size={ 3 } />{ `padding={ ${qrCodeProps.padding} }` }<br />
                 <Space size={ 3 } />{ `margin={ ${qrCodeProps.margin} }` }<br />
+                <Space size={ 3 } />{ `size={ ${qrCodeProps.size} }` }<br />
                 <Space size={ 3 } />{ `bgColor='${qrCodeProps.bgColor}'` }<br />
                 { qrCodeProps.bgRounded ? <><Space size={ 3 } />{ `bgRounded` }<br /></> : '' }
                 { qrCodeProps.divider ? <><Space size={ 3 } />{ `divider` }<br /></> : '' }
