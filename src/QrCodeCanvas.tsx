@@ -1,5 +1,5 @@
 import qrcodeGenerator from 'qrcode-generator';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import canvasRectangle from './rectangleCanvas';
 
@@ -27,12 +27,12 @@ import type {
  */
 export function QrcodeCanvas(props: QrcodeProps<'canvas'>) {
 
-  const canvas: React.RefObject<HTMLCanvasElement | null> = useRef<HTMLCanvasElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
 
   const space = {
-    margin: props.margin ?? 0,
-    padding: props.padding ?? 0,
-    total: ((props.margin ?? 0) + (props.padding ?? 0)) * 2
+    margin: Math.floor(props.margin ?? 0),
+    padding: Math.floor(props.padding ?? 0),
+    total: (Math.floor(props.margin ?? 0) + Math.floor(props.padding ?? 0)) * 2
   }
 
   const variant = qrCodePartNormalize<QrcodeStyle>('standard', props.variant);
@@ -45,9 +45,11 @@ export function QrcodeCanvas(props: QrcodeProps<'canvas'>) {
   qrcode.make();
 
   const modules: number = qrcode.getModuleCount();
-  const size: number = props.size ?? modules * 10;
 
-  const moduleSize: number = size / modules;
+  const rawModuleSize: number = (props.size ?? modules * 10) / modules;
+  const moduleSize: number = Math.floor(rawModuleSize);
+  const size: number = moduleSize * modules;
+
   const moduleEyeStart: number = 7;
   const moduleEyeEnd: number = modules - moduleEyeStart - 1;
 

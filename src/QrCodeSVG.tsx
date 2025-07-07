@@ -14,7 +14,6 @@ import {
 import type {
   QrcodeColor,
   QrcodeColorEffect,
-  QrcodeImageSettings,
   QrcodePartOption,
   QrcodeProps,
   QrcodeStyle,
@@ -27,21 +26,22 @@ import type {
  */
 export function QrcodeSvg(props: QrcodeProps<'SVG'>) {
 
-  const SVG: React.RefObject<SVGSVGElement | null> = useRef<SVGSVGElement>(null);
+  const SVG = useRef<SVGSVGElement>(null);
 
   const qrcode: QRCode = qrcodeGenerator(props.modules ?? 0, props.level ?? (props.image ? 'H' : 'M'));
   qrcode.addData(props.value ?? '', props.mode);
   qrcode.make();
 
-  const modules = qrcode.getModuleCount();
-  const size = props.size ?? modules * 10;
-  const moduleSize = size / modules;
+  const modules: number = qrcode.getModuleCount();
+  const rawModuleSize: number = (props.size ?? modules * 10) / modules;
+  const moduleSize: number = Math.floor(rawModuleSize);
+  const size: number = moduleSize * modules;
 
   const space = {
-    margin: props.margin ?? 0,
-    padding: props.padding ?? 0,
-    total: ((props.margin ?? 0) + (props.padding ?? 0)) * 2
-  };
+    margin: Math.floor(props.margin ?? 0),
+    padding: Math.floor(props.padding ?? 0),
+    total: (Math.floor(props.margin ?? 0) + Math.floor(props.padding ?? 0)) * 2
+  }
 
   const variant = qrCodePartNormalize<QrcodeStyle>('standard', props.variant);
   const color = qrCodePartNormalize<QrcodeColor>('#000', props.color);
@@ -49,20 +49,18 @@ export function QrcodeSvg(props: QrcodeProps<'SVG'>) {
 
   const Image = () => {
 
-    if (!props.image) return <></>;
-
-    const image = qrCodeImageNormalize(props.image) as QrcodeImageSettings;
+    const image = qrCodeImageNormalize(props.image);
     const size = Math.floor(modules * moduleSize / 5);
     const position = size * 2 + space.margin + space.padding;
 
     const [src, setSrc] = React.useState<string>();
 
     useEffect(() => {
-      if (src) return;
+      if (src || !image) return;
       loadImageAsBase64(image.src).then(setSrc);
-    }, [props.image]);
+    }, [image, src]);
 
-    if (!src) return <></>;
+    if (!src || !image) return <></>;
 
     return <>
 
@@ -149,6 +147,7 @@ export function QrcodeSvg(props: QrcodeProps<'SVG'>) {
 
   return (
     <svg
+      shapeRendering="geometricPrecision"
       {...props.internalProps}
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${size + space.total} ${size + space.total}`}

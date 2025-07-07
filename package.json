@@ -1,6 +1,6 @@
 {
   "name": "react-qrcode-pretty",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Qrcode generator for react apps with many customization options",
   "keywords": [
     "react",

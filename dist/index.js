@@ -238,9 +238,9 @@ function QrcodeCanvas(props) {
   var _a, _b, _c, _d, _e, _f, _g, _h;
   const canvas = (0, import_react.useRef)(null);
   const space = {
-    margin: (_a = props.margin) != null ? _a : 0,
-    padding: (_b = props.padding) != null ? _b : 0,
-    total: (((_c = props.margin) != null ? _c : 0) + ((_d = props.padding) != null ? _d : 0)) * 2
+    margin: Math.floor((_a = props.margin) != null ? _a : 0),
+    padding: Math.floor((_b = props.padding) != null ? _b : 0),
+    total: (Math.floor((_c = props.margin) != null ? _c : 0) + Math.floor((_d = props.padding) != null ? _d : 0)) * 2
   };
   const variant = qrCodePartNormalize("standard", props.variant);
   const color = qrCodePartNormalize("#000", props.color);
@@ -250,8 +250,9 @@ function QrcodeCanvas(props) {
   qrcode.addData((_g = props.value) != null ? _g : "", props.mode);
   qrcode.make();
   const modules = qrcode.getModuleCount();
-  const size = (_h = props.size) != null ? _h : modules * 10;
-  const moduleSize = size / modules;
+  const rawModuleSize = ((_h = props.size) != null ? _h : modules * 10) / modules;
+  const moduleSize = Math.floor(rawModuleSize);
+  const size = moduleSize * modules;
   const moduleEyeStart = 7;
   const moduleEyeEnd = modules - moduleEyeStart - 1;
   function addImage(context, imageSet) {
@@ -375,28 +376,28 @@ function QrcodeSvg(props) {
   qrcode.addData((_c = props.value) != null ? _c : "", props.mode);
   qrcode.make();
   const modules = qrcode.getModuleCount();
-  const size = (_d = props.size) != null ? _d : modules * 10;
-  const moduleSize = size / modules;
+  const rawModuleSize = ((_d = props.size) != null ? _d : modules * 10) / modules;
+  const moduleSize = Math.floor(rawModuleSize);
+  const size = moduleSize * modules;
   const space = {
-    margin: (_e = props.margin) != null ? _e : 0,
-    padding: (_f = props.padding) != null ? _f : 0,
-    total: (((_g = props.margin) != null ? _g : 0) + ((_h = props.padding) != null ? _h : 0)) * 2
+    margin: Math.floor((_e = props.margin) != null ? _e : 0),
+    padding: Math.floor((_f = props.padding) != null ? _f : 0),
+    total: (Math.floor((_g = props.margin) != null ? _g : 0) + Math.floor((_h = props.padding) != null ? _h : 0)) * 2
   };
   const variant = qrCodePartNormalize("standard", props.variant);
   const color = qrCodePartNormalize("#000", props.color);
   const colorEffect = qrCodePartNormalize("none", props.colorEffect);
   const Image2 = () => {
     var _a2, _b2, _c2, _d2, _e2, _f2, _g2, _h2, _i2;
-    if (!props.image) return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, {});
     const image = qrCodeImageNormalize(props.image);
     const size2 = Math.floor(modules * moduleSize / 5);
     const position = size2 * 2 + space.margin + space.padding;
     const [src, setSrc] = import_react2.default.useState();
     (0, import_react2.useEffect)(() => {
-      if (src) return;
+      if (src || !image) return;
       loadImageAsBase64(image.src).then(setSrc);
-    }, [props.image]);
-    if (!src) return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, {});
+    }, [image, src]);
+    if (!src || !image) return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, {});
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
       image.overlap ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, {}) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
         "rect",
@@ -474,6 +475,7 @@ function QrcodeSvg(props) {
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
     "svg",
     {
+      shapeRendering: "geometricPrecision",
       ...props.internalProps,
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: `0 0 ${size + space.total} ${size + space.total}`,
