@@ -9,59 +9,59 @@ export type QrcodeColor = string;
  * Apply effects to coloring options
  */
 export type QrcodeColorEffect = (
-    | 'gradient-dark-vertical'
-    | 'gradient-dark-horizontal'
-    | 'gradient-dark-diagonal'
-    | 'gradient-light-vertical'
-    | 'gradient-light-horizontal'
-    | 'gradient-light-diagonal'
-    | 'colored'
-    | 'shades'
-    | 'none'
+  | 'gradient-dark-vertical'
+  | 'gradient-dark-horizontal'
+  | 'gradient-dark-diagonal'
+  | 'gradient-light-vertical'
+  | 'gradient-light-horizontal'
+  | 'gradient-light-diagonal'
+  | 'colored'
+  | 'shades'
+  | 'none'
 );
 
 /**
  * Qrcode Parts options
  */
 export type QrcodePartOption = (
-    | 'eyes'
-    | 'body'
+  | 'eyes'
+  | 'body'
 );
 
 /**
  * Qrcode Parts (eyes and body)
  */
 export type QrcodePart<T> = (
-    Record<QrcodePartOption, T>
+  Record<QrcodePartOption, T>
 );
 
 /**
  * Settings for the image to be inserted into the qrcode
  */
 export type QrcodeImageSettings = {
-    src: string;
-    width ?: number;
-    height ?: number;
-    positionX ?: number;
-    positionY ?: number;
-    overlap ?: boolean;
+  src: string;
+  width?: number;
+  height?: number;
+  positionX?: number;
+  positionY?: number;
+  overlap?: boolean;
 }
 
 /**
  * Style variations for qrcode parts
  */
 export type QrcodeStyle = (
-    | 'standard' 
-    | 'rounded'  
-    | 'dots'     
-    | 'circle'   
-    | 'fluid'    
-    | 'reverse'  
-    | 'shower'   
-    | 'gravity'  
-    | 'morse'
-    | 'italic'
-    | 'inclined'
+  | 'standard'
+  | 'rounded'
+  | 'dots'
+  | 'circle'
+  | 'fluid'
+  | 'reverse'
+  | 'shower'
+  | 'gravity'
+  | 'morse'
+  | 'italic'
+  | 'inclined'
 );
 
 type TypeNumber =
@@ -91,119 +91,119 @@ export type QrcodeElement<F extends QrcodeFormat> = F extends 'canvas' ? HTMLCan
  */
 export type QrcodeProps<F extends QrcodeFormat> = {
 
-    /**
-     * Qrcode payload (required)
-     */
-    value : string;
+  /**
+   * Qrcode payload (required)
+   */
+  value: string;
 
-    /**
-     * Size of the qrcode without margin and padding
-     */
-    size ?: number;
+  /**
+   * Size of the qrcode without margin and padding
+   */
+  size?: number;
 
-    /**
-     * Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode
-     */
-    color ?: QrcodeColor | QrcodePart<QrcodeColor>;
+  /**
+   * Foreground color for the entire qrcode or for each part (eyes and body) of the qrcode
+   */
+  color?: QrcodeColor | QrcodePart<QrcodeColor>;
 
-    /**
-     * Apply effects to coloring
-     */
-    colorEffect ?: QrcodeColorEffect | QrcodePart<QrcodeColorEffect>;
+  /**
+   * Apply effects to coloring
+   */
+  colorEffect?: QrcodeColorEffect | QrcodePart<QrcodeColorEffect>;
 
-    /**
-     * Mode that payload (value) will be logged
-     */
-    mode ?: Mode;
+  /**
+   * Mode that payload (value) will be logged
+   */
+  mode?: Mode;
 
-    /**
-     * Error correction level
-     * - Level L - up to 7% damage
-     * - Level M - up to 15% damage
-     * - Level Q - up to 25% damage
-     * - Level H - up to 30% damage
-     */
-    level ?: ErrorCorrectionLevel;
+  /**
+   * Error correction level
+   * - Level L - up to 7% damage
+   * - Level M - up to 15% damage
+   * - Level Q - up to 25% damage
+   * - Level H - up to 30% damage
+   */
+  level?: ErrorCorrectionLevel;
 
-    /**
-     * Number of qrcode modules
-     * - 0 is auto
-     */
-    modules ?: TypeNumber;
+  /**
+   * Number of qrcode modules
+   * - 0 is auto
+   */
+  modules?: TypeNumber;
 
-    /**
-     * Location (src) of an image to be inserted into the center of the qrcode
-     */
-    image ?: string | QrcodeImageSettings;
+  /**
+   * Location (src) of an image to be inserted into the center of the qrcode
+   */
+  image?: string | QrcodeImageSettings;
 
-    /**
-     * Margin size. Area without background color
-     */
-    margin ?: number;
+  /**
+   * Margin size. Area without background color
+   */
+  margin?: number;
 
-    /**
-     * Padding size. Area with background color
-     */
-    padding ?: number;
+  /**
+   * Padding size. Area with background color
+   */
+  padding?: number;
 
-    /**
-     * Style applied to the entire qrcode or each part (eyes and body) of it
-     */
-    variant ?: QrcodeStyle | QrcodePart<QrcodeStyle>;
+  /**
+   * Style applied to the entire qrcode or each part (eyes and body) of it
+   */
+  variant?: QrcodeStyle | QrcodePart<QrcodeStyle>;
 
-    /**
-     * Active a small separation between the qrcode body points
-     */
-    divider ?: boolean;
+  /**
+   * Active a small separation between the qrcode body points
+   */
+  divider?: boolean;
 
-    /**
-     * Background color
-     */
-    bgColor ?: string;
+  /**
+   * Background color
+   */
+  bgColor?: string;
 
-    /**
-     * Background color rounded
-     */
-    bgRounded ?: boolean;
+  /**
+   * Background color rounded
+   */
+  bgRounded?: boolean;
 
-    /**
-     * The tag children
-     */
-    children ?: React.ReactNode;
+  /**
+   * The tag children
+   */
+  children?: React.ReactNode;
 
-    /**
-     * The internal props attributes
-     */
-    internalProps ?: HTMLAttributes<QrcodeElement<F>>;
+  /**
+   * The internal props attributes
+   */
+  internalProps?: HTMLAttributes<QrcodeElement<F>>;
 
-    /**
-     * Provides element properties and methods when available.
-     * To be used with the useQrcodeDownload hook.
-     */
-    onReady ?: (element : QrcodeElement<F>) => void
+  /**
+   * Provides element properties and methods when available.
+   * To be used with the useQrcodeDownload hook.
+   */
+  onReady?: (element: QrcodeElement<F>) => void
 
 }
 
 export type QrcodeRectangleProps = {
-    positionX : number;
-    positionY : number;
-    width     : number;
-    height    : number;
-    fill     ?: string | null;
-    stroke   ?: string | null; 
-    radius   ?: QrcodeRadius
+  positionX: number;
+  positionY: number;
+  width: number;
+  height: number;
+  fill?: string | null;
+  stroke?: string | null;
+  radius?: QrcodeRadius
 }
 
 export type QrcodeRadius = number | QrcodeRadiusEdge;
 
 export type QrcodeRadiusEdge = {
-    top_left     ?: number;
-    top_right    ?: number;
-    bottom_left  ?: number;
-    bottom_right ?: number;
+  top_left?: number;
+  top_right?: number;
+  bottom_left?: number;
+  bottom_right?: number;
 }
 
 export type QrcodeWrapped = Record<'row' | 'col', {
-    before: boolean;
-    after: boolean;
+  before: boolean;
+  after: boolean;
 }>;
