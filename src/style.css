@@ -20,3 +20,24 @@ canvas, svg {
     margin: 0;
     padding: 0;
 }
+
+.bg-code {
+  background-color: #212121;
+}
+
+.btn-copy {
+  position: absolute;
+  right: -10px;
+  top: -5px;
+}
+
+.tooltip-success .tooltip-inner {
+  background-color: #519c63 !important; /* verde Bootstrap */
+  color: white !important;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.tooltip-success .tooltip-arrow {
+  filter: brightness(0%) saturate(100%) invert(63%) sepia(90%) saturate(379%) hue-rotate(79deg) brightness(75%) contrast(54%);
+}

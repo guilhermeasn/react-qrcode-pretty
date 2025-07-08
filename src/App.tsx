@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Accordion, Button, Col, Container, FloatingLabel, Form, Navbar, Row } from "react-bootstrap";
-import Code from './Code';
 
-import { QrcodeCanvas, QrcodeColorEffect, QrcodeFormat, QrcodeProps, QrcodeStyle, QrcodeSVG, useQrcodeDownload } from "react-qrcode-pretty";
-// import { QrcodeCanvas, QrcodeColorEffect, QrcodeFormat, QrcodeProps, QrcodeStyle, QrcodeSVG, useQrcodeDownload } from "./qrcode";
+import {
+  QrcodeCanvas, QrcodeColorEffect, QrcodeFormat,
+  QrcodeProps, QrcodeStyle, QrcodeSVG, useQrcodeDownload
+} from "react-qrcode-pretty";
+
+// @ts-ignore
+import Code from "./Code";
 
 export default function App() {
 
@@ -245,7 +249,7 @@ export default function App() {
                 <Accordion.Button className='text-dark bg-secondary bg-opacity-25 border border-secondary'>
                   React JS Code
                 </Accordion.Button>
-                <Accordion.Body className='text-start bg-secondary bg-opacity-10'>
+                <Accordion.Body className='text-start bg-code bg-opacity-10'>
                   <Code format={format} qrCodeProps={{ ...props, padding: Math.floor((props.size ?? 200) / 15) }} />
                 </Accordion.Body>
               </Accordion.Item>
