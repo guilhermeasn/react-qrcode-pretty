@@ -2,11 +2,22 @@ import copy from "copy-to-clipboard";
 import { useEffect, useRef, useState } from "react";
 import { Button, Overlay, Tooltip } from "react-bootstrap";
 import { QrcodeFormat, QrcodePart, QrcodeProps } from "react-qrcode-pretty";
-import { codeToHtml } from "shiki";
+import { getSingletonHighlighter } from 'shiki/dist/bundle-web.mjs';
 
 type CodeProps = {
   format: QrcodeFormat,
   qrCodeProps: QrcodeProps<'canvas'> | QrcodeProps<'SVG'>
+}
+
+async function codeToHtml(code: string) {
+
+  const highlighter = await getSingletonHighlighter({
+    themes: ['material-theme-darker'],
+    langs: ['jsx'],
+  });
+
+  return highlighter.codeToHtml(code, { lang: 'jsx', theme: 'material-theme-darker' });
+
 }
 
 export default function Code({ format, qrCodeProps }: CodeProps) {
@@ -55,10 +66,7 @@ export function QrcodeCustom({ value = '${qrCodeProps.value}' }) {
 
   useEffect(() => {
     if(!codeText) return;
-    codeToHtml(codeText, {
-      lang: 'jsx',
-      theme: 'material-theme-darker'
-    }).then(html => setCodeHtml(html));
+    codeToHtml(codeText).then(html => setCodeHtml(html));
   }, [codeText]);
 
   useEffect(() => {
