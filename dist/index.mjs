@@ -171,6 +171,33 @@ async function loadImageAsBase64(src) {
     reader.readAsDataURL(blob);
   });
 }
+function qrcodeData(props, modules) {
+  var _a, _b, _c;
+  const margin = Math.floor((_a = props.margin) != null ? _a : 0);
+  const padding = Math.floor((_b = props.padding) != null ? _b : 0);
+  const space = (margin + padding) * 2;
+  const moduleSize = Math.floor(((_c = props.size) != null ? _c : modules * 10) / modules);
+  const qrcodeSize = modules * moduleSize;
+  const moduleEyeStart = 7;
+  const moduleEyeEnd = modules - moduleEyeStart - 1;
+  const variant = qrCodePartNormalize("standard", props.variant);
+  const color = qrCodePartNormalize("#000", props.color);
+  const colorEffect = qrCodePartNormalize("none", props.colorEffect);
+  const imagem = qrCodeImageNormalize(props.image);
+  return {
+    margin,
+    padding,
+    space,
+    moduleSize,
+    qrcodeSize,
+    moduleEyeStart,
+    moduleEyeEnd,
+    variant,
+    color,
+    colorEffect,
+    imagem
+  };
+}
 
 // src/rectangleCanvas.ts
 function rectangleCanvas(context, props) {
@@ -199,60 +226,36 @@ function rectangleCanvas(context, props) {
 // src/QrcodeCanvas.tsx
 import { jsx } from "react/jsx-runtime";
 function QrcodeCanvas(props) {
-  var _a, _b, _c, _d, _e, _f, _g, _h;
+  var _a, _b, _c;
   const canvas = useRef(null);
-  const space = {
-    margin: Math.floor((_a = props.margin) != null ? _a : 0),
-    padding: Math.floor((_b = props.padding) != null ? _b : 0),
-    total: (Math.floor((_c = props.margin) != null ? _c : 0) + Math.floor((_d = props.padding) != null ? _d : 0)) * 2
-  };
-  const variant = qrCodePartNormalize("standard", props.variant);
-  const color = qrCodePartNormalize("#000", props.color);
-  const colorEffect = qrCodePartNormalize("none", props.colorEffect);
-  const imagem = qrCodeImageNormalize(props.image);
-  const qrcode = qrcodeGenerator((_e = props.modules) != null ? _e : 0, (_f = props.level) != null ? _f : props.image ? "H" : "M");
-  qrcode.addData((_g = props.value) != null ? _g : "", props.mode);
+  const qrcode = qrcodeGenerator((_a = props.modules) != null ? _a : 0, (_b = props.level) != null ? _b : props.image ? "H" : "M");
+  qrcode.addData((_c = props.value) != null ? _c : "", props.mode);
   qrcode.make();
   const modules = qrcode.getModuleCount();
-  const rawModuleSize = ((_h = props.size) != null ? _h : modules * 10) / modules;
-  const moduleSize = Math.floor(rawModuleSize);
-  const size = moduleSize * modules;
-  const moduleEyeStart = 7;
-  const moduleEyeEnd = modules - moduleEyeStart - 1;
-  function addImage(context, imageSet) {
-    const image = new Image();
-    image.src = imageSet.src;
-    image.onload = () => {
-      var _a2, _b2, _c2, _d2, _e2, _f2, _g2, _h2, _i;
-      const size2 = Math.floor(modules * moduleSize / 5);
-      const position = size2 * 2 + space.margin + space.padding;
-      if (!imageSet.overlap) rectangleCanvas(context, {
-        height: (_a2 = imageSet.height) != null ? _a2 : size2,
-        width: (_b2 = imageSet.width) != null ? _b2 : size2,
-        positionX: (_c2 = imageSet.positionX) != null ? _c2 : position,
-        positionY: (_d2 = imageSet.positionY) != null ? _d2 : position,
-        fill: (_e2 = props.bgColor) != null ? _e2 : "#FFF"
-      });
-      context.drawImage(
-        image,
-        (_f2 = imageSet.positionX) != null ? _f2 : position,
-        (_g2 = imageSet.positionY) != null ? _g2 : position,
-        (_h2 = imageSet.width) != null ? _h2 : size2,
-        (_i = imageSet.height) != null ? _i : size2
-      );
-    };
-  }
+  const {
+    margin,
+    padding,
+    space,
+    moduleSize,
+    qrcodeSize,
+    moduleEyeStart,
+    moduleEyeEnd,
+    variant,
+    color,
+    colorEffect,
+    imagem
+  } = qrcodeData(props, modules);
   useEffect(() => {
     var _a2, _b2;
     if (!canvas.current) return;
     const context = canvas.current.getContext("2d");
     if (!context) return;
-    context.clearRect(0, 0, space.total + size, space.total + size);
+    context.clearRect(0, 0, space + qrcodeSize, space + qrcodeSize);
     rectangleCanvas(context, {
-      height: space.padding * 2 + size,
-      width: space.padding * 2 + size,
-      positionX: space.margin,
-      positionY: space.margin,
+      height: padding * 2 + qrcodeSize,
+      width: padding * 2 + qrcodeSize,
+      positionX: margin,
+      positionY: margin,
       fill: (_a2 = props.bgColor) != null ? _a2 : "#FFF",
       radius: props.bgRounded ? 10 : void 0
     });
@@ -283,8 +286,8 @@ function QrcodeCanvas(props) {
           key
         );
         rectangleCanvas(context, {
-          positionX: col * moduleSize + space.margin + space.padding,
-          positionY: row * moduleSize + space.margin + space.padding,
+          positionX: col * moduleSize + margin + padding,
+          positionY: row * moduleSize + margin + padding,
           height: moduleSize,
           width: moduleSize,
           fill: getColor(color[key], colorEffect[key], col, row),
@@ -292,7 +295,15 @@ function QrcodeCanvas(props) {
         });
       }
     }
-    if (imagem) addImage(context, imagem);
+    if (imagem) addImage(
+      context,
+      imagem,
+      modules,
+      moduleSize,
+      margin,
+      padding,
+      props.bgColor
+    );
     if (typeof props.onReady === "function") {
       props.onReady(canvas.current);
     }
@@ -302,11 +313,34 @@ function QrcodeCanvas(props) {
     {
       ...props.internalProps,
       ref: canvas,
-      width: size + space.total,
-      height: size + space.total,
+      width: qrcodeSize + space,
+      height: qrcodeSize + space,
       children: props.children
     }
   );
+}
+function addImage(context, imageSet, modules, moduleSize, margin, padding, bgColor) {
+  const image = new Image();
+  image.src = imageSet.src;
+  image.onload = () => {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const size = Math.floor(modules * moduleSize / 5);
+    const position = size * 2 + margin + padding;
+    if (!imageSet.overlap) rectangleCanvas(context, {
+      height: (_a = imageSet.height) != null ? _a : size,
+      width: (_b = imageSet.width) != null ? _b : size,
+      positionX: (_c = imageSet.positionX) != null ? _c : position,
+      positionY: (_d = imageSet.positionY) != null ? _d : position,
+      fill: bgColor != null ? bgColor : "#FFF"
+    });
+    context.drawImage(
+      image,
+      (_e = imageSet.positionX) != null ? _e : position,
+      (_f = imageSet.positionY) != null ? _f : position,
+      (_g = imageSet.width) != null ? _g : size,
+      (_h = imageSet.height) != null ? _h : size
+    );
+  };
 }
 var QrcodeCanvas_default = QrcodeCanvas;
 
@@ -318,81 +352,48 @@ import React, { useEffect as useEffect2, useRef as useRef2 } from "react";
 function rectanglePath(props) {
   const radius = qrCodeRadiusNormalize(props.radius);
   return `
-        M ${props.positionX + radius.top_left},${props.positionY}
-        H ${props.positionX + props.width - radius.top_right}
-        A ${radius.top_right},${radius.top_right} 0 0 1 ${props.positionX + props.width},${props.positionY + radius.top_right}
-        V ${props.positionY + props.height - radius.bottom_right}
-        A ${radius.bottom_right},${radius.bottom_right} 0 0 1 ${props.positionX + props.width - radius.bottom_right},${props.positionY + props.height}
-        H ${props.positionX + radius.bottom_left}
-        A ${radius.bottom_left},${radius.bottom_left} 0 0 1 ${props.positionX},${props.positionY + props.height - radius.bottom_left}
-        V ${props.positionY + radius.top_left}
-        A ${radius.top_left},${radius.top_left} 0 0 1 ${props.positionX + radius.top_left},${props.positionY}
-        Z
-    `.trim().replace(/\s+/g, " ");
+      M ${props.positionX + radius.top_left},${props.positionY}
+      H ${props.positionX + props.width - radius.top_right}
+      A ${radius.top_right},${radius.top_right} 0 0 1 ${props.positionX + props.width},${props.positionY + radius.top_right}
+      V ${props.positionY + props.height - radius.bottom_right}
+      A ${radius.bottom_right},${radius.bottom_right} 0 0 1 ${props.positionX + props.width - radius.bottom_right},${props.positionY + props.height}
+      H ${props.positionX + radius.bottom_left}
+      A ${radius.bottom_left},${radius.bottom_left} 0 0 1 ${props.positionX},${props.positionY + props.height - radius.bottom_left}
+      V ${props.positionY + radius.top_left}
+      A ${radius.top_left},${radius.top_left} 0 0 1 ${props.positionX + radius.top_left},${props.positionY}
+      Z
+  `.trim().replace(/\s+/g, " ");
 }
 
 // src/QrcodeSVG.tsx
 import { Fragment, jsx as jsx2, jsxs } from "react/jsx-runtime";
 function QrcodeSvg(props) {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+  var _a, _b, _c, _d, _e;
   const SVG = useRef2(null);
   const qrcode = qrcodeGenerator2((_a = props.modules) != null ? _a : 0, (_b = props.level) != null ? _b : props.image ? "H" : "M");
   qrcode.addData((_c = props.value) != null ? _c : "", props.mode);
   qrcode.make();
   const modules = qrcode.getModuleCount();
-  const rawModuleSize = ((_d = props.size) != null ? _d : modules * 10) / modules;
-  const moduleSize = Math.floor(rawModuleSize);
-  const size = moduleSize * modules;
-  const space = {
-    margin: Math.floor((_e = props.margin) != null ? _e : 0),
-    padding: Math.floor((_f = props.padding) != null ? _f : 0),
-    total: (Math.floor((_g = props.margin) != null ? _g : 0) + Math.floor((_h = props.padding) != null ? _h : 0)) * 2
-  };
-  const variant = qrCodePartNormalize("standard", props.variant);
-  const color = qrCodePartNormalize("#000", props.color);
-  const colorEffect = qrCodePartNormalize("none", props.colorEffect);
-  const Image2 = () => {
-    var _a2, _b2, _c2, _d2, _e2, _f2, _g2, _h2, _i2;
-    const image = qrCodeImageNormalize(props.image);
-    const size2 = Math.floor(modules * moduleSize / 5);
-    const position = size2 * 2 + space.margin + space.padding;
-    const [src, setSrc] = React.useState();
-    useEffect2(() => {
-      if (src || !image) return;
-      loadImageAsBase64(image.src).then(setSrc);
-    }, [image, src]);
-    if (!src || !image) return /* @__PURE__ */ jsx2(Fragment, {});
-    return /* @__PURE__ */ jsxs(Fragment, { children: [
-      image.overlap ? /* @__PURE__ */ jsx2(Fragment, {}) : /* @__PURE__ */ jsx2(
-        "rect",
-        {
-          width: (_a2 = image.width) != null ? _a2 : size2,
-          height: (_b2 = image.height) != null ? _b2 : size2,
-          x: (_c2 = image.positionX) != null ? _c2 : position,
-          y: (_d2 = image.positionY) != null ? _d2 : position,
-          fill: (_e2 = props.bgColor) != null ? _e2 : "#FFF"
-        }
-      ),
-      /* @__PURE__ */ jsx2(
-        "image",
-        {
-          href: src,
-          width: (_f2 = image.width) != null ? _f2 : size2,
-          height: (_g2 = image.height) != null ? _g2 : size2,
-          x: (_h2 = image.positionX) != null ? _h2 : position,
-          y: (_i2 = image.positionY) != null ? _i2 : position,
-          preserveAspectRatio: "xMidYMid meet"
-        }
-      )
-    ] });
-  };
+  const {
+    margin,
+    padding,
+    space,
+    moduleSize,
+    qrcodeSize,
+    moduleEyeStart,
+    moduleEyeEnd,
+    variant,
+    color,
+    colorEffect,
+    imagem
+  } = qrcodeData(props, modules);
   const rects = [];
   for (let row = 0; row < modules; row++) {
     for (let col = 0; col < modules; col++) {
       if (!qrcode.isDark(row, col)) continue;
       const key = col < 7 && row < 7 || col < 7 && row >= modules - 7 || col >= modules - 7 && row < 7 ? "eyes" : "body";
-      const x = col * moduleSize + space.margin + space.padding;
-      const y = row * moduleSize + space.margin + space.padding;
+      const x = col * moduleSize + margin + padding;
+      const y = row * moduleSize + margin + padding;
       const c = getColor(color[key], colorEffect[key], col, row);
       const wrapped = {
         row: {
@@ -424,7 +425,7 @@ function QrcodeSvg(props) {
               )
             }),
             fill: c,
-            stroke: props.divider && key === "body" ? (_i = props.bgColor) != null ? _i : "#FFF" : void 0
+            stroke: props.divider && key === "body" ? (_d = props.bgColor) != null ? _d : "#FFF" : void 0
           },
           `${row}-${col}`
         )
@@ -442,27 +443,78 @@ function QrcodeSvg(props) {
       shapeRendering: "geometricPrecision",
       ...props.internalProps,
       xmlns: "http://www.w3.org/2000/svg",
-      viewBox: `0 0 ${size + space.total} ${size + space.total}`,
-      width: size + space.total,
-      height: size + space.total,
+      viewBox: `0 0 ${qrcodeSize + space} ${qrcodeSize + space}`,
+      width: qrcodeSize + space,
+      height: qrcodeSize + space,
       ref: SVG,
       children: [
         /* @__PURE__ */ jsx2(
           "rect",
           {
-            x: space.margin,
-            y: space.margin,
-            width: size + space.padding * 2,
-            height: size + space.padding * 2,
-            fill: (_j = props.bgColor) != null ? _j : "#FFF",
+            x: margin,
+            y: margin,
+            width: qrcodeSize + padding * 2,
+            height: qrcodeSize + padding * 2,
+            fill: (_e = props.bgColor) != null ? _e : "#FFF",
             rx: props.bgRounded ? 10 : 0
           }
         ),
         rects,
-        /* @__PURE__ */ jsx2(Image2, {})
+        /* @__PURE__ */ jsx2(
+          Image2,
+          {
+            imageSet: imagem,
+            modules,
+            moduleSize,
+            margin,
+            padding,
+            bgColor: props.bgColor
+          }
+        )
       ]
     }
   );
+}
+function Image2({
+  imageSet,
+  modules,
+  moduleSize,
+  margin,
+  padding,
+  bgColor
+}) {
+  var _a, _b, _c, _d, _e, _f, _g, _h;
+  const size = Math.floor(modules * moduleSize / 5);
+  const position = size * 2 + margin + padding;
+  const [src, setSrc] = React.useState();
+  useEffect2(() => {
+    if (src || !imageSet) return;
+    loadImageAsBase64(imageSet.src).then(setSrc);
+  }, [imageSet, src]);
+  if (!src || !imageSet) return /* @__PURE__ */ jsx2(Fragment, {});
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    imageSet.overlap ? /* @__PURE__ */ jsx2(Fragment, {}) : /* @__PURE__ */ jsx2(
+      "rect",
+      {
+        width: (_a = imageSet.width) != null ? _a : size,
+        height: (_b = imageSet.height) != null ? _b : size,
+        x: (_c = imageSet.positionX) != null ? _c : position,
+        y: (_d = imageSet.positionY) != null ? _d : position,
+        fill: bgColor != null ? bgColor : "#FFF"
+      }
+    ),
+    /* @__PURE__ */ jsx2(
+      "image",
+      {
+        href: src,
+        width: (_e = imageSet.width) != null ? _e : size,
+        height: (_f = imageSet.height) != null ? _f : size,
+        x: (_g = imageSet.positionX) != null ? _g : position,
+        y: (_h = imageSet.positionY) != null ? _h : position,
+        preserveAspectRatio: "xMidYMid meet"
+      }
+    )
+  ] });
 }
 var QrcodeSVG_default = QrcodeSvg;
 

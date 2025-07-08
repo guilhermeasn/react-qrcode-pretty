@@ -1,4 +1,4 @@
-import { QrcodeColor, QrcodeColorEffect, QrcodeImageSettings, QrcodePart, QrcodePartOption, QrcodeRadius, QrcodeRadiusEdge, QrcodeStyle, QrcodeWrapped } from "./types";
+import { QrcodeColor, QrcodeColorEffect, QrcodeImageSettings, QrcodePart, QrcodePartOption, QrcodeProps, QrcodeRadius, QrcodeRadiusEdge, QrcodeStyle, QrcodeWrapped } from "./types";
 
 type ColorRGB = {
   r: number;
@@ -69,7 +69,7 @@ export function getRandomColor(colorBase: string): string {
   return colorRGBtoHex({ r: getRandomInt(min, max), g: getRandomInt(min, max), b: getRandomInt(min, max) });
 }
 
-export function qrCodePartNormalize<T>(defaultReturn: T, part: undefined | null | T | QrcodePart<T>): QrcodePart<T> {
+function qrCodePartNormalize<T>(defaultReturn: T, part: undefined | null | T | QrcodePart<T>): QrcodePart<T> {
 
   return (part
     && typeof part === 'object'
@@ -82,7 +82,7 @@ export function qrCodePartNormalize<T>(defaultReturn: T, part: undefined | null 
 
 }
 
-export function qrCodeImageNormalize(imageSet?: string | QrcodeImageSettings): QrcodeImageSettings | null {
+function qrCodeImageNormalize(imageSet?: string | QrcodeImageSettings): QrcodeImageSettings | null {
   if (imageSet && typeof imageSet === 'object') return imageSet;
   if (typeof imageSet === 'string') return { src: imageSet };
   return null;
@@ -211,4 +211,26 @@ export async function loadImageAsBase64(src: string): Promise<string> {
     reader.onloadend = () => resolve(reader.result as string);
     reader.readAsDataURL(blob);
   });
+}
+
+export function qrcodeData(props : QrcodeProps<any>, modules: number) {
+
+  const margin: number = Math.floor(props.margin ?? 0);
+  const padding: number = Math.floor(props.padding ?? 0);
+  const space: number = (margin + padding) * 2;
+  const moduleSize: number = Math.floor((props.size ?? modules * 10) / modules);
+  const qrcodeSize: number = modules * moduleSize;
+  const moduleEyeStart: number = 7;
+  const moduleEyeEnd: number = modules - moduleEyeStart - 1;
+  const variant: QrcodePart<QrcodeStyle> = qrCodePartNormalize<QrcodeStyle>('standard', props.variant);
+  const color: QrcodePart<QrcodeColor> = qrCodePartNormalize<QrcodeColor>('#000', props.color);
+  const colorEffect: QrcodePart<QrcodeColorEffect> = qrCodePartNormalize<QrcodeColorEffect>('none', props.colorEffect);
+  const imagem: QrcodeImageSettings | null = qrCodeImageNormalize(props.image);
+ 
+  return {
+    margin, padding, space, moduleSize,
+    qrcodeSize, moduleEyeStart, moduleEyeEnd,
+    variant, color, colorEffect, imagem
+  }
+
 }
