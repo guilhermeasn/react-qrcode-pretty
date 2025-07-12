@@ -64,6 +64,32 @@ export type QrcodeStyle = (
   | 'inclined'
 );
 
+export type QrcodeBackground = {
+  
+  /**
+   * Background color
+   */
+  color: string;
+
+  /**
+   * Background color effect
+   */
+  colorEffect?: QrcodeColorEffect;
+
+  /**
+   * Background style
+   */
+  variant?: (
+    | 'standard'
+    | 'rounded'
+    | 'circle'
+    | 'circle-filled'
+  );
+
+  opacity?: number;
+
+}
+
 type TypeNumber =
   | 0 // Automatic type number
   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
@@ -159,12 +185,7 @@ export type QrcodeProps<F extends QrcodeFormat> = {
   /**
    * Background color
    */
-  bgColor?: string;
-
-  /**
-   * Background color rounded
-   */
-  bgRounded?: boolean;
+  background?: QrcodeBackground;
 
   /**
    * The tag children
