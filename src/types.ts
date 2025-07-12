@@ -69,7 +69,7 @@ export type QrcodeBackground = {
   /**
    * Background color
    */
-  color: string;
+  color?: string;
 
   /**
    * Background color effect
@@ -86,7 +86,40 @@ export type QrcodeBackground = {
     | 'circle-filled'
   );
 
+  /**
+   * Background opacity (0 to 1, default is 1)
+   */
   opacity?: number;
+
+}
+
+export type QrcodeBorder = {
+
+  /**
+   * Border color
+   */
+  color?: string;
+
+  /**
+   * Border size
+   */
+  size?: number;
+
+  /**
+   * Border text
+   * - top: text above the qrcode
+   * - bottom: text below the qrcode
+   * - size: font size
+   * - color: font color
+   * - font: font type (default is 'Arial')
+   */
+  text?: {
+    top?: string;
+    bottom?: string;
+    size?: number;
+    color?: string;
+    font?: string;
+  }
 
 }
 
@@ -183,9 +216,14 @@ export type QrcodeProps<F extends QrcodeFormat> = {
   divider?: boolean;
 
   /**
-   * Background color
+   * Background settings
    */
   background?: QrcodeBackground;
+
+  /**
+   * Border settings
+   */
+  border?: QrcodeBorder;
 
   /**
    * The tag children
